@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="1up" name="mypoll.DashboardControllerSpec" tests="1" time="1.635" timestamp="2014-04-07T15:04:20">
+  <properties />
+  <testcase classname="mypoll.DashboardControllerSpec" name="test something" time="1.62" />
+  <system-out><![CDATA[--Output from test something--
+]]></system-out>
+  <system-err><![CDATA[--Output from test something--
+]]></system-err>
+</testsuite>
