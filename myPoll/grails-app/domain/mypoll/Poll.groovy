@@ -10,7 +10,12 @@ class Poll {
 
 	static hasMany = [sections:PollSection, opinions: Opinion]
 	
+	List sections
+	
     static constraints = {
     	name blank: false
+		isActive nullable: true
+		testObjectUrlA nullable: true
+		testObjectUrlB nullable: true
     }
 }
