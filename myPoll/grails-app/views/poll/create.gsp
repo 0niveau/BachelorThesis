@@ -25,14 +25,6 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form url="[action:'saveTwo']" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
 			<g:form url="[resource:pollInstance, action:'save']" >
 				<fieldset class="form">
 					<h2>Give your Poll a name!</h2>

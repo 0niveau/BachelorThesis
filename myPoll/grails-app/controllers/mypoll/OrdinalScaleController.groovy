@@ -6,6 +6,12 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
+
+class OrdinalScaleSaveCommand {
+	String name
+	List options = []
+}
+
 class OrdinalScaleController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -20,22 +26,32 @@ class OrdinalScaleController {
     }
 
     def create() {
-        respond new OrdinalScale(params)
-    }
+		int numberOfOptions = params.numberOfOptions as int
+		model: [numberOfOptions: numberOfOptions]
+    }	
 
     @Transactional
-    def save(OrdinalScale ordinalScaleInstance) {
-        if (ordinalScaleInstance == null) {
+    def save(OrdinalScaleSaveCommand cmd) {
+        if (cmd == null) {
             notFound()
             return
         }
 
-        if (ordinalScaleInstance.hasErrors()) {
+        if (cmd.hasErrors()) {
             respond ordinalScaleInstance.errors, view:'create'
             return
         }
 
+		def ordinalScaleInstance = new OrdinalScale(name: cmd.name)
         ordinalScaleInstance.save flush:true
+		
+		for (option in cmd.options) {
+			def optionInstance = new Option(index: cmd.options.indexOf(option) + 1, value: option)
+			optionInstance.save flush:true		
+			ordinalScaleInstance.addToOptions(optionInstance)	
+		}
+		
+		ordinalScaleInstance.save flush:true
 
         request.withFormat {
             form multipartForm {
@@ -46,10 +62,13 @@ class OrdinalScaleController {
         }
     }
 
+	/*
     def edit(OrdinalScale ordinalScaleInstance) {
         respond ordinalScaleInstance
     }
+    */
 
+	/*
     @Transactional
     def update(OrdinalScale ordinalScaleInstance) {
         if (ordinalScaleInstance == null) {
@@ -72,6 +91,7 @@ class OrdinalScaleController {
             '*'{ respond ordinalScaleInstance, [status: OK] }
         }
     }
+    */
 
     @Transactional
     def delete(OrdinalScale ordinalScaleInstance) {

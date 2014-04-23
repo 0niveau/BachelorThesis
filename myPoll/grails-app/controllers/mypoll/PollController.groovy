@@ -51,6 +51,10 @@ class PollController {
         respond new Poll(params)
     }
 
+	/*
+	 * creates the new poll and its sections
+	 * @cmd contains the values needed for the creation of the new poll	
+	 */
     @Transactional
     def save(PollCreateCommand cmd) {
         if (cmd == null) {
@@ -88,29 +92,6 @@ class PollController {
             '*' { respond pollInstance, [status: CREATED] }
         }
     }
-	
-	@Transactional
-	def saveTwo(Poll pollInstance) {
-		if (pollInstance == null) {
-			notFound()
-			return
-		}
-
-		if (pollInstance.hasErrors()) {
-			respond pollInstance.errors, view:'create'
-			return
-		}
-
-		pollInstance.save flush:true
-
-		request.withFormat {
-			form multipartForm {
-				flash.message = message(code: 'default.created.message', args: [message(code: 'pollInstance.label', default: 'Poll'), pollInstance.id])
-				redirect pollInstance
-			}
-			'*' { respond pollInstance, [status: CREATED] }
-		}
-	}
 
     def edit(Poll pollInstance) {
         respond pollInstance

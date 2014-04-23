@@ -24,11 +24,15 @@
 			<thead>
 					<tr>
 					
+						<g:sortableColumn property="name" title="${message(code: 'nominalScale.name.label', default: 'Name')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${nominalScaleInstanceList}" status="i" var="nominalScaleInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${nominalScaleInstance.id}">${fieldValue(bean: nominalScaleInstance, field: "name")}</g:link></td>
 					
 					</tr>
 				</g:each>

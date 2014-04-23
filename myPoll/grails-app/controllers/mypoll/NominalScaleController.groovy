@@ -6,6 +6,12 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
+
+class NominalScaleCreateCommand {
+	String name
+	List options = []
+}
+
 class NominalScaleController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -20,22 +26,32 @@ class NominalScaleController {
     }
 
     def create() {
-        respond new NominalScale(params)
+        int numberOfOptions = params.numberOfOptions as int
+		model: [numberOfOptions: numberOfOptions]
     }
 
     @Transactional
-    def save(NominalScale nominalScaleInstance) {
-        if (nominalScaleInstance == null) {
+    def save(NominalScaleCreateCommand cmd) {
+        if (cmd == null) {
             notFound()
             return
         }
 
-        if (nominalScaleInstance.hasErrors()) {
+        if (cmd.hasErrors()) {
             respond nominalScaleInstance.errors, view:'create'
             return
         }
 
+        def nominalScaleInstance = new NominalScale(name: cmd.name)
         nominalScaleInstance.save flush:true
+		
+		for (option in cmd.options) {
+			def optionInstance = new Option(index: cmd.options.indexOf(option) + 1, value: option)
+			optionInstance.save flush:true		
+			nominalScaleInstance.addToOptions(optionInstance)	
+		}
+		
+		nominalScaleInstance.save flush:true
 
         request.withFormat {
             form multipartForm {
@@ -46,10 +62,13 @@ class NominalScaleController {
         }
     }
 
+	/*
     def edit(NominalScale nominalScaleInstance) {
         respond nominalScaleInstance
     }
+    */
 
+	/*
     @Transactional
     def update(NominalScale nominalScaleInstance) {
         if (nominalScaleInstance == null) {
@@ -72,6 +91,7 @@ class NominalScaleController {
             '*'{ respond nominalScaleInstance, [status: OK] }
         }
     }
+    */
 
     @Transactional
     def delete(NominalScale nominalScaleInstance) {

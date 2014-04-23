@@ -23,12 +23,21 @@
 			</g:if>
 			<ol class="property-list ordinalScale">
 			
+				<g:if test="${ordinalScaleInstance?.name}">
+				<li class="fieldcontain">
+					<span id="name-label" class="property-label"><g:message code="ordinalScale.name.label" default="Name" /></span>
+					
+						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${ordinalScaleInstance}" field="name"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${ordinalScaleInstance?.options}">
 				<li class="fieldcontain">
 					<span id="options-label" class="property-label"><g:message code="ordinalScale.options.label" default="Options" /></span>
 					
-						<g:each in="${ordinalScaleInstance.options}" var="o">
-						<span class="property-value" aria-labelledby="options-label"><g:link controller="option" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						<g:each in="${ordinalScaleInstance.options.sort { it.index } }" var="o">
+						<span class="property-value" aria-labelledby="options-label"><g:link controller="option" action="show" id="${o.id}">${o?.value}</g:link></span>
 						</g:each>
 					
 				</li>

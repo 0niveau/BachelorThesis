@@ -66,7 +66,7 @@
 					<span id="sections-label" class="property-label"><g:message code="poll.sections.label" default="Sections" /></span>
 					
 						<g:each in="${pollInstance.sections}" var="s">
-						<span class="property-value" aria-labelledby="sections-label"><g:link controller="pollSection" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="sections-label"><g:link controller="pollSection" action="show" id="${s.id}">${s?.name}</g:link></span>
 						</g:each>
 					
 				</li>

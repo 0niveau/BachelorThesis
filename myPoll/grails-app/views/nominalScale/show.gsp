@@ -23,12 +23,21 @@
 			</g:if>
 			<ol class="property-list nominalScale">
 			
+				<g:if test="${nominalScaleInstance?.name}">
+				<li class="fieldcontain">
+					<span id="name-label" class="property-label"><g:message code="nominalScale.name.label" default="Name" /></span>
+					
+						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${nominalScaleInstance}" field="name"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${nominalScaleInstance?.options}">
 				<li class="fieldcontain">
 					<span id="options-label" class="property-label"><g:message code="nominalScale.options.label" default="Options" /></span>
 					
 						<g:each in="${nominalScaleInstance.options}" var="o">
-						<span class="property-value" aria-labelledby="options-label"><g:link controller="option" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="options-label"><g:link controller="option" action="show" id="${o.id}">${o?.value}</g:link></span>
 						</g:each>
 					
 				</li>

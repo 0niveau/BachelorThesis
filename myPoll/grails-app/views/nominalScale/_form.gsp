@@ -2,12 +2,21 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: nominalScaleInstance, field: 'options', 'error')} ">
-	<label for="options">
-		<g:message code="nominalScale.options.label" default="Options" />
-		
+<div class="fieldcontain ${hasErrors(bean: nominalScaleInstance, field: 'name', 'error')} required">
+	<label for="name">
+		<g:message code="nominalScale.name.label" default="Name" />
+		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="options" from="${mypoll.Option.list()}" multiple="multiple" optionKey="id" size="5" value="${nominalScaleInstance?.options*.id}" class="many-to-many"/>
+	<g:textField name="name" required="" value="${nominalScaleInstance?.name}"/>
 
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: nominalScaleInstance, field: 'options', 'error')} ">
+	<h2>Define the options!</h2>
+	<g:each in="${ (0..<numberOfOptions) }" >
+		<div>
+			<input name="options[${ it }]" type="text" required="required"/>
+		</div>
+	</g:each>
 </div>
 

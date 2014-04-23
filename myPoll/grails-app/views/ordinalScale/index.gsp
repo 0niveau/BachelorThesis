@@ -24,11 +24,15 @@
 			<thead>
 					<tr>
 					
+						<g:sortableColumn property="name" title="${message(code: 'ordinalScale.name.label', default: 'Name')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${ordinalScaleInstanceList}" status="i" var="ordinalScaleInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+					
+						<td><g:link action="show" id="${ordinalScaleInstance.id}">${fieldValue(bean: ordinalScaleInstance, field: "name")}</g:link></td>
 					
 					</tr>
 				</g:each>
