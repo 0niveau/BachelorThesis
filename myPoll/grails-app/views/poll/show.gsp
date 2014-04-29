@@ -8,88 +8,68 @@
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="#show-poll" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+		<nav class="row">
+			<ul class="navigation">
+				<li class="navigation__links"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+				<li class="navigation__links"><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
-		</div>
-		<div id="show-poll" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+		</nav>
+		<div id="show-poll" class="main">
+			<section class="row">
+				<h1>${ pollInstance?.name }</h1>
+				<g:if test="${ pollInstance?.isActive }"><g:message code="poll.status.isActive" default="(active)" /></g:if>
+			</section>			
+			
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<section class="row">
+				<div class="message cols" role="status">${flash.message}</div>
+			</section>			
 			</g:if>
-			<ol class="property-list poll">
 			
-				<g:if test="${pollInstance?.name}">
-				<li class="fieldcontain">
-					<span id="name-label" class="property-label"><g:message code="poll.name.label" default="Name" /></span>
-					
-						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${pollInstance}" field="name"/></span>
-					
-				</li>
+			<section class="properties row">
+				<g:if test="${ pollInstance?.description }" >
+				<h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
+				<div class="property">
+					<p>${ pollInstance?.description }</p>
+				</div>
 				</g:if>
-			
-				<g:if test="${pollInstance?.description}">
-				<li class="fieldcontain">
-					<span id="description-label" class="property-label"><g:message code="poll.description.label" default="Description" /></span>
-					
-						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${pollInstance}" field="description"/></span>
-					
-				</li>
+				
+				<g:if test="${ pollInstance?.sections }" >
+				<h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>
+				<div class="property">					
+						<g:each in="${ pollInstance?.sections }" var="s" >
+						<h3><g:link controller="pollSection" action="show" id="${s.id}">${s?.name}</g:link></h3>
+						<g:if test="${ s?.items }">
+						<ul>						
+						<g:each in="${ s?.items }" var="i">
+							<li>${ i?.title }</li>
+						</g:each>
+						</ul>
+						</g:if>
+						<g:link controller="question" action="index" params="[sectionId: '${ s?.id }', addToSection: 'addToSection']">Item hinzufügen</g:link>
+						</g:each>
+				</div>
 				</g:if>
-			
-				<g:if test="${pollInstance?.isActive}">
-				<li class="fieldcontain">
-					<span id="isActive-label" class="property-label"><g:message code="poll.isActive.label" default="Is Active" /></span>
-					
-						<span class="property-value" aria-labelledby="isActive-label"><g:formatBoolean boolean="${pollInstance?.isActive}" /></span>
-					
-				</li>
+				
+				<g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
+				<h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+				<div class="property">
+					<span>${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</span>
+				</div>
 				</g:if>
+			</section>
 			
+			
+			<ol class="property-list poll">			
 				<g:if test="${pollInstance?.opinions}">
 				<li class="fieldcontain">
-					<span id="opinions-label" class="property-label"><g:message code="poll.opinions.label" default="Opinions" /></span>
-					
+					<span id="opinions-label" class="property-label"><g:message code="poll.opinions.label" default="Opinions" /></span>		
 						<g:each in="${pollInstance.opinions}" var="o">
 						<span class="property-value" aria-labelledby="opinions-label"><g:link controller="opinion" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
+						</g:each>					
 				</li>
-				</g:if>
-			
-				<g:if test="${pollInstance?.sections}">
-				<li class="fieldcontain">
-					<span id="sections-label" class="property-label"><g:message code="poll.sections.label" default="Sections" /></span>
-					
-						<g:each in="${pollInstance.sections}" var="s">
-						<span class="property-value" aria-labelledby="sections-label"><g:link controller="pollSection" action="show" id="${s.id}">${s?.name}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${pollInstance?.testObjectUrlA}">
-				<li class="fieldcontain">
-					<span id="testObjectUrlA-label" class="property-label"><g:message code="poll.testObjectUrlA.label" default="Test Object Url A" /></span>
-					
-						<span class="property-value" aria-labelledby="testObjectUrlA-label"><g:fieldValue bean="${pollInstance}" field="testObjectUrlA"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${pollInstance?.testObjectUrlB}">
-				<li class="fieldcontain">
-					<span id="testObjectUrlB-label" class="property-label"><g:message code="poll.testObjectUrlB.label" default="Test Object Url B" /></span>
-					
-						<span class="property-value" aria-labelledby="testObjectUrlB-label"><g:fieldValue bean="${pollInstance}" field="testObjectUrlB"/></span>
-					
-				</li>
-				</g:if>
-			
+				</g:if>			
 			</ol>
 			<g:form url="[resource:pollInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

@@ -29,7 +29,8 @@
 						<g:sortableColumn property="text" title="${message(code: 'question.text.label', default: 'Text')}" />
 					
 						<g:sortableColumn property="title" title="${message(code: 'question.title.label', default: 'Title')}" />
-					
+						
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,6 +42,10 @@
 						<td>${fieldValue(bean: questionInstance, field: "text")}</td>
 					
 						<td>${fieldValue(bean: questionInstance, field: "title")}</td>
+						
+						<g:if test="${ selectable }">
+						<td><label>auswählen<input form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" name="questions[${ i }]"></label></td>
+						</g:if>
 					
 					</tr>
 				</g:each>
@@ -49,6 +54,13 @@
 			<div class="pagination">
 				<g:paginate total="${questionInstanceCount ?: 0}" />
 			</div>
+			
+			<g:if test="${ selectable }">
+			<g:form id="addItemsToSectionForm" controller="pollSection" action="addItems">
+				<input type="hidden" value="${ sectionId }" name="sectionId">
+				<button type="submit">Auswahl hinzufügen</button>
+			</g:form>
+			</g:if>
 		</div>
 	</body>
 </html>

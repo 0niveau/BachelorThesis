@@ -11,8 +11,16 @@ class QuestionController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
+		def selectable
+		def sectionId
+		if (params.addToSection) {
+			selectable = true
+		}
+		if (params.sectionId) {
+			sectionId=params.sectionId
+		}
         params.max = Math.min(max ?: 10, 100)
-        respond Question.list(params), model:[questionInstanceCount: Question.count()]
+        respond Question.list(params), model:[questionInstanceCount: Question.count(), selectable: selectable, sectionId: sectionId]
     }
 
     def show(Question questionInstance) {

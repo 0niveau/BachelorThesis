@@ -6,6 +6,12 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
+
+class AddItemsToSectionCommand {
+	def questions = []
+	def sectionId
+}
+
 class PollSectionController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
@@ -49,6 +55,12 @@ class PollSectionController {
     def edit(PollSection pollSectionInstance) {
         respond pollSectionInstance
     }
+	
+	def addItems(AddItemsToSectionCommand cmd) {
+		def pollSectionInstance = PollSection.findById(cmd.sectionId)
+		redirect action: "show", id: cmd.sectionId
+		
+	}
 
     @Transactional
     def update(PollSection pollSectionInstance) {
