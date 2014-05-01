@@ -44,7 +44,7 @@
 						<td>${fieldValue(bean: questionInstance, field: "title")}</td>
 						
 						<g:if test="${ selectable }">
-						<td><label>auswählen<input form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" name="questions[${ i }]"></label></td>
+						<td><label>auswählen<input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }"></label></td>
 						</g:if>
 					
 					</tr>
@@ -56,8 +56,7 @@
 			</div>
 			
 			<g:if test="${ selectable }">
-			<g:form id="addItemsToSectionForm" controller="pollSection" action="addItems">
-				<input type="hidden" value="${ sectionId }" name="sectionId">
+			<g:form id="${ sectionId }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
 				<button type="submit">Auswahl hinzufügen</button>
 			</g:form>
 			</g:if>

@@ -7,9 +7,8 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 
-class AddItemsToSectionCommand {
-	def questions = []
-	def sectionId
+class PollSectionAddItemsCommand{
+	List questionIds = []
 }
 
 class PollSectionController {
@@ -56,9 +55,31 @@ class PollSectionController {
         respond pollSectionInstance
     }
 	
-	def addItems(AddItemsToSectionCommand cmd) {
-		def pollSectionInstance = PollSection.findById(cmd.sectionId)
-		redirect action: "show", id: cmd.sectionId
+	/*
+	 * Takes a selection of myPoll.Question and for each them adds an item to the the pollSection
+	 * @cmd the command objects that contains the ids of the selected questions
+	 */
+	def addItems(PollSectionAddItemsCommand cmd) {
+		def pollSectionInstance = PollSection.get(params.id)
+		def questions = []
+		def items = []
+		
+		// retrieve the selected questions
+		for (questionId in cmd.questionIds) {
+			if( questionId!=null ) {
+				questions.add(Question.get(questionId))
+			}			
+		}		
+		
+		// for each question, create an item and add it to the pollSection
+		for (question in questions) {
+			def itemInstance = new Item(title: question.title, question: question.text, pollSection: pollSectionInstance)
+			for (option in question.getScale().getOptions()) {
+				itemInstance.addToOptions(new Option(index: option.index, value: option.value))
+			}
+			itemInstance.save flush: true
+		}
+		redirect action: "show", id: params.id
 		
 	}
 

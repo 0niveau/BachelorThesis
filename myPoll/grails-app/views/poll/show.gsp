@@ -47,7 +47,7 @@
 						</g:each>
 						</ul>
 						</g:if>
-						<g:link controller="question" action="index" params="[sectionId: '${ s?.id }', addToSection: 'addToSection']">Item hinzufügen</g:link>
+						<g:link controller="question" action="index" id="${ s.id }" params="[addToSection: 'addToSection']">Item hinzufügen</g:link>
 						</g:each>
 				</div>
 				</g:if>

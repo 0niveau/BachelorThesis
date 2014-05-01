@@ -6,6 +6,7 @@ class Item {
 	String question
 	
 	static hasMany = [options: Option]
+	static belongsTo = [pollSection: PollSection]
 
     static constraints = {
     }

@@ -16,8 +16,8 @@ class QuestionController {
 		if (params.addToSection) {
 			selectable = true
 		}
-		if (params.sectionId) {
-			sectionId=params.sectionId
+		if (params.id) {
+			sectionId=params.id
 		}
         params.max = Math.min(max ?: 10, 100)
         respond Question.list(params), model:[questionInstanceCount: Question.count(), selectable: selectable, sectionId: sectionId]
