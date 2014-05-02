@@ -6,6 +6,8 @@
 
 .first 								{ clear: left; }
 
+.last								{ clear: right; }
+
 @media only screen and (min-width: 768px) {
 	.l-one 						{ width: 8.33333%; }
 	.l-two 						{ width: 16.66667%; }
@@ -19,25 +21,25 @@
 	.l-ten						{ width: 83.33333%; }
 	.l-eleven					{ width: 91.66667%; }
 	.l-twelve					{ width: 100%; }
-	.l-first					{ clear: left;}
-	.l-last						{}
+	.l-first					{ clear: left; }
+	.l-last						{ clear: right; }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-	.m-one 					{ width: 8.33333%; }
-	.m-two 					{ width: 16.66667%; }
+	.m-one 						{ width: 8.33333%; }
+	.m-two 						{ width: 16.66667%; }
 	.m-three					{ width: 25%; }
 	.m-four 					{ width: 33.33333%; }
-	.m-five					{ width: 41.66667%; }
+	.m-five						{ width: 41.66667%; }
 	.m-six						{ width: 50%; }
 	.m-seven					{ width: 58.33333%; }
 	.m-eight 					{ width: 66.66667%; }
-	.m-nine					{ width: 75%; }
+	.m-nine						{ width: 75%; }
 	.m-ten						{ width: 83.33333%; }
 	.m-eleven					{ width: 91.66667%; }
 	.m-twelve					{ width: 100%; }
 	.m-first					{ clear: left;}
-	.m-last					{}
+	.m-last						{ clear: right; }
 }
 
 
@@ -55,5 +57,5 @@
 	.s-eleven					{ width: 91.66667%; }
 	.s-twelve					{ width: 100%; }
 	.s-first					{ clear: left;}
-	.s-last						{}	
+	.s-last						{ clear: right; }	
 }

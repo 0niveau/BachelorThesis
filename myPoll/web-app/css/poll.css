@@ -1,0 +1,48 @@
+.hidden {
+	display: none;
+}
+
+#pollSectionList {
+	list-style-type: none;
+	padding: 0;	
+}
+
+.property-header {
+	background-color: LimeGreen;
+	
+}
+
+.property {
+	background-color: LightGrey;
+}
+
+.property p {
+	line-height: 2rem;
+	padding: 0 10px;
+}
+
+.pollSection {
+	height: 2rem;
+	line-height: 2rem;
+	padding: 0 10px;
+}
+
+.pollSection.even {
+	
+}
+
+.pollSection.odd {
+	
+}
+
+.pollSection.selected {
+	background-color: LightGreen;
+}
+
+.pollSectionDetails {
+	display: none;
+}
+
+.pollSectionDetails.selected {
+	display: block;
+}
