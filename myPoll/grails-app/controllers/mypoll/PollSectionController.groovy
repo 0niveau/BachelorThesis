@@ -56,11 +56,30 @@ class PollSectionController {
     }
 	
 	/*
+	 * Passes a list of questions to the poll's 'show' view, that could be added to a specific pollSection
+	 */
+	def addableItems() {
+		PollSection pollSectionInstance = PollSection.get(params.id)
+		Poll pollInstance = pollSectionInstance.poll
+		
+		// retrieve question that have been added so far
+		def idsOfAddedQuestions = []
+		pollSectionInstance.items.each { item -> idsOfAddedQuestions.add(item.idOfOrigin) }
+		
+		// find all questions, that have not been added yet
+		def allQuestions = Question.getAll()		
+		def selectableQuestions = allQuestions.findAll { !idsOfAddedQuestions.contains(it.id) }
+		
+		render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, selectableQuestions: selectableQuestions, mode: 'sectionAddItems']
+	}
+	
+	/*
 	 * Takes a selection of myPoll.Question and for each them adds an item to the the pollSection
 	 * @cmd the command objects that contains the ids of the selected questions
 	 */
 	def addItems(PollSectionAddItemsCommand cmd) {
 		def pollSectionInstance = PollSection.get(params.id)
+		def pollInstance = pollSectionInstance.poll
 		def questions = []
 		def items = []
 		
@@ -73,13 +92,13 @@ class PollSectionController {
 		
 		// for each question, create an item and add it to the pollSection
 		for (question in questions) {
-			def itemInstance = new Item(title: question.title, question: question.text, pollSection: pollSectionInstance)
+			def itemInstance = new Item(title: question.title, question: question.text, idOfOrigin: question.id, pollSection: pollSectionInstance)
 			for (option in question.getScale().getOptions()) {
 				itemInstance.addToOptions(new Option(index: option.index, value: option.value))
 			}
 			itemInstance.save flush: true
 		}
-		redirect action: "show", id: params.id
+		render view: '/poll/show', model:[pollInstance: pollInstance, targetId: pollSectionInstance.id]
 		
 	}
 

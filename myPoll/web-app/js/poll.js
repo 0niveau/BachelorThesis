@@ -6,7 +6,6 @@
 	function resetPollSectionSelection() {			
 		pollSections.removeClass('selected');
 		pollSectionDetails.removeClass('selected');
-		clearDetails.addClass('hidden');
 	}
 	
 	function showPollSectionDetails() {

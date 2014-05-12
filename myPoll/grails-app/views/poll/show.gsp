@@ -1,4 +1,7 @@
-
+<%-- 	
+	required: pollInstance, 
+	optional: selectableQuestions, targetId, mode 			
+--%>
 <%@ page import="mypoll.Poll" %>
 <!DOCTYPE html>
 <html>
@@ -41,7 +44,7 @@
 					<h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>							
 					<ul id="pollSectionList">
 						<g:each in="${ pollInstance?.sections }" status="i" var="s" >
-						<li class="pollSection ${(i % 2) == 0 ? 'even' : 'odd'}" data-sectionId="${ s.id }">${s?.name}</li>
+						<li class="pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-sectionId="${ s.id }">${s?.name}</li>
 						</g:each>
 					</ul>			
 				</div>
@@ -57,22 +60,10 @@
 			
 			<section class="l-six m-six s-twelve pollDetails cols">							
 				<g:each in="${ pollInstance?.sections }" var="s" >
-				<div class="col pollSectionDetails ${ s.id }">		
-					<h2>Section Details</h2>		
-					<h3><g:link controller="pollSection" action="show" id="${s.id}">${s?.name}</g:link></h3>
-					<g:if test="${ s?.items }">
-					<ul>						
-					<g:each in="${ s?.items }" var="i">
-						<li>${ i?.title }</li>
-					</g:each>
-					</ul>
-					</g:if>
-					<g:link controller="question" action="index" id="${ s.id }" params="[addToSection: 'addToSection']">Item hinzufügen</g:link>
-				</div>
-				</g:each>
-				<div class="col">
-					<a href="#" id="clearDetails" class="hidden">clear</a>
-				</div>					
+				<g:render 
+					template="/pollSection/pollSection" 
+					model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
+				</g:each>									
 			</section>
 			
 			<section class="col">
@@ -90,6 +81,7 @@
 					<fieldset class="buttons">
 						<g:link class="edit" action="edit" resource="${pollInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 						<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+						<a href="#" id="clearDetails">clearRightSection</a>
 					</fieldset>
 				</g:form>
 			</section>
