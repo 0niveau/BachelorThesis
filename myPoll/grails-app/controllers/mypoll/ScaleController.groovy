@@ -15,16 +15,19 @@ class ScaleController {
 	def prepareCreation() {
 		def scaleDomainClass = grailsApplication.domainClasses.find { it.name == 'Scale' }
 		def subClassesOfScale = scaleDomainClass.getSubClasses().collect { it.shortName }
+		
 		model: [scales: subClassesOfScale]
 	}
 	
 	/*
-	 * redirects to the 'create' method of a more specific controller
+	 * renders the general 'create' view and passes the specific scale type to the views model
+	 * @cmd contains the name of the selected specific scale type and the desired number of Options 
 	 */
-	def triggerCreation(ScaleCreateCommand cmd) {
+	def create(ScaleCreateCommand cmd) {
 		def classOfSelectedScale = grailsApplication.domainClasses.find { it.name == cmd.nameOfSelectedScale }
-		int numberOfOptions = cmd.numberOfOptions
+		String typeOfSelectedScale = classOfSelectedScale.getShortName()
+		int numberOfOptions = params.numberOfOptions as int
 		
-		redirect controller: classOfSelectedScale.getShortName(), action: 'create', params: [numberOfOptions: numberOfOptions]				
+		model: [numberOfOptions: numberOfOptions, typeOfScale: typeOfSelectedScale]
 	}
 }

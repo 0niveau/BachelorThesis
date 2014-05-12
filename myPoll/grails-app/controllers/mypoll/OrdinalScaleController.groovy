@@ -27,7 +27,7 @@ class OrdinalScaleController {
 
     def create() {
 		int numberOfOptions = params.numberOfOptions as int
-		model: [numberOfOptions: numberOfOptions]
+		model: [numberOfOptions: numberOfOptions, typeOfScale: 'ordinalScale']
     }	
 
     @Transactional

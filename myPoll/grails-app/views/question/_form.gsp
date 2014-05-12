@@ -1,13 +1,11 @@
 <%@ page import="mypoll.Question" %>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'scale', 'error')} required">
-	<label for="scale">
-		<g:message code="question.scale.label" default="Scale" />
-		<span class="required-indicator">*</span>
+<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'title', 'error')} ">
+	<label for="title">
+		<g:message code="question.title.label" default="Title" />
+		
 	</label>
-	<g:select id="scale" name="scale.id" from="${mypoll.Scale.list()}" optionKey="id" required="" value="${questionInstance?.scale?.id}" class="many-to-one"/>
+	<g:textField name="title" value="${questionInstance?.title}"/>
 
 </div>
 
@@ -20,12 +18,10 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'title', 'error')} ">
-	<label for="title">
-		<g:message code="question.title.label" default="Title" />
-		
+<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'scale', 'error')} required">
+	<label for="scale">
+		<g:message code="question.scale.label" default="Scale" />
+		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="title" value="${questionInstance?.title}"/>
-
+	<g:select id="scale" name="scale.id" from="${mypoll.Scale.list()}" optionKey="id" required="" value="${questionInstance?.scale?.id}" class="many-to-one"/>
 </div>
-
