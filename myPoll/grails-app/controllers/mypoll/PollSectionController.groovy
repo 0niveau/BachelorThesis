@@ -84,12 +84,15 @@ class PollSectionController {
 	def addItems(PollSectionAddItemsCommand cmd) {
 		def pollSectionInstance = PollSection.get(params.id)
 		def pollInstance = pollSectionInstance.poll
-		def questions = []
-		def items = []
-		
+
+        // retrieve the ids of the questions, that have already been added as items
+        def idsOfAddedQuestions = []
+        pollSectionInstance.items.each { item -> idsOfAddedQuestions.add(item.idOfOrigin) }
+
 		// retrieve the selected questions
-		for (questionId in cmd.questionIds) {
-			if( questionId!=null ) {
+        def questions = []
+        for (questionId in cmd.questionIds) {
+			if( questionId!=null && !idsOfAddedQuestions.contains(questionId as Long) ) {
 				questions.add(Question.get(questionId))
 			}			
 		}		
@@ -102,7 +105,7 @@ class PollSectionController {
 			}
 			itemInstance.save flush: true
 		}
-		render view: '/poll/show', model:[pollInstance: pollInstance, targetId: pollSectionInstance.id]
+        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
 		
 	}
 
@@ -119,11 +122,11 @@ class PollSectionController {
         }
 
         pollSectionInstance.save flush:true
+        Poll pollInstance = pollSectionInstance.poll
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
 
-        render view: '/Poll/show', model: [pollInstance: pollSectionInstance.poll, targetId: pollSectionInstance.id]
-
+        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
     }
 
     @Transactional
