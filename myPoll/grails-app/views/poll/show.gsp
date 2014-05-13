@@ -57,13 +57,13 @@
 				</div>
 				</g:if>
 			</section>					
-			
-			<section class="l-six m-six s-twelve pollDetails cols">							
+
+			<section class="l-six m-six s-twelve cols pollPropertyDetails">
 				<g:each in="${ pollInstance?.sections }" var="s" >
-				<g:render 
-					template="/pollSection/pollSection" 
+				<g:render
+					template="/pollSection/pollSection"
 					model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
-				</g:each>									
+				</g:each>
 			</section>
 			
 			<section class="col">

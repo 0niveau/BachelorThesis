@@ -30,7 +30,7 @@
 				
 					<g:if test="${pollSectionInstance?.description}">
 					<div class="property">
-						<h2 class="property-header"><g:message code="pollSection.description.label" /></h2>
+						<h2 class="property-header"><g:message code="pollSection.description.label" default="Description" /></h2>
 						<p>${ pollSectionInstance?.description }</p>					
 					</div>
 					</g:if>

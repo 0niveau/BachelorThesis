@@ -7,7 +7,7 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 
-class PollSectionAddItemsCommand{
+class PollSectionAddItemsCommand {
 	List questionIds = []
 }
 
@@ -52,7 +52,11 @@ class PollSectionController {
     }
 
     def edit(PollSection pollSectionInstance) {
-        respond pollSectionInstance
+        Poll pollInstance = pollSectionInstance.poll
+        def toBeEdited = params.toBeEdited
+
+        render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, mode: toBeEdited]
+
     }
 	
 	/*
@@ -116,13 +120,10 @@ class PollSectionController {
 
         pollSectionInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
-                redirect pollSectionInstance
-            }
-            '*'{ respond pollSectionInstance, [status: OK] }
-        }
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
+
+        render view: '/Poll/show', model: [pollInstance: pollSectionInstance.poll, targetId: pollSectionInstance.id]
+
     }
 
     @Transactional
