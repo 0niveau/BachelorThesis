@@ -2,7 +2,7 @@
 	required: pollSection
 	optional: targetId, selectableQuestions, mode
 --%>
-<div class="pollSectionDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }">
+<div class="pollSectionDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" />
 	<h2 class="property-header">${ pollSection?.name }</h2>
 
     <div class="propertyDetail">
@@ -71,12 +71,15 @@
 
         <g:else>
             <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Added Items"/></h3>
-            <g:if test="${ pollSection?.items }">
-                <ul>
-                    <g:each in="${ pollSection?.items }" var="i">
-                        <li>${ i?.title }</li>
-                    </g:each>
-                </ul>
+            <g:if test="${ pollSection?.items }"> 
+            	<ol class="pollSectionItemList">               
+	            <g:each in="${ pollSection?.items }" status="i" var="itemInstance">
+	            <li class="pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" draggable="true">	             
+	                <span>${ itemInstance?.question }</span>
+	                <a href="#" >Delete</a>
+	            </li>
+	            </g:each>
+	            </ol>                    
             </g:if>
             <g:else>
                 <p>No items have been added so far!</p>
