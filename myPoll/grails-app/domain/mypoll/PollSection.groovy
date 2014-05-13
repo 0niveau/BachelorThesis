@@ -8,6 +8,8 @@ class PollSection {
 
 	static hasMany = [items: Item]
 	static belongsTo = [poll: Poll]
+
+    List items
 	
     static constraints = {
     	name blank: false
