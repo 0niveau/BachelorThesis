@@ -99,7 +99,7 @@ class PollSectionController {
 		
 		// for each question, create an item and add it to the pollSection
 		for (question in questions) {
-			def itemInstance = new Item(title: question.title, question: question.text, idOfOrigin: question.id, pollSection: pollSectionInstance)
+			def itemInstance = new Item(question: question.text, idOfOrigin: question.id, pollSection: pollSectionInstance)
 			for (option in question.getScale().getOptions()) {
 				itemInstance.addToOptions(new Option(index: option.index, value: option.value))
 			}

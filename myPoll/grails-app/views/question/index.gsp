@@ -25,9 +25,7 @@
 					
 						<th><g:message code="question.scale.label" default="Scale" /></th>
 					
-						<g:sortableColumn property="text" title="${message(code: 'question.text.label', default: 'Text')}" />
-					
-						<g:sortableColumn property="title" title="${message(code: 'question.title.label', default: 'Title')}" />
+						<g:sortableColumn property="text" title="${message(code: 'question.text.label', default: 'Text')}" />				
 						
 						<th></th>
 					</tr>
@@ -39,8 +37,6 @@
 						<td><g:link action="show" id="${questionInstance.id}">${fieldValue(bean: questionInstance, field: "scale")}</g:link></td>
 					
 						<td>${fieldValue(bean: questionInstance, field: "text")}</td>
-					
-						<td>${fieldValue(bean: questionInstance, field: "title")}</td>
 						
 						<g:if test="${ selectable }">
 						<td><label>auswählen<input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }"></label></td>

@@ -36,7 +36,7 @@
 						<h2>Give your Poll a name!</h2>
 						<input id="name" type="text" required="required" name="name" value="${ pollInstance.name }"/>					
 						<h2>Briefly describe your poll!</h2>
-						<textarea id="description" required="required" name="description"></textarea>									
+						<textarea id="description" required="required" name="description">${ pollInstance.description }</textarea>									
 						<h2>Choose the sections you want to integrate in your poll!</h2>
 						<label for="clustering"><input id="clustering" type="checkbox" name="clustering"/>Clustering</label>					
 						<label for="comparing"><input id="comparing" type="checkbox" name="comparing"/>Comparing</label>					

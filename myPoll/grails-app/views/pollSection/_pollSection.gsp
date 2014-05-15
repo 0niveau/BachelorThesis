@@ -2,14 +2,14 @@
 	required: pollSection
 	optional: targetId, selectableQuestions, mode
 --%>
-<div class="pollSectionDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" />
+<div class="pollSectionDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
 	<h2 class="property-header">${ pollSection?.name }</h2>
 
     <div class="propertyDetail">
         <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
         <g:if test="${ mode == 'sectionDescription' }">
             <g:form url="[resource: pollSection, action: 'update']" method="PUT">
-                <input type="text" name="description" value="${pollSection?.description}" />
+            	<textarea name="description">${ pollSection?.description }</textarea>
                 <g:submitButton name="save" value="${message(code: 'pollSection.property.update', default: 'Save')}" />
             </g:form>
         </g:if>
@@ -45,15 +45,13 @@
                 <thead>
                 <tr>
                     <g:sortableColumn property="text" title="${message(code: 'question.text.label', default: 'Text')}" />
-                    <g:sortableColumn property="title" title="${message(code: 'question.title.label', default: 'Title')}" />
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <g:each in="${selectableQuestions}" status="i" var="questionInstance">
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <td><g:link action="show" id="${questionInstance.id}">${fieldValue(bean: questionInstance, field: "title")}</g:link></td>
-                        <td>${fieldValue(bean: questionInstance, field: "text")}</td>
+                        <td><g:link action="show" id="${questionInstance.id}">${fieldValue(bean: questionInstance, field: "text")}</g:link></td>                   
                         <td><input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }"></td>
                     </tr>
                 </g:each>

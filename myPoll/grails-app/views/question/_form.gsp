@@ -1,20 +1,11 @@
 <%@ page import="mypoll.Question" %>
 
-<div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'title', 'error')} ">
-	<label for="title">
-		<g:message code="question.title.label" default="Title" />
-		
-	</label>
-	<g:textField name="title" value="${questionInstance?.title}"/>
-
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: questionInstance, field: 'text', 'error')} ">
 	<label for="text">
 		<g:message code="question.text.label" default="Text" />
 		
 	</label>
-	<g:textField name="text" value="${questionInstance?.text}"/>
+	<textarea name="text">${questionInstance?.text}</textarea>
 
 </div>
 

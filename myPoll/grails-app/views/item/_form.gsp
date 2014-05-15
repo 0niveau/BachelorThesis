@@ -19,13 +19,3 @@
 	<g:textField name="question" value="${itemInstance?.question}"/>
 
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: itemInstance, field: 'title', 'error')} ">
-	<label for="title">
-		<g:message code="item.title.label" default="Title" />
-		
-	</label>
-	<g:textField name="title" value="${itemInstance?.title}"/>
-
-</div>
-

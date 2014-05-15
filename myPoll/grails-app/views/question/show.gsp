@@ -20,16 +20,7 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<ol class="property-list question">
-							
-				<g:if test="${questionInstance?.title}">
-				<li class="fieldcontain">
-					<span id="title-label" class="property-label"><g:message code="question.title.label" default="Title" /></span>
-					
-						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${questionInstance}" field="title"/></span>
-					
-				</li>
-				</g:if>			
+			<ol class="property-list question">					
 			
 				<g:if test="${questionInstance?.text}">
 				<li class="fieldcontain">

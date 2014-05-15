@@ -41,17 +41,7 @@
 						<span class="property-value" aria-labelledby="question-label"><g:fieldValue bean="${itemInstance}" field="question"/></span>
 					
 				</li>
-				</g:if>
-			
-				<g:if test="${itemInstance?.title}">
-				<li class="fieldcontain">
-					<span id="title-label" class="property-label"><g:message code="item.title.label" default="Title" /></span>
-					
-						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${itemInstance}" field="title"/></span>
-					
-				</li>
-				</g:if>
-			
+				</g:if>										
 			</ol>
 			<g:form url="[resource:itemInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

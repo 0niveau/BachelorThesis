@@ -2,7 +2,6 @@ package mypoll
 
 class Item {
 
-	String title
 	String question
 	Long idOfOrigin
 	
