@@ -2,8 +2,11 @@
 
 function handleDragStart(e) {
   this.classList.add('beingDragged');
+  
+  beingDragged = this;
+  
   e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('Text', 'BlaBla');
+  e.dataTransfer.setData('text/html', this.innerHTML);
 }
 
 function handleDragOver(e) {
@@ -28,10 +31,20 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-  //this / e.target is current target element.
-  if (e.stopPropagation) {
-    e.stopPropagation(); // stops the browser from redirecting.
+  // stops the browser from redirecting.
+  if (e.preventDefault) {
+	e.preventDefault();
   }
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  }
+  
+  // Don't do anything if beingDragged is dropped on itself
+  if(beingDragged != this) {
+	parent = this.parentElement;
+	parent.insertBefore(beingDragged, this);	
+  }
+  
   return false;
 }
 
