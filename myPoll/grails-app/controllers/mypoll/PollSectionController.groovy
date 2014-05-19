@@ -11,9 +11,14 @@ class PollSectionAddItemsCommand {
 	List questionIds = []
 }
 
+class PollSectionReorderItemsCommand {
+    PollSection pollSection
+    List items = []
+}
+
 class PollSectionController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", updateItemOrder: "PUT", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)

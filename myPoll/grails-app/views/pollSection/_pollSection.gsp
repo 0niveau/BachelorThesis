@@ -52,7 +52,7 @@
                 <g:each in="${selectableQuestions}" status="i" var="questionInstance">
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                         <td><g:link action="show" id="${questionInstance.id}">${fieldValue(bean: questionInstance, field: "text")}</g:link></td>                   
-                        <td><input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }"></td>
+                        <td><input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" /></td>
                     </tr>
                 </g:each>
                 </tbody>
@@ -72,12 +72,16 @@
             <g:if test="${ pollSection?.items }"> 
             	<ol class="pollSectionItemList">               
 	            <g:each in="${ pollSection?.items }" status="i" var="itemInstance">
-	            <li class="pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" draggable="true">	             
+	            <li class="pollSectionItem " draggable="true">
 	                <span>${ itemInstance?.question }</span>
+                    <input type="hidden" class="itemIdInput" name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance.id }" />
 	                <a href="#" >Delete</a>
 	            </li>
 	            </g:each>
-	            </ol>                    
+	            </ol>
+                <g:form controller="pollSection" action="update" id="${pollSection.id}" method="PUT" name="reorderItemsForm${ pollSection?.name }">
+                    <button type="submit">Reihenfolge Speichern</button>
+                </g:form>
             </g:if>
             <g:else>
                 <p>No items have been added so far!</p>

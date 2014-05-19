@@ -10,13 +10,15 @@
 }
 
 .beingDragged {
-	background-color: red;
+	opacity: 0.5;
 }
 
 .pollSectionItemList.over {
-	background-color: blue;
+	border: dashed lightblue 2px;
 }
 
 .pollSectionItem.over {
-	background-color: black;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+	border-top: solid lightblue 2px;
 }

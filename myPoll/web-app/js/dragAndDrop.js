@@ -4,6 +4,20 @@ function handleDragStart(e) {
   this.classList.add('beingDragged');
   
   beingDragged = this;
+  pollSectionItemList = beingDragged.parentElement;
+  pollSectionItemList.classList.add('over');
+
+  // extract this into own function ?
+  var li = document.createElement('li');
+  li.setAttribute('id', 'lastPollSectionItem');
+  li.classList.add('pollSectionItem');
+  li.addEventListener('dragenter', handleDragEnter, false);
+  li.addEventListener('dragover', handleDragOver, false);
+  li.addEventListener('dragleave', handleDragLeave, false);
+  li.addEventListener('drop', handleDrop, false);
+  li.addEventListener('dragend', handleDragEnd, false);
+  pollSectionItemList.appendChild(li);
+  lastPollSectionItem = li;
   
   e.dataTransfer.effectAllowed = 'move';
   e.dataTransfer.setData('text/html', this.innerHTML);
@@ -14,8 +28,6 @@ function handleDragOver(e) {
     e.preventDefault(); // Necessary. Allows us to drop.
   }
   e.dataTransfer.dropEffect = 'move';
-  
-  this.classList.add('over');
   
   return false;
 }
@@ -38,12 +50,14 @@ function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation();
   }
-  
+
+  var parent = this.parentElement;
   // Don't do anything if beingDragged is dropped on itself
   if(beingDragged != this) {
-	parent = this.parentElement;
-	parent.insertBefore(beingDragged, this);	
+	parent.insertBefore(beingDragged, this);
   }
+
+  resetIndexes(parent);
   
   return false;
 }
@@ -51,12 +65,34 @@ function handleDrop(e) {
 function handleDragEnd(e) {
   // this/e.target is the source node.
   this.classList.remove('beingDragged');
+  pollSectionItemList.removeChild(lastPollSectionItem);
+  pollSectionItemList.classList.remove('over');
+
   [].forEach.call(pollSectionItems, function(pollSectionItem) {
     pollSectionItem.classList.remove('over');
   });
-  [].forEach.call(pollSectionItemLists, function(pollSectionItemList) {
-    pollSectionItemList.classList.remove('over');
-  });
+}
+
+function resetIndexes(parent) {
+// find input elements in parent
+    var childNodes = parent.childNodes
+    ,   inputNodes = []
+    ,   itemIdInputs = parent.getElementsByTagName('input')
+    ,   loopCount = 0
+    ,   attributeValue = '';
+
+    [].forEach.call(childNodes, function(childNode) {
+        if(childNode.tagName === 'input') {
+            inputNodes.add(childNode);
+        }
+    });
+
+    // reset 'name' attribute according to new order
+    [].forEach.call(itemIdInputs, function(itemIdInput) {
+        attributeValue = 'items[' + loopCount + ']';
+        itemIdInput.setAttribute('name', attributeValue);
+        loopCount += 1;
+    });
 }
 
 var pollSectionItems = document.querySelectorAll('.pollSectionItem');
@@ -69,10 +105,6 @@ var pollSectionItems = document.querySelectorAll('.pollSectionItem');
   pollSectionItem.addEventListener('dragend', handleDragEnd, false);
 });
 
-var pollSectionItemLists = document.querySelectorAll('.pollSectionItemList');
-[].forEach.call(pollSectionItemLists, function(pollSectionItemList) {
-  pollSectionItemList.addEventListener('dragover', handleDragOver, false);
-  pollSectionItemList.addEventListener('dragenter',handleDragEnter, false);
-  pollSectionItemList.addEventListener('dragleave', handleDragLeave, false);
-});
-
+var beingDragged;
+var lastPollSectionItem;
+var pollSectionItemList;
