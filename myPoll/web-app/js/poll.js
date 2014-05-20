@@ -1,25 +1,29 @@
-(function($) {
-	var pollSections = $("#pollSectionList").children();
-	var pollSectionDetails = $(".pollSectionDetails");
-	var clearDetails = $("#clearDetails");
+var currentProperty;
+var currentPropertyDetails;
+
+var clearDetails = document.querySelector('#clearDetails');
+clearDetails.addEventListener('click', resetPropertyDetailsSelection, false);
+
+var propertyValues = document.querySelectorAll('.property-value');
+[].forEach.call(propertyValues, function(propertyValue) {
+	propertyValue.addEventListener('click', clickHandler, false);
+});
+
+function clickHandler(e) {
+	resetPropertyDetailsSelection();
 	
-	function resetPollSectionSelection() {			
-		pollSections.removeClass('selected');
-		pollSectionDetails.removeClass('selected');
-	}
+	currentProperty = this;
+	currentProperty.classList.add('selected');
 	
-	function showPollSectionDetails() {
-		var pollSectionId = $( this ).attr("data-sectionId");
-		var details = $("." + pollSectionId);
-		
-		resetPollSectionSelection();
-		$(this).addClass('selected');
-		details.addClass('selected');
-		clearDetails.removeClass('hidden');
-	}
+	var propertyRef = currentProperty.getAttribute('data-propertyRef');
 	
-	$( document ).ready(function() {
-		pollSections.click(showPollSectionDetails);
-		clearDetails.click(resetPollSectionSelection);
+	currentPropertyDetails = document.querySelector('#' + propertyRef);
+	currentPropertyDetails.classList.add('selected');
+}
+
+function resetPropertyDetailsSelection () {
+	currentSelection = document.querySelectorAll('.selected');
+	[].forEach.call(currentSelection, function(selected) {
+		selected.classList.remove('selected');
 	});
-})(jQuery);
+}

@@ -14,11 +14,17 @@
 }
 
 .pollSectionItemList.over {
-	border: dashed lightblue 2px;
+
 }
 
 .pollSectionItem.over {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-	border-top: solid lightblue 2px;
+	border-top: solid limegreen 2px;
+}
+
+.lastMoved {
+	background-color: lightgreen;
+}
+
+#lastPollSectionItem {
+	height: 20px;
 }

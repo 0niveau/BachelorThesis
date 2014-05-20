@@ -2,7 +2,7 @@
 	required: pollSection
 	optional: targetId, selectableQuestions, mode
 --%>
-<div class="pollSectionDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
+<div id="${'section' + pollSection.id }" class="pollPropertyDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
 	<h2 class="property-header">${ pollSection?.name }</h2>
 
     <div class="propertyDetail">
@@ -70,15 +70,25 @@
         <g:else>
             <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Added Items"/></h3>
             <g:if test="${ pollSection?.items }"> 
-            	<ol class="pollSectionItemList">               
-	            <g:each in="${ pollSection?.items }" status="i" var="itemInstance">
-	            <li class="pollSectionItem " draggable="true">
-	                <span>${ itemInstance?.question }</span>
-                    <input type="hidden" class="itemIdInput" name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance.id }" />
-	                <a href="#" >Delete</a>
-	            </li>
-	            </g:each>
-	            </ol>
+            	<table class="pollSectionItemTable">
+            		<thead>
+            			<tr>
+	            			<th>Item</th>
+	            			<th></th>
+	            			<th></th>
+            			</tr>            			
+            		</thead>
+            		<tbody class="pollSectionItemList">
+           			<g:each in="${ pollSection?.items }" status="i" var="itemInstance">
+           				<tr class="pollSectionItem" draggable="true">
+           					<td>${ itemInstance?.question }</td>
+           					<td><input type="hidden" class="itemIdInput" 
+           						name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance.id }" /></td>
+           					<td><a href="#">Delete</a></td>
+           				</tr>
+           			</g:each>
+            		</tbody>
+            	</table>
                 <g:form controller="pollSection" action="update" id="${pollSection.id}" method="PUT" name="reorderItemsForm${ pollSection?.name }">
                     <button type="submit">Reihenfolge Speichern</button>
                 </g:form>

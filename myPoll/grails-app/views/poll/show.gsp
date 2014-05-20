@@ -35,7 +35,7 @@
 				<g:if test="${ pollInstance?.description }" >
 				<div class="property">
 					<h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>					
-					<p>${ pollInstance?.description }</p>
+					<p class="property-value" data-propertyRef="description">${ pollInstance?.description }</p>
 				</div>
 				</g:if>
 				
@@ -44,7 +44,7 @@
 					<h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>							
 					<ul id="pollSectionList">
 						<g:each in="${ pollInstance?.sections }" status="i" var="s" >
-						<li class="pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-sectionId="${ s.id }">${s?.name}</li>
+						<li class="property-value pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-propertyRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</li>
 						</g:each>
 					</ul>			
 				</div>
@@ -53,17 +53,34 @@
 				<g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
 				<div class="property">
 					<h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>					
-					<p>${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+					<p class="property-value" data-propertyRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
 				</div>
 				</g:if>
 			</section>					
 
-			<section class="l-six m-six s-twelve cols pollPropertyDetails">
+			<section class="l-six m-six s-twelve cols pollPropertyDetailsSection">
+				<div id="description" class="pollPropertyDetails">
+					<h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
+					<g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+						<textarea name="description">${ pollInstance?.description }</textarea>
+						<g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
+					</g:form>
+				</div>
+				
 				<g:each in="${ pollInstance?.sections }" var="s" >
 				<g:render
 					template="/pollSection/pollSection"
 					model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
 				</g:each>
+				
+				<div id="testObjects" class="pollPropertyDetails">
+					<h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+					<g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+						<label>TestObjectA<input type="text" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com" /></label>
+						<label>TestObjectB<input type="text" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com" /></label>
+						<g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
+					</g:form>
+				</div>
 			</section>
 			
 			<section class="col">

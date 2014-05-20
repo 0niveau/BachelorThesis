@@ -35,17 +35,26 @@
 	
 }
 
-.pollSection.selected {
+.property-value.selected {
 	background-color: LightGreen;
 }
 
-.pollSectionDetails {
+.pollPropertyDetails {
 	display: none;
 }
 
-.pollSectionDetails.selected {
+.pollPropertyDetails.selected {
 	display: block;
 }
 
-.pollPropertyDetails {
+.pollSectionItemList {
+	padding-bottom: 10px;
+}
+
+.pollSectionItem {
+	border-top: solid 2px transparent;
+}
+
+.pollSectionItem td {
+	padding: 5px;
 }
