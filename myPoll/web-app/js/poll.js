@@ -2,9 +2,9 @@ var currentProperty;
 var currentPropertyDetails;
 
 var clearDetails = document.querySelector('#clearDetails');
-clearDetails.addEventListener('click', resetPropertyDetailsSelection, false);
+if (clearDetails != null) clearDetails.addEventListener('click', resetPropertyDetailsSelection, false);
 
-var propertyValues = document.querySelectorAll('.property-value');
+var propertyValues = document.querySelectorAll('.property-value.selectable');
 [].forEach.call(propertyValues, function(propertyValue) {
 	propertyValue.addEventListener('click', clickHandler, false);
 });

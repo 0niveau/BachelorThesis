@@ -1,33 +1,85 @@
 package mypoll
 
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+
+
 class ScaleCreateCommand {
-	String nameOfSelectedScale
-	int numberOfOptions
-}
-
-class ScaleController {
-
-    def index() { }
+	String name
+	List options = []
 	
-	/*
-	 * finds all subclasses of Scale and passes them to the create view
-	 */
-	def prepareCreation() {
-		def scaleDomainClass = grailsApplication.domainClasses.find { it.name == 'Scale' }
-		def subClassesOfScale = scaleDomainClass.getSubClasses().collect { it.shortName }
-		
-		model: [scales: subClassesOfScale]
+	static constraints = {
+		name blank: false
+		options minSize: 2
 	}
 	
-	/*
-	 * renders the general 'create' view and passes the specific scale type to the views model
-	 * @cmd contains the name of the selected specific scale type and the desired number of Options 
-	 */
-	def create(ScaleCreateCommand cmd) {
-		def classOfSelectedScale = grailsApplication.domainClasses.find { it.name == cmd.nameOfSelectedScale }
-		String typeOfSelectedScale = classOfSelectedScale.getShortName()
-		int numberOfOptions = params.numberOfOptions as int
+	Scale createScale () {
+		Scale scaleInstance = new Scale(
+			name: name,
+			options: []
+		)
+		return scaleInstance
+	}
+}
+
+@Transactional(readOnly = true)
+class ScaleController {
+	
+	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    def index(Integer max) {
+		params.max = Math.min(max ?: 10, 100)
+		respond Scale.list(params), model:[scaleInstanceCount: Scale.count()]
+	}
+	
+	def show(Scale scaleInstance) {
+		respond scaleInstance
+	}
+	
+	def create() {
+		respond new Scale(params)
+	}
+	
+	@Transactional
+	def save(ScaleCreateCommand cmd) {
+		if (cmd == null) {
+			notFound()
+			return
+		}
 		
-		model: [numberOfOptions: numberOfOptions, typeOfScale: typeOfSelectedScale]
+		if (cmd.hasErrors()) {
+			respond cmd.errors, view: 'create'
+			return
+		}
+		
+		Scale scaleInstance = cmd.createScale()		
+
+		for (option in cmd.options) {
+			Option optionInstance = new Option(value: option)
+			if (optionInstance.hasErrors()) {
+				return
+			}
+			optionInstance.save flush:true
+			scaleInstance.options.add(optionInstance)
+		}
+		scaleInstance.save flush:true
+		
+		request.withFormat {
+			form multipartForm {
+				flash.message = message(code: 'default.created.message', args: [message(code: 'ScaleInstance.label', default: 'Scale'), scaleInstance.id])
+				redirect scaleInstance
+			}
+			'*' { respond scaleInstance, [status: CREATED] }
+		}			
+	}
+	
+	protected void notFound() {
+		request.withFormat {
+			form multipartForm {
+				flash.message = message(code: 'default.not.found.message', args: [message(code: 'ScaleInstance.label', default: 'Scale'), params.id])
+				redirect action: "index", method: "GET"
+			}
+			'*'{ render status: NOT_FOUND }
+		}
 	}
 }

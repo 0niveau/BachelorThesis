@@ -3,8 +3,6 @@ package mypoll
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
-
 class PollCreateCommand {
 	String name
 	String description
@@ -34,6 +32,7 @@ class PollCreateCommand {
 	}
 }
 
+@Transactional(readOnly = true)
 class PollController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]

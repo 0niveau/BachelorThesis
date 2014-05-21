@@ -3,18 +3,22 @@
 
 
 <div class="fieldcontain ${hasErrors(bean: scaleInstance, field: 'name', 'error')} required">
-	<label for="nameOfSelectedScale">
-		Select your scale!
+	<label for="name">
+		<g:message code="Scale.name.label" default="Name" />
+		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="nameOfSelectedScale" optionKey="${ name }" from="${ scales }" value="${ scaleInstance?.nameOfSelectedScale }"/>
+	<g:textField name="name" required="" value="${scaleInstance?.name}"/>
 
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: scaleInstance, field: 'options', 'error')} ">
-	<label for="numberOfOptions">
-		How many Options?		
-	</label>
-	<g:select name="numberOfOptions" from="${ 2..10 }" value="${scaleInstance?.numberOfOptions}" />
-
+	<h2>Define the options!</h2>
+	<ol id="scaleOptionList" class="${ !scaleInstance?.options ? 'hidden' : '' }">		
+		<g:each in="${ scaleInstance?.options }" status="i" var="option">
+		<li>
+			<input name="options[${ i }]" type="text" value="option.value" required="required"/>
+		</li>
+		</g:each>			
+	</ol>
+	<a href="#" id="addNewOption">Add an option!</a>
 </div>
-

@@ -24,8 +24,6 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="index" title="${message(code: 'option.index.label', default: 'Index')}" />
-					
 						<g:sortableColumn property="value" title="${message(code: 'option.value.label', default: 'Value')}" />
 					
 					</tr>
@@ -33,8 +31,6 @@
 				<tbody>
 				<g:each in="${optionInstanceList}" status="i" var="optionInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${optionInstance.id}">${fieldValue(bean: optionInstance, field: "index")}</g:link></td>
 					
 						<td>${fieldValue(bean: optionInstance, field: "value")}</td>
 					

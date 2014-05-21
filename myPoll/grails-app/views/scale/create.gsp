@@ -24,9 +24,9 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form url="[controller: typeOfScale, action:'save']" >
+			<g:form url="[resource: scaleInstance, action:'save']" >
 				<fieldset class="form">
-					<g:render template="createForm" model="['numberOfOptions': numberOfOptions]"/>
+					<g:render template="form" model="['scaleInstance': scaleInstance]"/>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

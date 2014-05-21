@@ -35,7 +35,7 @@
 				<g:if test="${ pollInstance?.description }" >
 				<div class="property">
 					<h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>					
-					<p class="property-value" data-propertyRef="description">${ pollInstance?.description }</p>
+					<p class="property-value selectable" data-propertyRef="description">${ pollInstance?.description }</p>
 				</div>
 				</g:if>
 				
@@ -44,7 +44,7 @@
 					<h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>							
 					<ul id="pollSectionList">
 						<g:each in="${ pollInstance?.sections }" status="i" var="s" >
-						<li class="property-value pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-propertyRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</li>
+						<li class="property-value selectable pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-propertyRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</li>
 						</g:each>
 					</ul>			
 				</div>
@@ -53,7 +53,7 @@
 				<g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
 				<div class="property">
 					<h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>					
-					<p class="property-value" data-propertyRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+					<p class="property-value selectable" data-propertyRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
 				</div>
 				</g:if>
 			</section>					

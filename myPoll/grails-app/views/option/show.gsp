@@ -23,15 +23,6 @@
 			</g:if>
 			<ol class="property-list option">
 			
-				<g:if test="${optionInstance?.index}">
-				<li class="fieldcontain">
-					<span id="index-label" class="property-label"><g:message code="option.index.label" default="Index" /></span>
-					
-						<span class="property-value" aria-labelledby="index-label"><g:fieldValue bean="${optionInstance}" field="index"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${optionInstance?.value}">
 				<li class="fieldcontain">
 					<span id="value-label" class="property-label"><g:message code="option.value.label" default="Value" /></span>
