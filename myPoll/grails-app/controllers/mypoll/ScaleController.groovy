@@ -73,6 +73,25 @@ class ScaleController {
 		}			
 	}
 	
+	@Transactional
+	def update(Scale scaleInstance) {
+		if (scaleInstance == null) {
+			notFound()
+			return
+		}
+		
+		if (scaleInstance.hasErrors()) {
+			respond scaleInstance.errors, view: 'edit'
+			return
+		}
+		
+		scaleInstance.save flush:true
+		
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'Scale.label', default: 'Scale'), scaleInstance.id])
+		
+		redirect scaleInstance
+	}
+	
 	protected void notFound() {
 		request.withFormat {
 			form multipartForm {

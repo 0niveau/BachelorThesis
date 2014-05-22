@@ -26,17 +26,22 @@
 				<div class="message" role="status">${flash.message}</div>
 			</section>			
 			</g:if>
-		
-			
+					
 			<section class="properties col">	
 				<g:if test="${scaleInstance?.options}">
 				<div class="property">
 					<h2 class="property-header"><g:message code="scale.options.label" default="Options"/></h2>							
-					<ol class="optionList">
-						<g:each in="${scaleInstance.options}" var="o">
-						<li class="property-value option">${ o.value }</li>
+					<ol class="optionList draggableItemList" data-listedElements="options">
+						<g:each in="${scaleInstance.options}" var="o" status="s">
+						<li class="property-value option draggableItem" draggable="true">
+							${ o.value }
+							<input type="hidden" name="options[${ s }]" value="${ o.id }" form="reorderOptionsForm"/>
+						</li>
 						</g:each>
 					</ol>
+					<g:form name="reorderOptionsForm" controller="scale" action="update" id="${ scaleInstance?.id }" method="PUT">
+						<g:submitButton name="save" value="Save Order"/>
+					</g:form>
 				</div>			
 				</g:if>	
 			</section>								

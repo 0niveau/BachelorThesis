@@ -1,138 +1,114 @@
-var pollSectionItems = document.querySelectorAll('.pollSectionItem');
-[].forEach.call(pollSectionItems, function(pollSectionItem) {
-  pollSectionItem.addEventListener('dragstart', handleDragStart, false);
-  pollSectionItem.addEventListener('dragenter', handleDragEnter, false);
-  pollSectionItem.addEventListener('dragover', handleDragOver, false);
-  pollSectionItem.addEventListener('dragleave', handleDragLeave, false);
-  pollSectionItem.addEventListener('drop', handleDropOnItem, false);
-  pollSectionItem.addEventListener('dragend', handleDragEnd, false);
-});
+window.onload = function() {
+	var draggableItems = document.querySelectorAll('.draggableItem')
+	, beingDragged
+	, beingHovered
+	, lastMovedItem
+	, draggableItemList;
 
-var pollSectionItemLists = document.querySelectorAll('.pollSectionItemList');
-[].forEach.call(pollSectionItemLists, function(pollSectionItemList) {
-	pollSectionItemList.addEventListener('drop', handleDropOnList, false);
-})
+	[].forEach.call(draggableItems, function(draggableItem) {
+		draggableItem.addEventListener('dragstart', handleDragStart, false);
+		draggableItem.addEventListener('dragenter', handleDragEnter, false);
+		draggableItem.addEventListener('dragover', handleDragOver, false);
+		draggableItem.addEventListener('dragleave', handleDragLeave, false);
+		draggableItem.addEventListener('drop', handleDropOnItem, false);
+		draggableItem.addEventListener('dragend', handleDragEnd, false);
+	});
 
-var beingDragged;
-var beingHovered;
-var lastMovedItem;
-var lastPollSectionItem;
-var pollSectionItemList;
+	function handleDragStart(e) {
+		if (lastMovedItem != null) {
+			lastMovedItem.classList.remove('lastMoved');
+		}
 
-function handleDragStart(e) {
-  if (lastMovedItem != null) {
-	lastMovedItem.classList.remove('lastMoved');
-  }	
-	
-  this.classList.add('beingDragged');
-  
-  beingDragged = this;
-  pollSectionItemList = beingDragged.parentElement;
-  pollSectionItemList.classList.add('over');
+		beingDragged = this;
+		beingDragged.classList.add('beingDragged');
 
-  // extract this into own function ?
-  var tr = document.createElement('tr');
-  tr.setAttribute('id', 'lastPollSectionItem');
-  tr.classList.add('pollSectionItem');
-  tr.addEventListener('dragenter', handleDragEnter, false);
-  tr.addEventListener('dragover', handleDragOver, false);
-  tr.addEventListener('dragleave', handleDragLeave, false);
-  tr.addEventListener('drop', handleDropOnItem, false);
-  tr.addEventListener('dragend', handleDragEnd, false);
-  pollSectionItemList.appendChild(tr);
-  lastPollSectionItem = tr;
-  
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/html', this.innerHTML);
-}
+		draggableItemList = beingDragged.parentElement;
+		draggableItemList.classList.add('over');  
 
-function handleDragOver(e) {
-  if (e.preventDefault) {
-    e.preventDefault(); // Necessary. Allows us to drop.
-  }
-  e.dataTransfer.dropEffect = 'move';
-  
-  return false;
-}
+		e.dataTransfer.effectAllowed = 'move';
+		e.dataTransfer.setData('text/html', this.innerHTML);
+	}
 
-function handleDragEnter(e) {
-  if (beingHovered != null) {
-	  beingHovered.classList.remove('over');
-  }
-  beingHovered = this;
-  beingHovered.classList.add('over');
-  
-  return false;
-}
+	function handleDragOver(e) {
+		if (e.preventDefault) {
+			e.preventDefault(); // Necessary. Allows us to drop.
+		}
+		e.dataTransfer.dropEffect = 'move';
 
-function handleDragLeave(e) {
-  
-}
+		return false;
+	}
 
-function handleDropOnItem(e) {
-  // stops the browser from redirecting.
-  if (e.preventDefault) {
-	e.preventDefault();
-  }
-  if (e.stopPropagation) {
-    e.stopPropagation();
-  }
+	function handleDragEnter(e) {
+		if (beingHovered != null) {
+			beingHovered.classList.remove('over');
+		}
+		beingHovered = this;
+		beingHovered.classList.add('over');
 
-  var parent = this.parentElement;
-  // Don't do anything if beingDragged is dropped on itself
-  if(beingDragged != this) {
-	parent.insertBefore(beingDragged, this);
-  }
+		if(this === beingDragged.previousSibling) {
+			swapElements(this, beingDragged);
+		} else {
+			swapElements(beingDragged, this);
+		}
+		return false;
+	}
 
-  resetIndexes(parent);
-  
-  return false;
-}
+	function handleDragLeave(e) {
 
-function handleDropOnList(e) {
-	if (e.preventDefault) {
-		e.preventDefault();
-	  }
-	  if (e.stopPropagation) {
-	    e.stopPropagation();
-	  }
-	  
-	  this.appenChild(beingDragged);
-}
+	}
 
-function handleDragEnd(e) {
-  // this/e.target is the source node.
-  this.classList.remove('beingDragged');
-  
-  pollSectionItemList.removeChild(lastPollSectionItem);
-  pollSectionItemList.classList.remove('over');
+	function handleDropOnItem(e) {
+		// stops the browser from redirecting.
+		if (e.preventDefault) {
+			e.preventDefault();
+		}
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		}
 
-  [].forEach.call(pollSectionItems, function(pollSectionItem) {
-    pollSectionItem.classList.remove('over');
-  });
+		return false;
+	}
 
-  lastMovedItem = this;
-  lastMovedItem.classList.add('lastMoved');
-}
+	function handleDragEnd(e) {
+		// this/e.target is the source node.
+		beingDragged.classList.remove('beingDragged');
 
-function resetIndexes(parent) {
-// find input elements in parent
-    var childNodes = parent.childNodes
-    ,   inputNodes = []
-    ,   itemIdInputs = parent.getElementsByTagName('input')
-    ,   loopCount = 0
-    ,   attributeValue = '';
+		lastMovedItem = this;
+		lastMovedItem.classList.add('lastMoved');
 
-    [].forEach.call(childNodes, function(childNode) {
-        if(childNode.tagName === 'input') {
-            inputNodes.add(childNode);
-        }
-    });
+		draggableItemList.classList.remove('over');
+		resetIndexes(draggableItemList);
 
-    // reset 'name' attribute according to new order
-    [].forEach.call(itemIdInputs, function(itemIdInput) {
-        attributeValue = 'items[' + loopCount + ']';
-        itemIdInput.setAttribute('name', attributeValue);
-        loopCount += 1;
-    });
+		[].forEach.call(draggableItems, function(draggableItem) {
+			draggableItem.classList.remove('over');
+		});  
+	}
+
+	function swapElements (el1,el2) {
+		temp = draggableItemList.replaceChild(el1,el2);
+		draggableItemList.insertBefore(temp, el1);
+	}
+
+	function resetIndexes(parent) {
+//		find input elements in parent
+		var childNodes = parent.childNodes
+		,   inputNodes = []
+		,   itemIdInputs = parent.getElementsByTagName('input')
+		,   loopCount = 0
+		,	listedElements = parent.getAttribute('data-listedElements')
+		,   attributeValue = '';
+
+		[].forEach.call(childNodes, function(childNode) {
+			if(childNode.tagName === 'input') {
+				inputNodes.add(childNode);
+			}
+		});
+
+//		reset 'name' attribute according to new order
+		[].forEach.call(itemIdInputs, function(itemIdInput) {
+			attributeValue = listedElements + '[' + loopCount + ']';
+			itemIdInput.setAttribute('name', attributeValue);
+			loopCount += 1;
+		});
+	}
 }

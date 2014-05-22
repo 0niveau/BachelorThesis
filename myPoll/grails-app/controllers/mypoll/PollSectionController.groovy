@@ -11,11 +11,6 @@ class PollSectionAddItemsCommand {
 	List questionIds = []
 }
 
-class PollSectionReorderItemsCommand {
-    PollSection pollSection
-    List items = []
-}
-
 class PollSectionController {
 
     static allowedMethods = [save: "POST", updateItemOrder: "PUT", update: "PUT", delete: "DELETE"]
