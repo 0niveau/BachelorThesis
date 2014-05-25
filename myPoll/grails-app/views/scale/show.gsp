@@ -27,7 +27,7 @@
 			</section>			
 			</g:if>
 					
-			<section class="properties col">	
+			<section class="properties l-six m-six s-twelve cols">
 				<g:if test="${scaleInstance?.options}">
 				<div class="property">
 					<h2 class="property-header"><g:message code="scale.options.label" default="Options"/></h2>							

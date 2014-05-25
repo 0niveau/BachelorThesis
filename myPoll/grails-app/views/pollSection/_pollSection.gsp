@@ -2,7 +2,7 @@
 	required: pollSection
 	optional: targetId, selectableQuestions, mode
 --%>
-<div id="${'section' + pollSection.id }" class="pollPropertyDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
+<div id="${'section' + pollSection.id }" class="propertyDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
 	<h2 class="property-header">${ pollSection?.name }</h2>
 
     <div class="propertyDetail">

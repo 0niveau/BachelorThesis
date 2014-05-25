@@ -58,8 +58,8 @@
 				</g:if>
 			</section>					
 
-			<section class="l-six m-six s-twelve cols pollPropertyDetailsSection">
-				<div id="description" class="pollPropertyDetails">
+			<section class="l-six m-six s-twelve cols propertyDetailsSection">
+				<div id="description" class="propertyDetails">
 					<h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
 					<g:form url="[resource: pollInstance, action: 'update']" method="PUT">
 						<textarea name="description">${ pollInstance?.description }</textarea>
@@ -73,7 +73,7 @@
 					model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
 				</g:each>
 				
-				<div id="testObjects" class="pollPropertyDetails">
+				<div id="testObjects" class="propertyDetails">
 					<h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
 					<g:form url="[resource: pollInstance, action: 'update']" method="PUT">
 						<label>TestObjectA<input type="text" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com" /></label>

@@ -39,11 +39,11 @@
 	background-color: LightGreen;
 }
 
-.pollPropertyDetails {
+.propertyDetails {
 	display: none;
 }
 
-.pollPropertyDetails.selected {
+.propertyDetails.selected {
 	display: block;
 }
 
