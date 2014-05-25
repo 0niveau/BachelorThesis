@@ -32,6 +32,10 @@ table {
 	width: 100%;
 }
 
+ol {
+    margin: 0;
+}
+
 .main {
 	background: white;
 }
@@ -78,12 +82,17 @@ table {
 }
 
 
+
 .item:nth-child(n+3) {
 	border-top-style: solid;
 	border-top-width: thin;
 	border-top-color: gray;
 }
 
+.radioInputLabel {
+    display: inline-block;
+    width: 100%;
+}
 
 @media only screen and (min-width: 1025px) {
 	.main, header, nav {

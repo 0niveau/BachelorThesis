@@ -1,27 +1,29 @@
-var currentProperty;
-var currentPropertyDetails;
+var currentSelection;
+var currentSelectionDetails;
 
 var clearDetails = document.querySelector('#clearDetails');
-if (clearDetails != null) clearDetails.addEventListener('click', resetPropertyDetailsSelection, false);
+if (clearDetails != null) clearDetails.addEventListener('click', resetDetailsSelection, false);
 
-var propertyValues = document.querySelectorAll('.property-value.selectable');
-[].forEach.call(propertyValues, function(propertyValue) {
-	propertyValue.addEventListener('click', clickHandler, false);
+var selectableValues = document.querySelectorAll('.selectable');
+[].forEach.call(selectableValues, function(selectableValue) {
+	selectableValue.addEventListener('click', clickHandler, false);
 });
 
 function clickHandler(e) {
-	resetPropertyDetailsSelection();
+    var selectionRef;
+
+	resetDetailsSelection();
 	
-	currentProperty = this;
-	currentProperty.classList.add('selected');
+	currentSelection = this;
+	currentSelection.classList.add('selected');
 	
-	var propertyRef = currentProperty.getAttribute('data-propertyRef');
+	selectionRef = currentSelection.getAttribute('data-selectionRef');
 	
-	currentPropertyDetails = document.querySelector('#' + propertyRef);
-	currentPropertyDetails.classList.add('selected');
+	currentSelectionDetails = document.querySelector('#' + selectionRef);
+	currentSelectionDetails.classList.add('selected');
 }
 
-function resetPropertyDetailsSelection () {
+function resetDetailsSelection () {
 	currentSelection = document.querySelectorAll('.selected');
 	[].forEach.call(currentSelection, function(selected) {
 		selected.classList.remove('selected');

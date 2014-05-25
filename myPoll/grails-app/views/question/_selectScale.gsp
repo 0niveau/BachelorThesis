@@ -7,16 +7,16 @@
     </tr>
     </thead>
     <tbody>
-    <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-        <tr>
+        <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
+        <tr class="selectable" data-selectionRef="options${scale.id}">
             <td><input type="radio" name="scale" value="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/></td>
             <td>${ scale.name }</td>
             <td>
                 <g:each in="${ scale.options }" var="option" >
-                    <span>'${option.value}'</span>
+                <span>'${option.value}'</span>
                 </g:each>
             </td>
         </tr>
-    </g:each>
+        </g:each>
     </tbody>
 </table>

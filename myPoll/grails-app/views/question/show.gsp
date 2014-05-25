@@ -30,14 +30,14 @@
                 <g:if test="${questionInstance?.text}">
                 <div class="property">
                     <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
-                    <p class="property-value selectable" data-propertyRef="text">${questionInstance?.text}</p>
+                    <p class="property-value selectable" data-selectionRef="text">${questionInstance?.text}</p>
                 </div>
                 </g:if>
 
                 <g:if test="${questionInstance?.scale}">
                 <div class="property">
                     <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                    <p class="property-value selectable" data-propertyRef="scale">${questionInstance?.scale?.name}</p>
+                    <p class="property-value selectable" data-selectionRef="scale">${questionInstance?.scale?.name}</p>
                 </div>
                 </g:if>
             </section>
@@ -54,7 +54,7 @@
                 <div id="scale" class="propertyDetails">
                     <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
                     <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
-                        <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id]"></g:render>
+                        <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
                         <g:submitButton name="save" value="${ message(code: 'question.property.update', default: 'Save')}"></g:submitButton>
                     </g:form>
                 </div>

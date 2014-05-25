@@ -12,13 +12,13 @@
 				<li class="navigation__links"><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div id="create-poll" class="main">
-			<section class="row">
+		<div id="create-poll" class="main row">
+			<section class="col">
 				<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			</section>
 			
 			<g:if test="${flash.message}">
-			<section class="row">
+			<section class="col">
 				<div class="message" role="status">${flash.message}</div>
 				<g:hasErrors bean="${pollInstance}">
 				<ul class="errors" role="alert">
@@ -30,7 +30,7 @@
 			</section>			
 			</g:if>
 			
-			<section class="row">
+			<section class="l-six m-six s-twelve cols">
 				<g:form url="[resource:pollInstance, action:'save']" >
 					<fieldset class="form">
 						<h2>Give your Poll a name!</h2>
