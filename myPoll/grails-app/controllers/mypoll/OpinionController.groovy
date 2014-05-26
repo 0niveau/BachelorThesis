@@ -19,8 +19,24 @@ class OpinionController {
         respond opinionInstance
     }
 
+	@Transactional
     def create() {
-        respond new Opinion(params)
+		Poll pollInstance = Poll.get(params.id)
+		
+		Opinion opinionInstance = new Opinion(poll: pollInstance)
+		(pollInstance.optinions().length() % 2 == 0) ? testObjectUrl = pollInstance.testObjectUrlA	: pollInstance.testObjectUrlB
+		
+		opinionInstance.testObjectUrl = testObjectUrl
+		
+		opinionInstance.save flush:true		
+		
+		request.withFormat {
+			form multipartForm {
+				flash.message = message(code: 'default.created.message', args: [message(code: 'opinionInstance.label', default: 'Opinion'), opinionInstance.id])
+				redirect opinionInstance
+			}
+			'*' { respond opinionInstance, [status: CREATED] }
+		}
     }
 
     @Transactional

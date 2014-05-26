@@ -10,7 +10,8 @@ class Poll {
 
 	static hasMany = [sections:PollSection, opinions: Opinion]
 	
-	List sections
+	List sections = []
+	List opinions = []
 	
     static constraints = {
     	name blank: false

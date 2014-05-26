@@ -27,7 +27,7 @@ class PollCreateCommand {
 			description: description,
 			isActive: false,
 			testObjectUrlA: testObjectUrlA,
-			testObjectUrlB: testObjectUrlB			
+			testObjectUrlB: testObjectUrlB		
 		) 
 	}
 }
@@ -41,6 +41,14 @@ class PollController {
         params.max = Math.min(max ?: 10, 100)
         respond Poll.list(params), model:[pollInstanceCount: Poll.count()]
     }
+	
+	/*
+	 * This renders the initial page a subject will see.
+	 */
+	def indexSubject(Opinion opinionInstance) {
+		Poll pollInstance = opinionInstance.poll
+		model: [pollInstance: pollInstance, opinionInstance: opinionInstance]		
+	}
 
     def show(Poll pollInstance) {
         def targetId = params.targetId as Long
@@ -115,6 +123,26 @@ class PollController {
             '*'{ respond pollInstance, [status: OK] }
         }
     }
+	
+	/*
+	 * creates a new Opinion and links it to the poll, then redirects to the poll's index page for subjects
+	 */
+	def addOpinion(Poll pollInstance) {
+				
+		String testObjectUrl = ( pollInstance.opinions.size() % 2 == 0 ? pollInstance.testObjectUrlA : pollInstance.testObjectUrlB )
+		Opinion opinionInstance = new Opinion(testObjectUrl: testObjectUrl, poll: pollInstance)
+		opinionInstance.save flush:true 
+		
+		redirect action: 'indexSubject', id: opinionInstance.id
+	}
+	
+	def answerSectionItems() {
+		Poll pollInstance = Poll.get(params.pollId)
+		PollSection pollSectionInstance = PollSection.get(params.sectionId)
+		Opinion opinionInstance = Opinion.get(params.opinionId)
+		
+		model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance]
+	}
 
     @Transactional
     def delete(Poll pollInstance) {

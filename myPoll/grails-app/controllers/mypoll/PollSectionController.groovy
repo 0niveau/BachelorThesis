@@ -51,6 +51,9 @@ class PollSectionController {
         }
     }
 
+	/*
+	 * Renders a poll's 'show' view in a specified state, that allows the user to edit specific properties of the pollSection
+	 */
     def edit(PollSection pollSectionInstance) {
         Poll pollInstance = pollSectionInstance.poll
         def toBeEdited = params.toBeEdited

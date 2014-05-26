@@ -29,8 +29,8 @@
 			<section class="col">
 				<div class="message cols" role="status">${flash.message}</div>
 			</section>			
-			</g:if>		
-
+			</g:if>	
+			
 			<section class="properties l-six m-six s-twelve cols">
 				<g:if test="${ pollInstance?.description }" >
 				<div class="property">
@@ -56,6 +56,15 @@
 					<p class="property-value selectable" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
 				</div>
 				</g:if>
+				
+				<g:if test="${ pollInstance?.isActive }" >
+				<div class="property">
+					<h2 class="property-header">Share your poll!</h2>
+					<p class="property-value">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
+					<g:link controller="poll" action="addOpinion" id="${ pollInstance.id }">Participate</g:link>	
+				</div>
+				</g:if>	
+				
 			</section>					
 
 			<section class="l-six m-six s-twelve cols propertyDetailsSection">
@@ -94,12 +103,14 @@
 					</li>
 					</g:if>			
 				</ol>
-				<g:form url="[resource:pollInstance, action:'delete']" method="DELETE">
-					<fieldset class="buttons">
-						<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-						<a href="#" id="clearDetails">clearRightSection</a>
-					</fieldset>
-				</g:form>
+					<g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+							<input type="hidden" value="${ !pollInstance.isActive }" name="isActive" />
+							<g:submitButton name="update" value="${ pollInstance.isActive ? 'Deactivate' : 'Publish!' }"/>
+					</g:form>
+					<g:form url="[resource:pollInstance, action:'delete']" method="DELETE">
+							<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+							<a href="#" id="clearDetails">clearRightSection</a>
+					</g:form>
 			</section>
 		</div>
 	</body>

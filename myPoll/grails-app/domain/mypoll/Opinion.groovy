@@ -2,10 +2,12 @@ package mypoll
 
 class Opinion {
 	
-	String testObjectURL
+	String testObjectUrl
 	
 	static belongsTo = [poll: Poll]
 	static hasMany = [selections: Selection]
+	
+	List selections
 
     static constraints = {
     }

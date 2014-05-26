@@ -43,11 +43,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${opinionInstance?.testObjectURL}">
+				<g:if test="${opinionInstance?.testObjectUrl}">
 				<li class="fieldcontain">
 					<span id="testObjectURL-label" class="property-label"><g:message code="opinion.testObjectURL.label" default="Test Object URL" /></span>
 					
-						<span class="property-value" aria-labelledby="testObjectURL-label"><g:fieldValue bean="${opinionInstance}" field="testObjectURL"/></span>
+						<span class="property-value" aria-labelledby="testObjectURL-label"><g:fieldValue bean="${opinionInstance}" field="testObjectUrl"/></span>
 					
 				</li>
 				</g:if>
