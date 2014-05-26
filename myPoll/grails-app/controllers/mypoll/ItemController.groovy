@@ -75,6 +75,8 @@ class ItemController {
 
     @Transactional
     def delete(Item itemInstance) {
+		PollSection pollSectionInstance = PollSection.get(params.pollSectionId)
+		Poll pollInstance = pollSectionInstance.poll
 
         if (itemInstance == null) {
             notFound()
@@ -86,7 +88,7 @@ class ItemController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Item.label', default: 'Item'), itemInstance.id])
-                redirect action:"index", method:"GET"
+                redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
             }
             '*'{ render status: NO_CONTENT }
         }

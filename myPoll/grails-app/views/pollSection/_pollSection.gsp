@@ -83,8 +83,12 @@
            				<tr class="draggableItem pollSectionItem" draggable="true">
            					<td>${ itemInstance?.question }</td>
            					<td><input type="hidden" class="itemIdInput" 
-           						name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance.id }" /></td>
-           					<td><a href="#">Delete</a></td>
+           						name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance?.id }" /></td>
+           					<td>
+           						<g:form controller="item" action="delete" id="${ itemInstance.id }" params="[pollSectionId: pollSection.id]" method="DELETE">
+           							<g:submitButton name="delete" value="Delete"/>
+           						</g:form>
+           					</td>
            				</tr>
            			</g:each>
             		</tbody>
