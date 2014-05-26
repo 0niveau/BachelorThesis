@@ -80,7 +80,7 @@
             		</thead>
             		<tbody class="draggableItemList pollSectionItemList" data-listedElements="items">
            			<g:each in="${ pollSection?.items }" status="i" var="itemInstance">
-           				<tr class="draggableItem pollSectionItem" draggable="true">
+           				<tr class="draggableItem pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" draggable="true">
            					<td>${ itemInstance?.question }</td>
            					<td><input type="hidden" class="itemIdInput" 
            						name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance?.id }" /></td>

@@ -44,7 +44,7 @@
 					<h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>							
 					<ul id="pollSectionList">
 						<g:each in="${ pollInstance?.sections }" status="i" var="s" >
-						<li class="property-value selectable pollSection ${ s.id == targetId ? 'selected' : '' } ${(i % 2) == 0 ? 'even' : 'odd'}" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</li>
+						<li class="property-value selectable pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</li>
 						</g:each>
 					</ul>			
 				</div>
@@ -96,7 +96,6 @@
 				</ol>
 				<g:form url="[resource:pollInstance, action:'delete']" method="DELETE">
 					<fieldset class="buttons">
-						<g:link class="edit" action="edit" resource="${pollInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 						<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 						<a href="#" id="clearDetails">clearRightSection</a>
 					</fieldset>
