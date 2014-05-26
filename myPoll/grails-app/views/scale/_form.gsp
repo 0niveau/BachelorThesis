@@ -3,16 +3,13 @@
 
 
 <div class="fieldcontain ${hasErrors(bean: scaleInstance, field: 'name', 'error')} required">
-	<label for="name">
-		<g:message code="Scale.name.label" default="Name" />
-		<span class="required-indicator">*</span>
-	</label>
+	<h2 class="property-header"><g:message code="Scale.name.label" default="Name" /></h2>
 	<g:textField name="name" required="" value="${scaleInstance?.name}"/>
 
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: scaleInstance, field: 'options', 'error')} ">
-	<h2>Define the options!</h2>
+	<h2 class="property-header">Define the options!</h2>
 	<ol id="scaleOptionList" class="${ !scaleInstance?.options ? 'hidden' : '' }">		
 		<g:each in="${ scaleInstance?.options }" status="i" var="option">
 		<li>

@@ -36,6 +36,16 @@ ol {
     margin: 0;
 }
 
+input[type="text"] {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+textarea {
+	width: 100%;
+	box-sizing: border-box;
+}
+
 .main {
 	background: white;
 }
