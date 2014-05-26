@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-        <tr class="selectable ${(i % 2) == 0 ? 'even' : 'odd'}" data-selectionRef="options${scale.id}">
+        <tr class="${(i % 2) == 0 ? 'even' : 'odd'}" >
             <td><input type="radio" name="scale" value="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/></td>
             <td>${ scale.name }</td>
             <td>

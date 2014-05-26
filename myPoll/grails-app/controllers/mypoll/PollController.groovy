@@ -93,10 +93,6 @@ class PollController {
         }
     }
 
-    def edit(Poll pollInstance) {
-        respond pollInstance
-    }
-
     @Transactional
     def update(Poll pollInstance) {
         if (pollInstance == null) {

@@ -54,10 +54,6 @@ class QuestionController {
         }
     }
 
-    def edit(Question questionInstance) {
-        respond questionInstance
-    }
-
     @Transactional
     def update(Question questionInstance) {
         if (questionInstance == null) {

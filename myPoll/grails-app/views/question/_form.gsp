@@ -16,7 +16,6 @@
              ${ scale.name }
          </label>
      </div>
-    </tr>
     </g:each>
 </div>
 

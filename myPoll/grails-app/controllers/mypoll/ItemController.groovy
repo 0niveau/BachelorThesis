@@ -46,10 +46,6 @@ class ItemController {
         }
     }
 
-    def edit(Item itemInstance) {
-        respond itemInstance
-    }
-
     @Transactional
     def update(Item itemInstance) {
         if (itemInstance == null) {
@@ -82,7 +78,8 @@ class ItemController {
             notFound()
             return
         }
-
+		pollSectionInstance.items.remove(itemInstance)
+		pollSectionInstance.save flush:true
         itemInstance.delete flush:true
 
         request.withFormat {
