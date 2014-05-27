@@ -22,14 +22,19 @@ class PollCreateCommand {
 	}
 	
 	Poll createPoll() {
-		def poll = new Poll(
+		def pollInstance = new Poll(
 			name: name,
 			description: description,
 			isActive: false,
 			testObjectUrlA: testObjectUrlA,
 			testObjectUrlB: testObjectUrlB		
-		) 
+		)
+        return pollInstance
 	}
+}
+
+class saveSubjectSelectionsCommand {
+    Map<Item, Option> selections
 }
 
 @Transactional(readOnly = true)
@@ -143,6 +148,16 @@ class PollController {
 		
 		model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance]
 	}
+
+    def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {
+        Opinion opinionInstance = Opinion.get(params.id)
+        opinionInstance.selections.putAll(cmd.selections)
+
+        opinionInstance.save flush:true
+
+        redirect action: 'indexSubject', id: opinionInstance.id
+
+    }
 
     @Transactional
     def delete(Poll pollInstance) {
