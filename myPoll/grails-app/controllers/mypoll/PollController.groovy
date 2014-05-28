@@ -52,7 +52,15 @@ class PollController {
 	 */
 	def indexSubject(Opinion opinionInstance) {
 		Poll pollInstance = opinionInstance.poll
-		model: [pollInstance: pollInstance, opinionInstance: opinionInstance]		
+        Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
+        for (pollSectionInstance in pollInstance.sections) {
+            Integer count = 0
+            for (itemInstance in pollSectionInstance.items) {
+                if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
+            }
+            answeredItemsPerSection.put(pollSectionInstance, count)
+        }
+		model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection]
 	}
 
     def show(Poll pollInstance) {

@@ -12,7 +12,13 @@
 	<p>${ itemInstance?.question }</p>
 	<ul>
 		<g:each in="${ itemInstance?.options }" status="z" var="optionInstance">
-		<li><label><input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ optionInstance?.id }" />${ optionInstance?.value }</label></li>
+		<li>
+            <label>
+                <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ optionInstance?.id }"
+                    ${ opinionInstance?.selections?.get(itemInstance?.id as String) == optionInstance ? "checked='checked" : '' }/>
+                ${ optionInstance?.value }
+            </label>
+        </li>
 		</g:each>
 	</ul>
 	</g:each>
