@@ -5,3 +5,8 @@
 .sliderElement.displayed {
 	display: block;
 }
+
+.sliderNavigation {
+    height: 100%;
+    text-align: center;
+}

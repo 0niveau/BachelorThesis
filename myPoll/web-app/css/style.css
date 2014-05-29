@@ -1,13 +1,35 @@
-h1, h2, h3 {
+h1, h2, h3, h4 {
+    font-family: cambria, georgia, times, serif;
 	margin-bottom: 0;
 }
 
+h1 {
+    font-size: 1.8em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
 h3 {
-	font-size: 0.8rem;
+	font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1em;
 }
 
 html {
-	background: dimgrey;
+	background: #C7C7C7;
+    font-family: helveticaneue-light, sans-serif;
+}
+
+body {
+    background: #F0F0F0;
+}
+
+body.darkgrey {
+    background: #C7C7C7;
 }
 
 header.row {
@@ -36,6 +58,19 @@ ol {
     margin: 0;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nomargin.bottom {
+    margin-bottom: 0;
+}
+
+.nomargin.top {
+    margin-top: 0;
+}
+
 input[type="text"] {
 	width: 100%;
 	box-sizing: border-box;
@@ -48,10 +83,10 @@ textarea {
 
 iframe {
 	border: none;
-	height: 75vh;
+	height: 100vh;
 }
 
-iframe.col {
+iframe.cols {
 	padding: 0;
 }
 
@@ -88,6 +123,33 @@ iframe.col {
 	display: none;
 }
 
+.lightgrey {
+    background: #F0F0F0;
+}
+
+.hint {
+    color: #FF712B;
+}
+
+.status {
+    color: #43B6BB;
+}
+
+.blueText {
+    color: #43B6BB;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.highlight {
+    background: #FFD999;
+}
+
+.box {
+    padding: 0.5em;
+}
 /*
  * Styling for Curriculum	
  */
@@ -116,6 +178,7 @@ iframe.col {
 }
 
 @media only screen and (min-width: 1025px) {
+
 	.main, header, nav {
 	box-shadow: 
 		-1px -1px 5px rgba(0, 0, 0, 0.5),
@@ -142,6 +205,11 @@ iframe.col {
 }
 
 @media only screen and (min-width: 768px) {
+
+    .l-border-left-solidGrey {
+        border-left: solid 0.2em #c7c7c7
+    }
+
 	.main {
 		padding: 1rem;
 	}
