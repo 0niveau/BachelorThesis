@@ -46,6 +46,15 @@ textarea {
 	box-sizing: border-box;
 }
 
+iframe {
+	border: none;
+	height: 75vh;
+}
+
+iframe.col {
+	padding: 0;
+}
+
 .main {
 	background: white;
 }

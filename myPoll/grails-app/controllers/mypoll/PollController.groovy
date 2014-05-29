@@ -154,7 +154,9 @@ class PollController {
 		PollSection pollSectionInstance = PollSection.get(params.sectionId)
 		Opinion opinionInstance = Opinion.get(params.opinionId)
 		
-		model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance]
+		Boolean needsTestObject = pollSectionInstance.needsTestObject
+		
+		model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject]
 	}
 
     def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {

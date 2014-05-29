@@ -1,0 +1,7 @@
+.sliderElement {
+	display: none;
+}
+
+.sliderElement.displayed {
+	display: block;
+}
