@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener("load", function() {
 	var draggableItems = document.querySelectorAll('.draggableItem')
 	, beingDragged
 	, beingHovered
@@ -111,4 +111,4 @@ window.onload = function() {
 			loopCount += 1;
 		});
 	}
-}
+}, false);

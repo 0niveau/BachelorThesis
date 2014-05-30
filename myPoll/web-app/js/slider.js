@@ -7,10 +7,6 @@ window.onload = function() {
 	,  displayedElement;
 	
 	slider = document.querySelector('.slider');
-	[].forEach.call(slider.getElementsByClassName('sliderElement'), function(sliderElement) {
-		sliderElements[elementCount] = sliderElement;
-		elementCount += 1
-	})
 	elementCount = sliderElements.length;
 	back = document.querySelector('#prev');
 	forth = document.querySelector('#next');
@@ -20,6 +16,10 @@ window.onload = function() {
 	if (slider !== null ) initializeSlider();
 	
 	function initializeSlider () {
+        [].forEach.call(slider.getElementsByClassName('sliderElement'), function(sliderElement) {
+            sliderElements[elementCount] = sliderElement;
+            elementCount += 1
+        });
 		displayedElement = sliderElements[0];
 		displayedElement.classList.add('displayed');
 		back.classList.add('disabled');

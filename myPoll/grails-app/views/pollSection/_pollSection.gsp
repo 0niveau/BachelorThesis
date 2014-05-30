@@ -2,10 +2,12 @@
 	required: pollSection
 	optional: targetId, selectableQuestions, mode
 --%>
-<div id="${'section' + pollSection.id }" class="propertyDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' }" >
-	<h2 class="property-header">${ pollSection?.name }</h2>
+<div id="${'section' + pollSection.id }" class="propertyDetails ${ pollSection.id } ${ pollSection.id == targetId ? 'selected' : '' } row" >
+	<div class="col">
+        <h2 class="property-header">${ pollSection?.name }</h2>
+	</div>
 
-    <div class="propertyDetail">
+    <div class="propertyDetail col">
         <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
         <g:if test="${ mode == 'sectionDescription' }">
             <g:form url="[resource: pollSection, action: 'update']" method="PUT">
@@ -24,7 +26,7 @@
         </g:else>
     </div>
 
-    <div class="propertyDetail">
+    <div class="propertyDetail col">
         <h3 class="propertyDetail-header"><g:message code="pollSection.testObject.required" default="Testobject required" /></h3>
         <g:if test="${ pollSection?.needsTestObject }">
         <p>This section needs a test object</p>
@@ -38,7 +40,7 @@
         </g:form>
     </div>
 
-    <div class="propertyDetail">
+    <div class="propertyDetail col">
         <g:if test="${ (mode == 'sectionAddItems') && (pollSection.id == targetId) }">
             <h3 class="propertyDetail-header"><g:message code="question.selectable" default="Selectable Questions" /></h3>
             <table>

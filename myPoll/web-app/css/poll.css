@@ -8,23 +8,21 @@
 }
 
 .property-header {
-	background-color: LimeGreen;
+	color: #43B6BB;
 	
 }
 
 .property {
-	background-color: LightGrey;
+    border-top: dotted 0.1em transparent;
+    border-bottom: dotted 0.1em transparent;
 }
 
 .property p {
-	line-height: 2rem;
-	padding: 0 10px;
+
 }
 
 .pollSection {
-	height: 2rem;
-	line-height: 2rem;
-	padding: 0 10px;
+
 }
 
 .pollSection.even {
@@ -35,12 +33,27 @@
 	
 }
 
+.containsSelection {
+    border-top: dotted 0.1em #43B6BB;
+    border-bottom: dotted 0.1em #43B6BB;
+}
+
+.selectable:hover {
+    cursor: pointer;
+    background: #C7C7C7;
+}
+
 .selectable.selected {
-	background-color: LightGreen;
+	color: #43B6BB;
+}
+
+.selectable.selected:hover {
+    background: none;
 }
 
 .propertyDetails {
 	display: none;
+    padding-bottom: 1em;
 }
 
 .propertyDetails.selected {
@@ -57,4 +70,8 @@
 
 .pollSectionItem td {
 	padding: 5px;
+}
+
+.propertyDetailsSection {
+
 }

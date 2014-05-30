@@ -16,6 +16,7 @@ function clickHandler(e) {
 	
 	currentSelection = this;
 	currentSelection.classList.add('selected');
+    if (currentSelection.classList.contains('propagateSelection')) currentSelection.parentElement.classList.add('containsSelection');
 	
 	selectionRef = currentSelection.getAttribute('data-selectionRef');
 	
@@ -27,5 +28,6 @@ function resetDetailsSelection () {
 	currentSelection = document.querySelectorAll('.selected');
 	[].forEach.call(currentSelection, function(selected) {
 		selected.classList.remove('selected');
+        selected.parentElement.classList.remove('containsSelection');
 	});
 }

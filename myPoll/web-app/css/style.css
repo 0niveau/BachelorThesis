@@ -61,6 +61,11 @@ ol {
 ul {
     list-style-type: none;
     padding: 0;
+    margin-bottom: 0;
+}
+
+p {
+    margin-bottom: 0;
 }
 
 .nomargin.bottom {
@@ -139,6 +144,10 @@ iframe.cols {
     color: #43B6BB;
 }
 
+.greyText {
+    color: #F0F0F0;
+}
+
 .bold {
     font-weight: bold;
 }
@@ -147,8 +156,16 @@ iframe.cols {
     background: #FFD999;
 }
 
+.dim {
+    background: #43B6BB;
+}
+
 .box {
     padding: 0.5em;
+}
+
+.bigbox {
+    padding: 1em;
 }
 /*
  * Styling for Curriculum	
@@ -176,6 +193,15 @@ iframe.cols {
     display: inline-block;
     width: 100%;
 }
+
+.border-left-blueDotted {
+    border-left: dotted 0.1em #43B6BB;
+}
+
+.border-bottom-blueDotted {
+    border-bottom: dotted 0.1em #43B6BB;
+}
+
 
 @media only screen and (min-width: 1025px) {
 
