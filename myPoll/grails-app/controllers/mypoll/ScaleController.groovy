@@ -22,6 +22,16 @@ class ScaleCreateCommand {
 	}
 }
 
+class ScaleUpdateCommand {
+    String name
+    List options = []
+
+    static constraints = {
+        name blank: false
+        options minSize: 2
+    }
+}
+
 @Transactional(readOnly = true)
 class ScaleController {
 	
@@ -72,9 +82,22 @@ class ScaleController {
 			'*' { respond scaleInstance, [status: CREATED] }
 		}			
 	}
+
+    def edit(Scale scaleInstance) {
+        respond scaleInstance
+
+    }
 	
 	@Transactional
-	def update(Scale scaleInstance) {
+	def update(ScaleUpdateCommand cmd) {
+        Scale scaleInstance = Scale.get(params.id)
+
+        scaleInstance.name = cmd.name
+        List<Option> currentOptions = scaleInstance.options
+        List<Option> newOptions = createOptionsFromValues(cmd.options)
+
+        scaleInstance.options = newOptions
+
 		if (scaleInstance == null) {
 			notFound()
 			return
@@ -84,7 +107,13 @@ class ScaleController {
 			respond scaleInstance.errors, view: 'edit'
 			return
 		}
-		
+
+        /*
+        for (optionInstance in currentOptions) {
+            optionInstance.delete flush:true
+        }
+        */
+
 		scaleInstance.save flush:true
 		
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'Scale.label', default: 'Scale'), scaleInstance.id])
@@ -101,4 +130,17 @@ class ScaleController {
 			'*'{ render status: NOT_FOUND }
 		}
 	}
+
+    def createOptionsFromValues (List<String> values) {
+        List<Option> options = []
+        for (value in values) {
+            Option optionInstance = new Option(value: value)
+            if (optionInstance.hasErrors()) {
+                return
+            }
+            optionInstance.save flush:true
+            options.add(optionInstance)
+        }
+        return options
+    }
 }

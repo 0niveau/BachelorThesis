@@ -148,6 +148,13 @@ class PollController {
 		
 		redirect action: 'indexSubject', id: opinionInstance.id
 	}
+
+    def opinionList(Poll pollInstance) {
+        def opinions = pollInstance.opinions
+        def items = pollInstance.sections.collect{ it.items }.flatten()
+
+        model: [pollInstance: pollInstance, opinions: opinions]
+    }
 	
 	def answerSectionItems() {
 		Poll pollInstance = Poll.get(params.pollId)

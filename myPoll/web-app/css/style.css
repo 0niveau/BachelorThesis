@@ -26,10 +26,16 @@ html {
 
 body {
     background: #F0F0F0;
+    box-shadow: 2px 2px 10px grey;
+
 }
 
 body.darkgrey {
     background: #C7C7C7;
+}
+
+body.page.full {
+    box-shadow: none;
 }
 
 header.row {
@@ -52,6 +58,14 @@ aside {
 table {
 	border-collapse: collapse;
 	width: 100%;
+}
+
+th {
+    text-align: left;
+}
+
+table.sectionResults th {
+    width: 400px;
 }
 
 ol {
@@ -105,7 +119,7 @@ iframe.cols {
 	margin-bottom: 0;
 	padding: 0;
 	overflow: auto;
-	background-color: rgb(204, 204, 204);
+	background-color: #C7C7C7;
 }
 
 .navigation__links {
@@ -121,7 +135,8 @@ iframe.cols {
 }
 
 .navigation__links a:hover {
-	background-color: rgb(222, 222, 222); 
+	background-color: #F0F0F0;
+    color: #43B6BB;
 }
 
 .navigation__trigger {
@@ -204,18 +219,6 @@ iframe.cols {
 
 
 @media only screen and (min-width: 1025px) {
-
-	.main, header, nav {
-	box-shadow: 
-		-1px -1px 5px rgba(0, 0, 0, 0.5),
-		3px 3px 5px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow:
-		-1px -1px 5px rgba(0, 0, 0, 0.5),
-		3px 3px 5px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow:
-		-1px -1px 5px rgba(0, 0, 0, 0.5),
-		3px 3px 5px rgba(0, 0, 0, 0.5);
-	}
 
 	footer {
 		box-shadow: 

@@ -19,8 +19,8 @@
 			</ul>
 		</nav>
 
-        <section class="row dim">
-            <div class="col greyText">
+        <section class="row dim greyText">
+            <div class="col">
                 <h1>${ pollInstance?.name }</h1>
                 <g:if test="${ pollInstance?.isActive }"><g:message code="poll.status.isActive" default="(active)" /></g:if>
             </div>
@@ -68,7 +68,10 @@
                     <div class="property col">
                         <h2 class="property-header">Share your poll!</h2>
                         <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
-                        <p class="box"><g:link controller="poll" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></p>
+                        <p class="box">
+                            <span><g:link controller="poll" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></span>
+                            <span><g:link controller="poll" action="opinionList" id="${ pollInstance.id }">Show Opinions</g:link></span>
+                        </p>
                     </div>
                 </div>
 				</g:if>	
@@ -107,16 +110,6 @@
 
         <section class="row dim">
             <div class="col">
-                <ol class="property-list poll">
-                    <g:if test="${pollInstance?.opinions}">
-                    <li class="fieldcontain">
-                        <span id="opinions-label" class="property-label"><g:message code="poll.opinions.label" default="Opinions" /></span>
-                        <g:each in="${pollInstance.opinions}" var="o">
-                        <span class="property-value" aria-labelledby="opinions-label"><g:link controller="opinion" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></span>
-                        </g:each>
-                    </li>
-                    </g:if>
-                </ol>
                 <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
                         <input type="hidden" value="${ !pollInstance.isActive }" name="isActive" />
                         <g:submitButton name="update" value="${ pollInstance.isActive ? 'Deactivate' : 'Publish!' }"/>
