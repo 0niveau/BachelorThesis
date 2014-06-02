@@ -27,7 +27,7 @@
             <p class="status">${answeredItemsPerSection.get(pollSectionInstance)} of ${ pollSectionInstance?.items?.size()} items have already been answered</p>
             <p>${ pollSectionInstance?.description }</p>
             <g:if test="${!opinionInstance.submitted}">
-            <p>
+            <p class="margin-bottom">
                 <g:link controller="opinion" action="answerSectionItems"
                         params="[pollId: pollInstance.id, opinionId: opinionInstance.id, sectionId: pollSectionInstance.id]">To the Questions</g:link>
             </p>

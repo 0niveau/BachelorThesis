@@ -69,7 +69,12 @@ class PollSectionController {
 		PollSection pollSectionInstance = PollSection.get(params.id)
 		Poll pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) return
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+
+        if (pollInstance.hasErrors()) {
+            resond pollInstance.errors, view: 'poll/show'
+            return
+        }
 		
 		// retrieve question that have been added so far
 		def idsOfAddedQuestions = []
@@ -90,7 +95,12 @@ class PollSectionController {
 		def pollSectionInstance = PollSection.get(params.id)
 		def pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) return
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+
+        if (pollInstance.hasErrors()) {
+            resond pollInstance.errors, view: 'poll/show'
+            return
+        }
 
         // retrieve the ids of the questions, that have already been added as items
         def idsOfAddedQuestions = []
@@ -120,7 +130,12 @@ class PollSectionController {
     def update(PollSection pollSectionInstance) {
         Poll pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) return
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+
+        if (pollInstance.hasErrors()) {
+            resond pollInstance.errors, view: 'poll/show'
+            return
+        }
 
         if (pollSectionInstance == null) {
             notFound()
@@ -143,7 +158,12 @@ class PollSectionController {
     def delete(PollSection pollSectionInstance) {
         Poll pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) return
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+
+        if (pollInstance.hasErrors()) {
+            resond pollInstance.errors, view: 'poll/show'
+            return
+        }
 
         if (pollSectionInstance == null) {
             notFound()

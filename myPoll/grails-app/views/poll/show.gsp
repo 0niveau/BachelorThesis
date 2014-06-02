@@ -32,13 +32,23 @@
         </section>
         </g:if>
 
+        <g:hasErrors bean="${pollInstance}">
+        <section class="row">
+            <div class="col">
+                <g:eachError bean="${pollInstance}" var="error">
+                    <p class="hint"><g:message error="${error}"/></p>
+                </g:eachError>
+            </div>
+        </section>
+        </g:hasErrors>
+
         <div class="row">
 			<section class="properties l-six m-six s-twelve cols">
 				<g:if test="${ pollInstance?.description }" >
 				<div class="row">
                     <div class="property col">
                         <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                        <p class="property-value box nomargin top ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="description">${ pollInstance?.description }</p>
+                        <p class="property-value box ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="description">${ pollInstance?.description }</p>
 				    </div>
                 </div>
 				</g:if>
@@ -58,7 +68,7 @@
                 <div class="row">
                     <div class="property col">
                         <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                        <p class="property-value box nomargin top ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                        <p class="property-value box ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
                     </div>
                 </div>
 				</g:if>
@@ -67,7 +77,7 @@
                 <div class="row">
                     <div class="property col">
                         <h2 class="property-header">Share your poll!</h2>
-                        <p class="property-value box nomargin top">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
+                        <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
                         <p class="box">
                             <span><g:link controller="opinion" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></span>
                         </p>
@@ -96,7 +106,7 @@
                     model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
                 </g:each>
 
-                <g:if test="${ !pollInstance.isActive }">
+
                 <div id="testObjects" class="propertyDetails row">
                     <div class="col">
                         <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
@@ -107,7 +117,7 @@
                         </g:form>
                     </div>
                 </div>
-                </g:if>
+
 			</section>
         </div>
 

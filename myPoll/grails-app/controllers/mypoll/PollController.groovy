@@ -101,7 +101,7 @@ class PollController {
     @Transactional
     def update(Poll pollInstance) {
 
-        if (pollInstance.isActive) return
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
 
         if (pollInstance == null) {
             notFound()
@@ -109,7 +109,7 @@ class PollController {
         }
 
         if (pollInstance.hasErrors()) {
-            respond pollInstance.errors, view:'edit'
+            respond pollInstance.errors, view:'show'
             return
         }
 

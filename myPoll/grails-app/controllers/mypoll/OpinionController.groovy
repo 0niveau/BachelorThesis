@@ -32,7 +32,7 @@ class OpinionController {
     }
 
     /*
-	 * creates a new Opinion and links it to the poll, then redirects to the poll's index page for subjects
+	 * creates a new Opinion and links it to the poll, then redirects to the index page for subjects
 	 */
     def addOpinion(Poll pollInstance) {
         if (!pollInstance.isActive) return
@@ -67,7 +67,13 @@ class OpinionController {
     def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {
         Opinion opinionInstance = Opinion.get(params.id)
 
-        if (opinionInstance.submitted) return
+        if (opinionInstance.submitted) opinionInstance.errors.reject('opinion.submitted.editFailure',
+                "Your opinion has already been submitted. Changing your answers is no longer possible")
+
+        if (opinionInstance.hasErrors()) {
+            respond opinionInstance.errors, view: 'error'
+            return
+        }
 
         opinionInstance.selections.putAll(cmd.selections)
 
