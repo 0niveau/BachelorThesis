@@ -40,28 +40,12 @@ class saveSubjectSelectionsCommand {
 @Transactional(readOnly = true)
 class PollController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT",toggleActivation: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Poll.list(params), model:[pollInstanceCount: Poll.count()]
     }
-	
-	/*
-	 * This renders the initial page a subject will see.
-	 */
-	def indexSubject(Opinion opinionInstance) {
-		Poll pollInstance = opinionInstance.poll
-        Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
-        for (pollSectionInstance in pollInstance.sections) {
-            Integer count = 0
-            for (itemInstance in pollSectionInstance.items) {
-                if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
-            }
-            answeredItemsPerSection.put(pollSectionInstance, count)
-        }
-		model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection]
-	}
 
     def show(Poll pollInstance) {
         def targetId = params.targetId as Long
@@ -116,6 +100,9 @@ class PollController {
 
     @Transactional
     def update(Poll pollInstance) {
+
+        if (pollInstance.isActive) return
+
         if (pollInstance == null) {
             notFound()
             return
@@ -136,48 +123,33 @@ class PollController {
             '*'{ respond pollInstance, [status: OK] }
         }
     }
-	
-	/*
-	 * creates a new Opinion and links it to the poll, then redirects to the poll's index page for subjects
-	 */
-	def addOpinion(Poll pollInstance) {
-				
-		String testObjectUrl = ( pollInstance.opinions.size() % 2 == 0 ? pollInstance.testObjectUrlA : pollInstance.testObjectUrlB )
-		Opinion opinionInstance = new Opinion(testObjectUrl: testObjectUrl, poll: pollInstance)
-		opinionInstance.save flush:true 
-		
-		redirect action: 'indexSubject', id: opinionInstance.id
-	}
 
-    def opinionList(Poll pollInstance) {
-        def opinions = pollInstance.opinions
-        def items = pollInstance.sections.collect{ it.items }.flatten()
+    @Transactional
+    def toggleActivation(Poll pollInstance) {
+        if (pollInstance == null) {
+            notFound()
+            return
+        }
 
-        model: [pollInstance: pollInstance, opinions: opinions]
-    }
-	
-	def answerSectionItems() {
-		Poll pollInstance = Poll.get(params.pollId)
-		PollSection pollSectionInstance = PollSection.get(params.sectionId)
-		Opinion opinionInstance = Opinion.get(params.opinionId)
-		
-		Boolean needsTestObject = pollSectionInstance.needsTestObject
-		
-		model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject]
-	}
+        if (pollInstance.hasErrors()) {
+            respond pollInstance.errors, view:'edit'
+            return
+        }
 
-    def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {
-        Opinion opinionInstance = Opinion.get(params.id)
-        opinionInstance.selections.putAll(cmd.selections)
+        pollInstance.save flush:true
 
-        opinionInstance.save flush:true
-
-        redirect action: 'indexSubject', id: opinionInstance.id
-
+        request.withFormat {
+            form multipartForm {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Poll.label', default: 'Poll'), pollInstance.id])
+                redirect pollInstance
+            }
+            '*'{ respond pollInstance, [status: OK] }
+        }
     }
 
     @Transactional
     def delete(Poll pollInstance) {
+
 
         if (pollInstance == null) {
             notFound()

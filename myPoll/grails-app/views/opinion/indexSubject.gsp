@@ -26,12 +26,23 @@
             <h3>${ pollSectionInstance?.name }</h3>
             <p class="status">${answeredItemsPerSection.get(pollSectionInstance)} of ${ pollSectionInstance?.items?.size()} items have already been answered</p>
             <p>${ pollSectionInstance?.description }</p>
+            <g:if test="${!opinionInstance.submitted}">
             <p>
-                <g:link controller="poll" action="answerSectionItems"
+                <g:link controller="opinion" action="answerSectionItems"
                         params="[pollId: pollInstance.id, opinionId: opinionInstance.id, sectionId: pollSectionInstance.id]">To the Questions</g:link>
             </p>
+            </g:if>
         </div>
     </g:each>
     </div>
+    <g:if test="${!opinionInstance.submitted}">
+    <div class="row">
+        <div class="col">
+            <g:form url="[resource: opinionInstance, action: 'submitOpinion']">
+                <g:submitButton name="submit" value="Submit"></g:submitButton>
+            </g:form>
+        </div>
+    </div>
+    </g:if>
 </body>
 </html>

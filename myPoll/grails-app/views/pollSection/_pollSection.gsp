@@ -9,7 +9,7 @@
 
     <div class="propertyDetail col">
         <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
-        <g:if test="${ mode == 'sectionDescription' }">
+        <g:if test="${ mode == 'sectionDescription' && !pollSection.poll.isActive }">
             <g:form url="[resource: pollSection, action: 'update']" method="PUT">
             	<textarea name="description">${ pollSection?.description }</textarea>
                 <g:submitButton name="save" value="${message(code: 'pollSection.property.update', default: 'Save')}" />
@@ -22,7 +22,9 @@
             <g:else>
                 <p>No description entered so far!</p>
             </g:else>
+            <g:if test="${ !pollSection.poll.isActive }">
             <g:link controller="pollSection" action="edit" id="${ pollSection.id }" params="[toBeEdited: 'sectionDescription']">Edit description</g:link>
+            </g:if>
         </g:else>
     </div>
 
@@ -34,14 +36,16 @@
         <g:else>
         <p>This section does not need a test object</p>
         </g:else>
+        <g:if test="${ !pollSection.poll.isActive }">
         <g:form url="[resource: pollSection, action: 'update']" method="PUT">
             <input type="hidden" name="needsTestObject" value="${ !pollSection.needsTestObject}" />
             <g:submitButton name="save" value="${ message(code: 'pollSection.needsTestObject.toggle', default: 'Toggle') }" />
         </g:form>
+        </g:if>
     </div>
 
     <div class="propertyDetail col">
-        <g:if test="${ (mode == 'sectionAddItems') && (pollSection.id == targetId) }">
+        <g:if test="${ (mode == 'sectionAddItems') && (pollSection.id == targetId) && !pollSection.poll.isActive}">
             <h3 class="propertyDetail-header"><g:message code="question.selectable" default="Selectable Questions" /></h3>
             <table>
                 <thead>
@@ -81,7 +85,7 @@
             		</thead>
             		<tbody class="draggableItemList pollSectionItemList" data-listedElements="items">
            			<g:each in="${ pollSection?.items }" status="i" var="itemInstance">
-           				<tr class="draggableItem pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" draggable="true">
+           				<tr class="draggableItem pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" ${ pollSection.poll.isActive ? '' : "draggable='true'" } >
            					<td>${ itemInstance?.question }</td>
            					<td><input type="hidden" class="itemIdInput" 
            						name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance?.id }" /></td>
@@ -89,14 +93,18 @@
            			</g:each>
             		</tbody>
             	</table>
+                <g:if test="${!pollSection?.poll?.isActive}">
                 <g:form controller="pollSection" action="update" id="${pollSection.id}" method="PUT" name="reorderItemsForm${ pollSection?.name }">
                     <button type="submit">Reihenfolge Speichern</button>
                 </g:form>
+                </g:if>
             </g:if>
             <g:else>
                 <p>No items have been added so far!</p>
             </g:else>
+            <g:if test="${!pollSection?.poll?.isActive}">
             <g:link controller="pollSection" action="addableItems" id="${ pollSection.id }" params="[addToSection: 'addToSection']">Item hinzufügen</g:link>
+            </g:if>
         </g:else>
     </div>
 </div>

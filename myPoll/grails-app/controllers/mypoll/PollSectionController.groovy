@@ -68,6 +68,8 @@ class PollSectionController {
 	def addableItems() {
 		PollSection pollSectionInstance = PollSection.get(params.id)
 		Poll pollInstance = pollSectionInstance.poll
+
+        if (pollInstance.isActive) return
 		
 		// retrieve question that have been added so far
 		def idsOfAddedQuestions = []
@@ -87,6 +89,8 @@ class PollSectionController {
 	def addItems(PollSectionAddItemsCommand cmd) {
 		def pollSectionInstance = PollSection.get(params.id)
 		def pollInstance = pollSectionInstance.poll
+
+        if (pollInstance.isActive) return
 
         // retrieve the ids of the questions, that have already been added as items
         def idsOfAddedQuestions = []
@@ -114,6 +118,10 @@ class PollSectionController {
 
     @Transactional
     def update(PollSection pollSectionInstance) {
+        Poll pollInstance = pollSectionInstance.poll
+
+        if (pollInstance.isActive) return
+
         if (pollSectionInstance == null) {
             notFound()
             return
@@ -125,7 +133,6 @@ class PollSectionController {
         }
 
         pollSectionInstance.save flush:true
-        Poll pollInstance = pollSectionInstance.poll
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
 
@@ -134,6 +141,9 @@ class PollSectionController {
 
     @Transactional
     def delete(PollSection pollSectionInstance) {
+        Poll pollInstance = pollSectionInstance.poll
+
+        if (pollInstance.isActive) return
 
         if (pollSectionInstance == null) {
             notFound()

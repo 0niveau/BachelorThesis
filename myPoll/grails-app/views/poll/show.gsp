@@ -38,7 +38,7 @@
 				<div class="row">
                     <div class="property col">
                         <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                        <p class="property-value selectable propagateSelection box nomargin top" data-selectionRef="description">${ pollInstance?.description }</p>
+                        <p class="property-value box nomargin top ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="description">${ pollInstance?.description }</p>
 				    </div>
                 </div>
 				</g:if>
@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="property col">
                         <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                        <p class="property-value selectable propagateSelection box nomargin top" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                        <p class="property-value box nomargin top ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
                     </div>
                 </div>
 				</g:if>
@@ -67,10 +67,9 @@
                 <div class="row">
                     <div class="property col">
                         <h2 class="property-header">Share your poll!</h2>
-                        <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
+                        <p class="property-value box nomargin top">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
                         <p class="box">
-                            <span><g:link controller="poll" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></span>
-                            <span><g:link controller="poll" action="opinionList" id="${ pollInstance.id }">Show Opinions</g:link></span>
+                            <span><g:link controller="opinion" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></span>
                         </p>
                     </div>
                 </div>
@@ -79,6 +78,7 @@
 			</section>					
 
 			<section class="l-six m-six s-twelve cols propertyDetailsSection">
+                <g:if test="${ !pollInstance.isActive }">
                 <div id="description" class="propertyDetails row">
                     <div class="col">
                         <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
@@ -88,6 +88,7 @@
                         </g:form>
                     </div>
                 </div>
+                </g:if>
 
                 <g:each in="${ pollInstance?.sections }" var="s" >
                 <g:render
@@ -95,6 +96,7 @@
                     model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
                 </g:each>
 
+                <g:if test="${ !pollInstance.isActive }">
                 <div id="testObjects" class="propertyDetails row">
                     <div class="col">
                         <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
@@ -105,12 +107,13 @@
                         </g:form>
                     </div>
                 </div>
+                </g:if>
 			</section>
         </div>
 
         <section class="row dim">
             <div class="col">
-                <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+                <g:form url="[resource: pollInstance, action: 'toggleActivation']" method="PUT">
                         <input type="hidden" value="${ !pollInstance.isActive }" name="isActive" />
                         <g:submitButton name="update" value="${ pollInstance.isActive ? 'Deactivate' : 'Publish!' }"/>
                 </g:form>
@@ -118,6 +121,7 @@
                         <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                         <a href="#" id="clearDetails">clearRightSection</a>
                 </g:form>
+                <g:link controller="opinion" action="opinionList" id="${ pollInstance.id }">Show Opinions</g:link>
             </div>
         </section>
 

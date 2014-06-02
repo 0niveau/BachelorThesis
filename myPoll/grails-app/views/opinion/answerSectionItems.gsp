@@ -51,7 +51,7 @@
                     <a href="#" id="next">next --></a>
                 </div>
                 <div class="l-four m-four s-four cols">
-                    <g:form name="saveSelectionsForm" controller="poll" action="saveSubjectSelections" id="${ opinionInstance?.id }">
+                    <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
                         <g:submitButton name="save" value="Save"></g:submitButton>
                     </g:form>
                 </div>

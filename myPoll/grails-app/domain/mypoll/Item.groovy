@@ -8,6 +8,8 @@ class Item {
 	static hasMany = [options: Option]
 	static belongsTo = [pollSection: PollSection]
 
+    List options
+
     static constraints = {
     }
 }

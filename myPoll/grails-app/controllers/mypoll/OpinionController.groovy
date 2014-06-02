@@ -15,97 +15,76 @@ class OpinionController {
         respond Opinion.list(params), model:[opinionInstanceCount: Opinion.count()]
     }
 
-    def show(Opinion opinionInstance) {
-        respond opinionInstance
+    /*
+	 * This renders the initial page a subject will see.
+	 */
+    def indexSubject(Opinion opinionInstance) {
+        Poll pollInstance = opinionInstance.poll
+        Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
+        for (pollSectionInstance in pollInstance.sections) {
+            Integer count = 0
+            for (itemInstance in pollSectionInstance.items) {
+                if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
+            }
+            answeredItemsPerSection.put(pollSectionInstance, count)
+        }
+        model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection]
     }
 
-	@Transactional
-    def create() {
-		Poll pollInstance = Poll.get(params.id)
-		
-		Opinion opinionInstance = new Opinion(poll: pollInstance)
-		(pollInstance.optinions().length() % 2 == 0) ? testObjectUrl = pollInstance.testObjectUrlA	: pollInstance.testObjectUrlB
-		
-		opinionInstance.testObjectUrl = testObjectUrl
-		
-		opinionInstance.save flush:true		
-		
-		request.withFormat {
-			form multipartForm {
-				flash.message = message(code: 'default.created.message', args: [message(code: 'opinionInstance.label', default: 'Opinion'), opinionInstance.id])
-				redirect opinionInstance
-			}
-			'*' { respond opinionInstance, [status: CREATED] }
-		}
+    /*
+	 * creates a new Opinion and links it to the poll, then redirects to the poll's index page for subjects
+	 */
+    def addOpinion(Poll pollInstance) {
+        if (!pollInstance.isActive) return
+
+        String testObjectUrl = ( pollInstance.opinions.size() % 2 == 0 ? pollInstance.testObjectUrlA : pollInstance.testObjectUrlB )
+        Opinion opinionInstance = new Opinion(testObjectUrl: testObjectUrl, poll: pollInstance)
+        opinionInstance.save flush:true
+
+        redirect action: 'indexSubject', id: opinionInstance.id
     }
 
-    @Transactional
-    def save(Opinion opinionInstance) {
-        if (opinionInstance == null) {
-            notFound()
-            return
-        }
+    def opinionList(Poll pollInstance) {
+        def opinions = pollInstance.opinions
+        def items = pollInstance.sections.collect{ it.items }.flatten()
 
-        if (opinionInstance.hasErrors()) {
-            respond opinionInstance.errors, view:'create'
-            return
-        }
+        model: [pollInstance: pollInstance, opinions: opinions]
+    }
+
+    def answerSectionItems() {
+        Opinion opinionInstance = Opinion.get(params.opinionId)
+
+        if (opinionInstance.submitted) return
+
+        Poll pollInstance = Poll.get(params.pollId)
+        PollSection pollSectionInstance = PollSection.get(params.sectionId)
+
+        Boolean needsTestObject = pollSectionInstance.needsTestObject
+
+        model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject]
+    }
+
+    def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {
+        Opinion opinionInstance = Opinion.get(params.id)
+
+        if (opinionInstance.submitted) return
+
+        opinionInstance.selections.putAll(cmd.selections)
 
         opinionInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'opinionInstance.label', default: 'Opinion'), opinionInstance.id])
-                redirect opinionInstance
-            }
-            '*' { respond opinionInstance, [status: CREATED] }
-        }
+        redirect action: 'indexSubject', id: opinionInstance.id
     }
 
-    def edit(Opinion opinionInstance) {
-        respond opinionInstance
-    }
-
-    @Transactional
-    def update(Opinion opinionInstance) {
-        if (opinionInstance == null) {
-            notFound()
-            return
-        }
-
-        if (opinionInstance.hasErrors()) {
-            respond opinionInstance.errors, view:'edit'
-            return
-        }
-
+    def submitOpinion(Opinion opinionInstance) {
+        opinionInstance.submitted = true
         opinionInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Opinion.label', default: 'Opinion'), opinionInstance.id])
-                redirect opinionInstance
-            }
-            '*'{ respond opinionInstance, [status: OK] }
-        }
+        redirect action: 'thanks'
     }
 
-    @Transactional
-    def delete(Opinion opinionInstance) {
+    def thanks() {
 
-        if (opinionInstance == null) {
-            notFound()
-            return
-        }
-
-        opinionInstance.delete flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Opinion.label', default: 'Opinion'), opinionInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
     }
 
     protected void notFound() {
