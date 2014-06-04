@@ -19,7 +19,7 @@
 			</ul>
 		</nav>
 
-        <section class="row dim greyText">
+        <section class="row dim shadow greyText">
             <div class="col">
                 <h1>${ pollInstance?.name }</h1>
                 <g:if test="${ pollInstance?.isActive }"><g:message code="poll.status.isActive" default="(active)" /></g:if>
@@ -42,39 +42,75 @@
         </section>
         </g:hasErrors>
 
-        <div class="row">
-			<section class="properties l-six m-six s-twelve cols">
-				<g:if test="${ pollInstance?.description }" >
-				<div class="row">
-                    <div class="property col">
-                        <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                        <p class="property-value box ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="description">${ pollInstance?.description }</p>
-				    </div>
-                </div>
-				</g:if>
-				
-				<g:if test="${ pollInstance?.sections }" >
                 <div class="row">
-                    <div class="property col ${ targetId != null ? 'containsSelection' : '' }">
+                    <g:if test="${ pollInstance?.description }" >
+                        <div class="l-six m-twelve s-twelve cols left flat lightgrey">
+                            <div class="property row">
+                                <g:if test="${ toBeEdited == 'pollDescription' }">
+                                    <div id="description" class="col">
+                                        <h2 class="property-header"><g:message code="poll.description.label" default="Enter a new Description" /></h2>
+                                        <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+                                            <textarea name="description">${ pollInstance?.description }</textarea>
+                                            <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
+                                        </g:form>
+                                    </div>
+                                </g:if>
+                                <g:else>
+                                    <div class="col">
+                                        <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
+                                        <p class="property-value">${ pollInstance?.description }</p>
+                                        <g:link controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'pollDescription']">Edit Description</g:link>
+                                    </div>
+                                </g:else>
+                            </div>
+                        </div>
+                    </g:if>
+
+                    <g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
+                        <div class="l-six m-twelve s-twelve cols right flat lightgrey">
+                            <div class="property row">
+                                <g:if test="${ toBeEdited == 'testObjects' }">
+                                    <div id="testObjects" class="col">
+                                        <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+                                        <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+                                            <div><label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com" /></label></div>
+                                            <div><label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com" /></label></div>
+                                            <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
+                                        </g:form>
+                                    </div>
+                                </g:if>
+                                <g:else>
+                                    <div class="col">
+                                        <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+                                        <p class="property-value">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                                        <g:link controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">Edit testObjects</g:link>
+                                    </div>
+                                </g:else>
+                            </div>
+                        </div>
+                    </g:if>
+                </div>
+
+                <g:if test="${ pollInstance?.sections }" >
+                <div class="property row lightgrey">
+                    <div class="l-six m-six s-twelve cols">
                         <h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>
                         <g:each in="${ pollInstance?.sections }" status="i" var="s" >
-                        <div class="property-value selectable propagateSelection box pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</div>
+                        <div class="property-value selectable box pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</div>
                         </g:each>
                     </div>
-                </div>
-				</g:if>
-				
-				<g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
-                <div class="row">
-                    <div class="property col">
-                        <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                        <p class="property-value box ${ pollInstance?.isActive ? '' : 'selectable propagateSelection'}" data-selectionRef="testObjects">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                    <div class="l-six m-six s-twelve cols">
+                    <g:each in="${ pollInstance?.sections }" var="s" >
+                        <g:render
+                                template="/pollSection/pollSection"
+                                model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
+                    </g:each>
                     </div>
                 </div>
-				</g:if>
-				
-				<g:if test="${ pollInstance?.isActive }" >
-                <div class="row">
+                </g:if>
+
+                <g:if test="${ pollInstance?.isActive }" >
+                <div class="row shadow">
                     <div class="property col">
                         <h2 class="property-header">Share your poll!</h2>
                         <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
@@ -83,45 +119,9 @@
                         </p>
                     </div>
                 </div>
-				</g:if>	
-				
-			</section>					
-
-			<section class="l-six m-six s-twelve cols propertyDetailsSection">
-                <g:if test="${ !pollInstance.isActive }">
-                <div id="description" class="propertyDetails row">
-                    <div class="col">
-                        <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                        <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
-                            <textarea name="description">${ pollInstance?.description }</textarea>
-                            <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
-                        </g:form>
-                    </div>
-                </div>
                 </g:if>
 
-                <g:each in="${ pollInstance?.sections }" var="s" >
-                <g:render
-                    template="/pollSection/pollSection"
-                    model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'mode': mode]"/>
-                </g:each>
-
-
-                <div id="testObjects" class="propertyDetails row">
-                    <div class="col">
-                        <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                        <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
-                            <label>TestObjectA<input type="text" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com" /></label>
-                            <label>TestObjectB<input type="text" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com" /></label>
-                            <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
-                        </g:form>
-                    </div>
-                </div>
-
-			</section>
-        </div>
-
-        <section class="row dim">
+        <section class="row dim shadow">
             <div class="col">
                 <g:form url="[resource: pollInstance, action: 'toggleActivation']" method="PUT">
                         <input type="hidden" value="${ !pollInstance.isActive }" name="isActive" />

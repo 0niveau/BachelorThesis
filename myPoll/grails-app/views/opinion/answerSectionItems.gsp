@@ -23,7 +23,6 @@
                 </div>
             </div>
 
-
             <div class="row">
 
                 <div class="slider highlight l-twelve m-twelve s-twelve cols">

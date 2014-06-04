@@ -9,7 +9,7 @@
 
     <div class="propertyDetail col">
         <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
-        <g:if test="${ mode == 'sectionDescription' && !pollSection.poll.isActive }">
+        <g:if test="${ toBeEdited == 'sectionDescription' && !pollSection.poll.isActive }">
             <g:form url="[resource: pollSection, action: 'update']" method="PUT">
             	<textarea name="description">${ pollSection?.description }</textarea>
                 <g:submitButton name="save" value="${message(code: 'pollSection.property.update', default: 'Save')}" />

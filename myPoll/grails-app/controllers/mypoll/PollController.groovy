@@ -98,6 +98,12 @@ class PollController {
         }
     }
 
+    def edit(Poll pollInstance) {
+        def toBeEdited = params.toBeEdited
+
+        render view: 'show', model:[pollInstance: pollInstance, toBeEdited: toBeEdited]
+    }
+
     @Transactional
     def update(Poll pollInstance) {
 

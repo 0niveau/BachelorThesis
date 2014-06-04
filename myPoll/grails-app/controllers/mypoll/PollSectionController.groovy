@@ -58,7 +58,7 @@ class PollSectionController {
         Poll pollInstance = pollSectionInstance.poll
         def toBeEdited = params.toBeEdited
 
-        render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, mode: toBeEdited]
+        render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, toBeEdited: toBeEdited]
 
     }
 	
