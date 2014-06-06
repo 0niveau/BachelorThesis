@@ -42,13 +42,10 @@ class PollSectionController {
 
         pollSectionInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'pollSectionInstance.label', default: 'PollSection'), pollSectionInstance.id])
-                redirect pollSectionInstance
-            }
-            '*' { respond pollSectionInstance, [status: CREATED] }
-        }
+        flash.message = message(code: 'default.created.message', args: [message(code: 'pollSectionInstance.label', default: 'PollSection'), pollSectionInstance.id])
+
+        redirect controller: 'poll', action: 'show', params: [id: pollSectionInstance.poll.id, targetId: pollSectionInstance.id]
+
     }
 
 	/*
