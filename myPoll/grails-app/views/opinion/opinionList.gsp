@@ -22,20 +22,25 @@
     <section class="row white shadow">
         <div class="col">
             <h2>${ sectionInstance.name }</h2>
-            <table class="sectionResults">
-                <tbody>
-                    <g:each in="${ sectionInstance.items }" status="s" var="itemInstance">
-                    <tr>
-                        <th class>
-                            ${ itemInstance?.question }
-                        </th>
-                        <g:each in="${ opinions }" var="opinionInstance">
-                        <td> ${ opinionInstance.selections.get( itemInstance.id as String).value }</td>
-                        </g:each>
-                    </tr>
-                    </g:each>
-                </tbody>
-            </table>
+            <g:each in="${ sectionInstance.items }" status="s" var="itemInstance">
+                <h3>${ itemInstance?.question }</h3>
+                <table class="itemResults">
+                    <tbody>
+                        <tr>
+                            <th class="thin">${ pollInstance.testObjectUrlA }</th>
+                            <g:each in="${ opinionsA }" var="opinionInstance">
+                            <td> ${ opinionInstance.selections.get( itemInstance.id as String).value }</td>
+                            </g:each>
+                        </tr>
+                        <tr>
+                            <th class="thin">${ pollInstance.testObjectUrlB }</th>
+                            <g:each in="${ opinionsB }" var="opinionInstance">
+                                <td> ${ opinionInstance.selections.get( itemInstance.id as String).value }</td>
+                            </g:each>
+                        </tr>
+                    </tbody>
+                </table>
+            </g:each>
         </div>
     </section>
     </g:each>

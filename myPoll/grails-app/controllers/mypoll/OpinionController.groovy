@@ -45,10 +45,15 @@ class OpinionController {
     }
 
     def opinionList(Poll pollInstance) {
-        def opinions = pollInstance.opinions
-        def items = pollInstance.sections.collect{ it.items }.flatten()
+        List<Opinion> opinionsA = []
+        List<Opinion> opinionsB = []
+        pollInstance.opinions.each {
+            opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA ? opinionsA.add(opinion) : opinionsB.add(opinion)
+        }
 
-        model: [pollInstance: pollInstance, opinions: opinions]
+        //def items = pollInstance.sections.collect{ it.items }.flatten()
+
+        model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB]
     }
 
     def answerSectionItems() {

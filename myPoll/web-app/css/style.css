@@ -62,8 +62,16 @@ th {
     text-align: left;
 }
 
-table.sectionResults th {
+table.itemResults {
+    width: auto;
+}
+
+table.itemResults th {
     width: 400px;
+}
+
+table.itemResults td {
+    width: 100px;
 }
 
 ol {
@@ -181,6 +189,10 @@ iframe.cols {
 
 .greyText {
     color: #F0F0F0;
+}
+
+.thin {
+    font-weight: normal;
 }
 
 .bold {
