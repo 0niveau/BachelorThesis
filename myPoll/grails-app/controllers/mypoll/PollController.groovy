@@ -140,6 +140,15 @@ class PollController {
             return
         }
 
+        if (pollInstance.isActive) {
+            def oldOpinions = pollInstance.opinions
+            pollInstance.opinions = []
+
+            for (opinionInstance in oldOpinions) {
+                opinionInstance.delete flush: true
+            }
+        }
+
         pollInstance.save flush:true
 
         request.withFormat {
