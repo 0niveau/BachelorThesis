@@ -42,10 +42,10 @@
         </section>
         </g:hasErrors>
 
-        <div class="row">
-            <div class="l-six m-twelve s-twelve cols innerBox">
-                <div class="row flat shadow white">
-                    <div class="property col">
+        <div class="row white shadow">
+            <div class="l-six m-twelve s-twelve cols boxInside">
+                <div class="row flat border-bottom-blueDotted">
+                    <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Share your poll!</h2>
                         <g:if test="${ pollInstance?.isActive }" >
                             <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
@@ -56,6 +56,8 @@
                         <g:else>
                             <p class="property-value box">This poll is currently Deactivated. Configure your poll according to your preferences and publish it to receive opinions!</p>
                         </g:else>
+                    </div>
+                    <div class="actions l-two m-two s-two cols">
                         <g:form url="[resource: pollInstance, action: 'toggleActivation']" method="PUT">
                             <input type="hidden" value="${ !pollInstance.isActive }" name="isActive" />
                             <g:submitButton name="update" value="${ pollInstance.isActive ? 'Deactivate' : 'Publish!' }"/>
@@ -65,25 +67,27 @@
             </div>
 
 
-            <div class="l-six m-twelve s-twelve cols innerBox">
-                <div class="row flat shadow white">
-                    <div class="property col">
+            <div class="l-six m-twelve s-twelve cols boxInside">
+                <div class="row flat border-bottom-blueDotted">
+                    <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Opinions</h2>
                         <g:if test="${ pollInstance?.opinions }" >
                             <p class="property-value box">Your poll has already received ${ pollInstance?.opinions?.size() } opinions</p>
-                            <g:link controller="opinion" action="opinionList" id="${ pollInstance.id }">Show Opinions</g:link>
                         </g:if>
                         <g:else>
                             <p class="property-value box">Nobody has submitted an opinion yet</p>
                         </g:else>
                     </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <g:link controller="opinion" action="opinionList" id="${ pollInstance.id }">Show Opinions</g:link>
+                    </div>
                 </div>
             </div>
 
             <g:if test="${ pollInstance?.description }" >
-                <div class="l-six m-twelve s-twelve cols innerBox">
-                    <div class="property row white shadow flat">
-                        <div class="col">
+                <div class="l-six m-twelve s-twelve cols boxInside">
+                    <div class="property row flat border-bottom-blueDotted">
+                        <div class="l-ten m-ten s-ten cols">
                             <g:if test="${ toBeEdited == 'pollDescription' }">
                                 <h2 class="property-header"><g:message code="poll.description.label" default="Enter a new Description" /></h2>
                                 <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
@@ -94,73 +98,95 @@
                             <g:else>
                                 <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
                                 <p class="property-value box">${ pollInstance?.description }</p>
+                            </g:else>
+                        </div>
+                        <div class="actions l-two m-two s-two cols">
+                            <g:if test="${ !pollInstance?.isActive }">
                                 <g:link controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'pollDescription']">Edit Description</g:link>
-                            </g:else>
-                        </div>
-                    </div>
-                </div>
-            </g:if>
-
-            <g:if test="${ pollInstance?.testObjectUrlA && pollInstance?.testObjectUrlB }" >
-                <div class="l-six m-twelve s-twelve cols innerBox ">
-                    <div class="property row white shadow flat">
-                        <div class="col">
-                            <g:if test="${ toBeEdited == 'testObjects' }">
-                                <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                                <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
-                                    <div class="box">
-                                        <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
-                                        <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com" /></label>
-                                    </div>
-                                    <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
-                                </g:form>
                             </g:if>
-                            <g:else>
-                                <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                                <p class="property-value box">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
-                                <g:link controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">Edit testObjects</g:link>
-                            </g:else>
                         </div>
                     </div>
                 </div>
             </g:if>
 
-            <g:if test="${ pollInstance?.sections }" >
-            <div class="col innerBox">
-                <div class="property row white shadow">
-                    <div class="l-six m-six s-twelve cols">
+
+            <div class="l-six m-twelve s-twelve cols boxInside ">
+                <div class="property row flat border-bottom-blueDotted">
+                    <div class="l-ten m-ten s-ten cols">
+                        <g:if test="${ toBeEdited == 'testObjects' }">
+                            <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+                            <g:form url="[resource: pollInstance, action: 'update']" method="PUT">
+                                <div class="box">
+                                    <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance?.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
+                                    <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance?.testObjectUrlB }" placeholder="www.site-b.com" /></label>
+                                </div>
+                                <g:submitButton name="save" value="${ message(code: 'poll.property.update', default: 'Save') }" />
+                            </g:form>
+                        </g:if>
+                        <g:else>
+                            <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+                            <p class="property-value box">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                        </g:else>
+                    </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <g:if test="${ !pollInstance?.isActive }">
+                            <g:link controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">Edit testObjects</g:link>
+                        </g:if>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col boxInside">
+                <div class="property row">
+                    <div class="l-six m-twelve s-twelve cols">
                         <h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>
                         <g:each in="${ pollInstance?.sections }" status="i" var="s" >
                         <div class="property-value selectable box pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</div>
                         </g:each>
-                        <div class="property-valeu selectable box pollSection" data-selectionRef="newSection">Add a new Section</div>
+                        <g:if test="${ !pollInstance?.isActive }">
+                            <div class="property-valeu selectable box pollSection ${ targetId == 'newSection' ? 'selected' : '' }" data-selectionRef="newSection">Add a new Section</div>
+                        </g:if>
                         <a href="#" id="clearDetails">clearRightSection</a>
                     </div>
-                    <div class="l-six m-six s-twelve cols">
+                    <div class="l-six m-twelve s-twelve cols">
                         <g:each in="${ pollInstance?.sections }" var="s" >
                             <g:render
                                     template="/pollSection/pollSection"
                                     model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
                         </g:each>
-                        <div id="newSection" class="propertyDetails row" >
-                            <div class="col">
-                                <h2 class="property-header">Add a new Section</h2>
-                                <g:form url="[controller: 'pollSection', resource: newPollSectionInstance, action: 'save', pollInstanceId: pollInstance?.id]">
-                                    <h3>Enter a name for your pollSection</h3>
-                                    <input type="text" name="name" value="${ newPollSectionInstance?.name }">
-                                    <h3>Briefly describe your pollSection</h3>
-                                    <textarea name="description">${ newPollSectionInstance?.description }</textArea>
-                                    <h3>Does your pollSection need a testObject?</h3>
-                                    <label><g:checkBox name="needsTestObject" value="${ newPollSectionInstance?.needsTestObject}"></g:checkBox>yes</label>
-                                    <input type="hidden" name="poll" value="${ pollInstance?.id }">
-                                    <g:submitButton name="save" class="save">Create</g:submitButton>
-                                </g:form>
+                        <g:if test="${ !pollInstance?.isActive }">
+                            <div id="newSection" class="propertyDetails row ${ targetId == 'newSection' ? 'selected' : '' }" >
+                                <div class="col">
+                                    <h2 class="property-header">Add a new Section</h2>
+                                    <g:hasErrors bean="${ newPollSectionInstance }">
+                                        <section class="row">
+                                            <div class="col">
+                                                <g:eachError bean="${newPollSectionInstance}" var="error">
+                                                    <p class="hint"><g:message error="${error}"/></p>
+                                                </g:eachError>
+                                            </div>
+                                        </section>
+                                    </g:hasErrors>
+                                    <g:form url="[controller: 'pollSection', resource: newPollSectionInstance, action: 'save', pollInstanceId: pollInstance?.id]">
+                                        <fieldset class="values">
+                                            <h3>Enter a name for your pollSection</h3>
+                                            <input type="text" name="name" value="${ newPollSectionInstance?.name }">
+                                            <h3>Briefly describe your pollSection</h3>
+                                            <textarea name="description">${ newPollSectionInstance?.description }</textArea>
+                                            <h3>Does your pollSection need a testObject?</h3>
+                                            <label><g:checkBox name="needsTestObject" value="${ newPollSectionInstance?.needsTestObject}"></g:checkBox>yes</label>
+                                            <input type="hidden" name="poll" value="${ pollInstance?.id }">
+                                        </fieldset>
+                                        <fieldset class="buttons">
+                                            <g:submitButton name="save" class="save">Create</g:submitButton>
+                                        </fieldset>
+                                    </g:form>
+                                </div>
                             </div>
-                        </div>
+                        </g:if>
                     </div>
                 </div>
             </div>
-            </g:if>
         </div>
 	</body>
 </html>

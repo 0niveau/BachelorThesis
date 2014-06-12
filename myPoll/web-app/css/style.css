@@ -80,6 +80,20 @@ p {
     margin: 0;
 }
 
+fieldset {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+fieldset.values {
+    margin-bottom: 1em;
+}
+
+fieldset.buttons {
+    background: #43B6BB;
+}
+
 .margin-top {
     margin-top: 1em;
 }
@@ -226,12 +240,21 @@ iframe.cols {
     border-bottom: dotted 0.1em #43B6BB;
 }
 
+.border-bottom-greySolid {
+    border-bottom: solid grey 0.1em;
+}
+
 .shadow {
-    box-shadow: 2px 2px 10px grey;
+    box-shadow: 2px 2px 5px grey;
 }
 
 .flat {
     height: 9em;
+}
+
+.actions {
+    background: #FFD999;
+    height: 100%;
 }
 
 @media only screen and (min-width: 1025px) {

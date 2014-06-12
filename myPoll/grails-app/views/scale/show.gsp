@@ -15,7 +15,7 @@
 				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div class="row dim greyText">
+		<div class="row dim greyText shadow">
 			<section class="col">
 				<h1>${ scaleInstance?.name }</h1>
 			</section>
@@ -30,7 +30,7 @@
         </div>
         </g:if>
 
-        <div class="row">
+        <div class="row white shadow">
             <section class="properties l-six m-six s-twelve cols">
                 <g:if test="${scaleInstance?.options}">
                 <div class="property">

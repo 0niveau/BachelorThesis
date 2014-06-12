@@ -54,6 +54,12 @@ class QuestionController {
         }
     }
 
+    def edit(Question questionInstance) {
+        def toBeEdited = params.toBeEdited
+
+        render view: 'show', model: [questionInstance: questionInstance, toBeEdited: toBeEdited]
+    }
+
     @Transactional
     def update(Question questionInstance) {
         if (questionInstance == null) {

@@ -13,13 +13,13 @@
         </ul>
     </nav>
 
-    <section class="row">
+    <section class="row dim greyText shadow">
         <div class="col">
             <h1>${ pollInstance.name }</h1>
         </div>
     </section>
     <g:each in="${ pollInstance.sections}" var="sectionInstance">
-    <section class="row">
+    <section class="row white shadow">
         <div class="col">
             <h2>${ sectionInstance.name }</h2>
             <table class="sectionResults">

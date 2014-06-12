@@ -12,7 +12,7 @@
 				<li class="navigation__links"><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div class="row dim greyText">
+		<div class="row dim greyText shadow">
             <section class="col">
 			    <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             </section>
@@ -26,6 +26,16 @@
         </div>
         </g:if>
 
+        <g:hasErrors bean="${ scaleInstance}">
+        <div class="row">
+            <div class="col">
+                <g:eachError bean="${scaleInstance}" var="error">
+                    <p class="hint"><g:message error="${error}"/></p>
+                </g:eachError>
+            </div>
+        </div>
+        </g:hasErrors>
+
         <g:hasErrors bean="${scaleInstance}">
         <div class="row">
             <section class="col">
@@ -38,7 +48,7 @@
         </div>
         </g:hasErrors>
 
-        <div class="row">
+        <div class="row white shadow">
             <section class="l-six m-six s-twelve cols">
                 <g:form url="[resource: scaleInstance, action:'save']" >
 

@@ -17,8 +17,8 @@ class PollCreateCommand {
 		clustering nullable: true
 		comparing nullable: true
 		feedback nullable: true
-		testObjectUrlA nullable: true
-		testObjectUrlB nullable: true
+		testObjectUrlA nullable: false, blank: false
+		testObjectUrlB nullable: false, blank: false
 	}
 	
 	Poll createPoll() {
@@ -61,33 +61,31 @@ class PollController {
 	 * @cmd contains the values needed for the creation of the new poll	
 	 */
     @Transactional
-    def save(PollCreateCommand cmd) {
-        if (cmd == null) {
+    def save(Poll pollInstance) {
+        if (pollInstance == null) {
             notFound()
             return
         }
 
-        if (cmd.hasErrors()) {
-            respond cmd.errors, view:'create'
+        if (pollInstance.hasErrors()) {
+            respond pollInstance.errors, view:'create'
             return
         }
-		
-		def pollInstance = cmd.createPoll()
+
 		pollInstance.save flush:true
-		if (cmd.clustering) {
+
+		if (params.clustering) {
 			def clustering = new PollSection(name: 'Clustering', needsTestObject: false, poll: pollInstance)
 			clustering.save flush:true
 		}
-		if (cmd.comparing) {
+		if (params.comparing) {
 			def comparing = new PollSection(name: 'Comparing', needsTestObject: true, poll: pollInstance)
 			comparing.save flush:true	
 		}
-		if (cmd.feedback) {
+		if (params.feedback) {
 			def feedback = new PollSection(name: 'Feedback', needsTestObject: false, poll: pollInstance)
 			feedback.save flush:true		
 		}
-		
-        pollInstance.save flush:true
 
         request.withFormat {
             form multipartForm {

@@ -16,7 +16,7 @@ class Poll {
     static constraints = {
     	name blank: false
 		isActive nullable: true
-		testObjectUrlA nullable: true
-		testObjectUrlB nullable: true
+		testObjectUrlA blank: false
+		testObjectUrlB blank: false
     }
 }

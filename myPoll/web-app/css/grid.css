@@ -10,7 +10,7 @@
 
 .col, .cols							{ width: 100%; margin: 0; padding: 0 1em; box-sizing: border-box; -moz-box-sizing: border-box; display: inline; float: left; }
 
-.col.innerBox, .cols.innerBox       { padding: 0em 1.5em 0em 1.5em }
+.col.boxInside, .cols.boxInside     { padding: 0.2em 1.5em 0em 1.5em }
 
 .first 								{ clear: left; }
 

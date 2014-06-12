@@ -12,7 +12,7 @@
 				<li class="navigation__links"><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div class="row dim greyText">
+		<div class="row dim greyText shadow">
 			<section class="col">
 				<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			</section>
@@ -22,20 +22,25 @@
         <div class="row">
             <section class="col">
                 <div class="message" role="status">${flash.message}</div>
-                <g:hasErrors bean="${pollInstance}">
-                <ul class="errors" role="alert">
-                    <g:eachError bean="${pollInstance}" var="error">
-                    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-                    </g:eachError>
-                </ul>
-                </g:hasErrors>
             </section>
         </div>
         </g:if>
 
-        <div class="row">
+        <g:hasErrors bean="${pollInstance}">
+            <div class="row">
+                <div class="col">
+                    <ul class="errors" role="alert">
+                        <g:eachError bean="${pollInstance}" var="error">
+                            <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                        </g:eachError>
+                    </ul>
+                </div>
+            </div>
+        </g:hasErrors>
+
+        <div class="row white shadow">
             <section class="l-six m-six s-twelve cols">
-                <g:form url="[resource:pollInstance, action:'save']" >
+                <g:form url="[resource: pollInstance, action:'save']" >
                     <div class="row">
                         <div class="col">
                             <h2 class="property-header">Give your Poll a name!</h2>

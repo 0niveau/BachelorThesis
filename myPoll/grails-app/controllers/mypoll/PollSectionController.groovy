@@ -36,7 +36,7 @@ class PollSectionController {
         }
 
         if (pollSectionInstance.hasErrors()) {
-            respond pollSectionInstance.errors, view:'create'
+            respond pollSectionInstance.errors, view:'/poll/show', model: [pollInstance: pollSectionInstance.poll, targetId: 'newSection', newPollSectionInstance: pollSectionInstance]
             return
         }
 

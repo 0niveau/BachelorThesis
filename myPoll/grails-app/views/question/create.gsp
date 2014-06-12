@@ -12,7 +12,7 @@
 				<li class="navigation__links"><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div id="create-question" class="row dim greyText">
+		<div id="create-question" class="row dim greyText shadow">
             <section class="col" >
                 <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             </section>
@@ -38,7 +38,7 @@
         </div>
         </g:hasErrors>
 
-        <div class="row">
+        <div class="row white shadow">
             <section class="l-six m-six s-twelve cols">
 			<g:form url="[resource:questionInstance, action:'save']" >
 				<div class="row">

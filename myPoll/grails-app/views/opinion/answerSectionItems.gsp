@@ -13,9 +13,9 @@
 	<g:javascript library="jquery"/>
 	<r:layoutResources />
 </head>
-<body class="page full darkgrey">
-    <div class="row nomargin-bottom">
-        <section class="l-three m-twelve s-twelve cols lightgrey">
+<body class="page ${ needsTestObject ? 'full' : '' } darkgrey">
+    <div class="row white nomargin-bottom ${ !needsTestObject ? 'shadow top' : '' }">
+        <section class="${ needsTestObject ? 'l-three m-twelve s-twelve' : '' } cols">
             <div class="row">
                 <div class="col">
                     <h1 class="blueText">Welcome to ${ pollSectionInstance?.name }</h1>

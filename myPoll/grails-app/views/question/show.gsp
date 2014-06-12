@@ -15,7 +15,7 @@
 				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div class="row dim greyText">
+		<div class="row dim greyText shadow">
             <section class="col">
                 <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             </section>
@@ -29,48 +29,50 @@
         </div>
         </g:if>
 
-        <div class="row">
-            <section class="properties l-six m-six s-twelve cols">
-                <g:if test="${questionInstance?.text}">
-                    <div class="row">
-                        <div class="col property">
+        <div class="row white shadow">
+            <div class="l-six m-twelve s-twelve cols boxInside">
+                <div class="row flat">
+                    <div class="property l-ten m-ten s-ten cols">
+                        <g:if test="${ toBeEdited == 'text' }">
+                            <h2>Edit question Text</h2>
+                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
+                                <textArea name="text">${ questionInstance?.text }</textArea>
+                                <g:submitButton name="update" value="Save"></g:submitButton>
+                            </g:form>
+                        </g:if>
+                        <g:else>
                             <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
-                            <p class="property-value selectable box nomargin top" data-selectionRef="text">${questionInstance?.text}</p>
-                        </div>
+                            <p class="property-value box nomargin top" data-selectionRef="text">${questionInstance?.text}</p>
+                        </g:else>
                     </div>
-                </g:if>
-
-                <g:if test="${questionInstance?.scale}">
-                <div class="row">
-                    <div class="col property">
-                        <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                        <p class="property-value selectable box nomargin top" data-selectionRef="scale">${questionInstance?.scale?.name}</p>
+                    <div class="l-two m-two s-two cols flat actions">
+                        <g:link controller="question" action="edit" params ="[id: questionInstance.id, toBeEdited: 'text']">Edit Text</g:link>
                     </div>
                 </div>
-                </g:if>
-            </section>
+            </div>
 
-            <section class="propertyDetailsSection l-six m-six s-twelve cols">
-                <div id="text" class="propertyDetails row">
-                    <div class="propertyDetail col">
-                        <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
-                        <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
-                            <textarea name="text">${ questionInstance?.text }</textarea>
-                            <g:submitButton name="save" value="${ message(code: 'question.property.update', default: 'Save')}"></g:submitButton>
-                        </g:form>
+
+
+            <div class="l-six m-twelve s-twelve cols boxInside">
+                <div class="row flat">
+                    <div class="property l-ten m-ten s-ten cols">
+                        <g:if test="${ toBeEdited == 'scale'}">
+                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
+                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
+                                <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
+                                <g:submitButton name="save" value="${ message(code: 'question.property.update', default: 'Save')}"></g:submitButton>
+                            </g:form>
+                        </g:if>
+                        <g:else>
+                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
+                            <p class="property-value box nomargin top" data-selectionRef="scale">${questionInstance?.scale?.name}</p>
+                        </g:else>
+                    </div>
+                    <div class="l-two m-two s-two cols flat actions">
+                        <g:link controller="question" action="edit" params="[id: questionInstance.id, toBeEdited: 'scale']">Edit Scale</g:link>
                     </div>
                 </div>
-
-                <div id="scale" class="propertyDetails row">
-                    <div class="propertyDetail col">
-                        <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                        <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
-                            <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
-                            <g:submitButton name="save" value="${ message(code: 'question.property.update', default: 'Save')}"></g:submitButton>
-                        </g:form>
-                    </div>
-                </div>
-            </section>
+            </div>
 		</div>
 
         <section class="row dim">
