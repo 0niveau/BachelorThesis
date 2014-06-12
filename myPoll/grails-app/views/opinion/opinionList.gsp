@@ -2,8 +2,9 @@
 <!DOCYPE html>
 <html>
 <head>
-  <title></title>
-  <meta name="layout" content="main">
+    <title></title>
+    <meta name="layout" content="main">
+    <r:require module="export"></r:require>
 </head>
 <body>
     <nav class="row">
@@ -44,5 +45,11 @@
         </div>
     </section>
     </g:each>
+    <section class="row dim greyText shadow">
+        <div class="col">
+            <g:link action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlA,'pollId': pollInstance.id]">export A</g:link>
+            <g:link action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlB,'pollId': pollInstance.id]">export B</g:link>
+        </div>
+    </section>
 </body>
 </html>

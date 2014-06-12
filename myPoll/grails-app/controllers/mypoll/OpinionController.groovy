@@ -8,6 +8,10 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class OpinionController {
 
+    // injecting exportService from export plugin
+    def exportService
+    def grailsApplication
+
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -51,9 +55,34 @@ class OpinionController {
             opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA ? opinionsA.add(opinion) : opinionsB.add(opinion)
         }
 
-        //def items = pollInstance.sections.collect{ it.items }.flatten()
 
         model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB]
+    }
+
+    def exportOpinions() {
+        Poll pollInstance = Poll.get(params.pollId)
+
+        List items = pollInstance.sections.collect{ it.items }.flatten()
+
+        String testObjectUrl = params.testObjectUrl
+
+        List opinions = Opinion.findAll { testObjectUrl == testObjectUrl }
+
+        List<String> fields = []
+        for (itemInstance in items) {
+            fields.add("selections.${ itemInstance.id as String }.value")
+        }
+
+        Map labels = [:]
+        for (itemInstance in items) {
+            labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
+        }
+
+        response.contentType = "text/csv"
+        response.addHeader("Content-disposition", "attachment;filename=${testObjectUrl}.csv")
+
+        exportService.export('csv', response.outputStream, opinions, fields as List<String>, labels, [:],['separator': ','])
+
     }
 
     def answerSectionItems() {

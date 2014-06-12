@@ -128,6 +128,10 @@ class PollController {
         }
     }
 
+    /*
+     * (De-) Activates the pollInstance so that Opinions can be submitted.
+     * Deletes existing Opinions each time it is activated.
+     */
     @Transactional
     def toggleActivation(Poll pollInstance) {
         if (pollInstance == null) {
@@ -140,6 +144,7 @@ class PollController {
             return
         }
 
+        // Deleting old Opinions
         if (pollInstance.isActive) {
             def oldOpinions = pollInstance.opinions
             pollInstance.opinions = []
