@@ -20,7 +20,7 @@ class OpinionController {
     }
 
     /*
-	 * This renders the initial page a subject will see.
+	 * renders the initial page a subject will see.
 	 */
     def indexSubject(Opinion opinionInstance) {
         Poll pollInstance = opinionInstance.poll
@@ -48,6 +48,9 @@ class OpinionController {
         redirect action: 'indexSubject', id: opinionInstance.id
     }
 
+    /*
+     * groups the submitted Opinions by testObjectUrl and passes both lists to the corresponding view
+     */
     def opinionList(Poll pollInstance) {
         List<Opinion> opinionsA = []
         List<Opinion> opinionsB = []
@@ -59,29 +62,37 @@ class OpinionController {
         model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB]
     }
 
+    /*
+     * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
+     */
     def exportOpinions() {
         Poll pollInstance = Poll.get(params.pollId)
 
         List items = pollInstance.sections.collect{ it.items }.flatten()
 
         String testObjectUrl = params.testObjectUrl
+        String filename = testObjectUrl.replace("http://","")
 
+        // only the opinions with the desired testObjectUrl will be exported
         List opinions = Opinion.findAll { testObjectUrl == testObjectUrl }
 
         List<String> fields = []
-        for (itemInstance in items) {
-            fields.add("selections.${ itemInstance.id as String }.value")
-        }
-
         Map labels = [:]
+
         for (itemInstance in items) {
+            // Extracting the values from the opinions' selections
+            fields.add("selections.${ itemInstance.id as String }.value")
+
+            // labeling each column with the corresponding question-text
             labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
         }
 
-        response.contentType = "text/csv"
-        response.addHeader("Content-disposition", "attachment;filename=${testObjectUrl}.csv")
+        Map parameters = [separator: ',', quoteCharacter: "\u0000"]
 
-        exportService.export('csv', response.outputStream, opinions, fields as List<String>, labels, [:],['separator': ','])
+        response.contentType = "text/csv"
+        response.addHeader("Content-disposition", "attachment;filename=${filename}.csv")
+
+        exportService.export('csv', response.outputStream, opinions, fields as List<String>, labels, [:], parameters)
 
     }
 
