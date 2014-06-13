@@ -13,9 +13,9 @@
 		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 		<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+        <link rel="stylesheet" href="${resource(dir: 'css/font-awesome-4.1.0/css', file: 'font-awesome.min.css')}" type="text/css">
 		<g:layoutHead/>
 		<g:javascript library="application"/>
-		<g:javascript library="jquery"/>			
 		<r:layoutResources />
 	</head>
 	<body class="page">

@@ -146,6 +146,31 @@ iframe.cols {
 	background-color: #C7C7C7;
 }
 
+input[type="submit"].icon-submit {
+    font-family: FontAwesome;
+    text-align: center;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+}
+
+input[type="submit"].icon-submit:hover {
+    cursor: pointer;
+}
+
+input[type="submit"].icon-submit:focus {
+    outline: none;
+}
+
+a:visited {
+    color: #000;
+}
+
+a.icon-link {
+    font-size: 1.5em;
+
+}
+
 .navigation__links {
 	display: inline;
 }
@@ -267,6 +292,7 @@ iframe.cols {
 .actions {
     background: #FFD999;
     height: 100%;
+    text-align: center;
 }
 
 @media only screen and (min-width: 1025px) {
