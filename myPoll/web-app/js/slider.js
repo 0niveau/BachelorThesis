@@ -23,6 +23,9 @@ window.onload = function() {
 		displayedElement = sliderElements[0];
 		displayedElement.classList.add('displayed');
 		back.classList.add('disabled');
+        if (elementCount <= 1 ) {
+            forth.classList.add('disabled');
+        }
 	}
 	
 	function backwardsHandler (e) {
@@ -54,7 +57,7 @@ window.onload = function() {
 		
 		index = index +1		
 		if (index === elementCount -1) {
-			back.classList.add('disabled');
+			forth.classList.add('disabled');
 		}
 	}
 };

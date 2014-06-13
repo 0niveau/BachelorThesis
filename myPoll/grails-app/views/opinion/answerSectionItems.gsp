@@ -9,6 +9,7 @@
 	<link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 	<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}">
 	<link rel="stylesheet" href="${resource(dir: 'css', file: 'mobile.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'css/font-awesome-4.1.0/css', file: 'font-awesome.min.css')}" type="text/css">
 	<g:javascript library="application"/>
 	<r:layoutResources />
 </head>
@@ -42,15 +43,15 @@
                         </div>
                     </g:each>
                 </div>
-                <div class="sliderNavigation l-four m-four s-four cols">
-                    <a href="#" id="prev"><-- prev</a>
+                <div class="sliderNavigation l-four m-four s-four cols centered-text">
+                    <a href="#" class="icon-link" id="prev"><i class="fa fa-arrow-left"></i></a>
                 </div>
-                <div class="sliderNavigation l-four m-four s-four cols">
-                    <a href="#" id="next">next --></a>
+                <div class="sliderNavigation l-four m-four s-four cols centered-text">
+                    <a href="#" class="icon-link" id="next"><i class="fa fa-arrow-right"></i></a>
                 </div>
-                <div class="l-four m-four s-four cols">
+                <div class="l-four m-four s-four cols centered-text">
                     <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
-                        <g:submitButton name="save" value="Save"></g:submitButton>
+                        <input class="icon-submit" type="submit" value="&#xf0c7;" />
                     </g:form>
                 </div>
             </div>

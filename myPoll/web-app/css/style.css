@@ -114,6 +114,10 @@ fieldset.buttons {
     margin-bottom: 0;
 }
 
+.padding-left {
+    padding-left: 1em;
+}
+
 input[type="text"] {
 	width: 100%;
 	box-sizing: border-box;
@@ -169,6 +173,10 @@ a:visited {
 a.icon-link {
     font-size: 1.5em;
 
+}
+
+a.disabled {
+    color: #F0F0F0;
 }
 
 .navigation__links {
@@ -289,6 +297,22 @@ a.icon-link {
     height: 9em;
 }
 
+.flatter {
+    height: 6em;
+}
+
+.regular {
+    height: 12em;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.centered-text {
+    text-align: center;
+}
+
 .actions {
     background: #FFD999;
     height: 100%;
@@ -312,6 +336,10 @@ a.icon-link {
 
 @media only screen and (min-width: 768px) {
 
+    a.icon-link.big {
+        font-size: 7em;
+    }
+
     .l-border-left-solidGrey {
         border-left: solid 0.2em #c7c7c7
     }
@@ -334,12 +362,21 @@ a.icon-link {
 }
 
 @media only screen and (max-width: 767px) {
+
+    a.icon-link.big {
+        font-size: 5em;
+    }
+
 	aside {
 		border-top: solid thin gray;
 	}
 }
 
 @media only screen and (max-width: 479px) {
+
+    a.icon-link.big {
+        font-size: 3em;
+    }
 }
 
 footer.row {
