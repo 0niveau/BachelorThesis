@@ -31,13 +31,12 @@
 
         <div class="row white shadow">
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row flat">
+                <div class="row">
                     <div class="property l-ten m-ten s-ten cols">
                         <g:if test="${ toBeEdited == 'text' }">
                             <h2>Edit question Text</h2>
-                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
+                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT" name="editQuestionTextForm">
                                 <textArea name="text">${ questionInstance?.text }</textArea>
-                                <g:submitButton name="update" value="Save"></g:submitButton>
                             </g:form>
                         </g:if>
                         <g:else>
@@ -45,8 +44,15 @@
                             <p class="property-value box nomargin top" data-selectionRef="text">${questionInstance?.text}</p>
                         </g:else>
                     </div>
-                    <div class="l-two m-two s-two cols flat actions">
-                        <g:link controller="question" action="edit" params ="[id: questionInstance.id, toBeEdited: 'text']">Edit Text</g:link>
+                    <div class="l-two m-two s-two cols actions">
+                        <g:if test="${ toBeEdited == 'text' }">
+                            <input class="icon-submit" type="submit" value="&#xf0c7;" form="editQuestionTextForm"/>
+                        </g:if>
+                        <g:else>
+                            <g:link class="icon-link" controller="question" action="edit" params ="[id: questionInstance.id, toBeEdited: 'text']">
+                                <i class="fa fa-pencil"></i>
+                            </g:link>
+                        </g:else>
                     </div>
                 </div>
             </div>
@@ -54,13 +60,12 @@
 
 
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row flat">
+                <div class="row">
                     <div class="property l-ten m-ten s-ten cols">
                         <g:if test="${ toBeEdited == 'scale'}">
                             <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT">
+                            <g:form url="[resource: questionInstance, action: 'update']" method="PUT" name="editQuestionScaleForm">
                                 <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
-                                <g:submitButton name="save" value="${ message(code: 'question.property.update', default: 'Save')}"></g:submitButton>
                             </g:form>
                         </g:if>
                         <g:else>
@@ -68,8 +73,15 @@
                             <p class="property-value box nomargin top" data-selectionRef="scale">${questionInstance?.scale?.name}</p>
                         </g:else>
                     </div>
-                    <div class="l-two m-two s-two cols flat actions">
-                        <g:link controller="question" action="edit" params="[id: questionInstance.id, toBeEdited: 'scale']">Edit Scale</g:link>
+                    <div class="l-two m-two s-two cols actions">
+                        <g:if test="${ toBeEdited == 'scale'}">
+                            <input class="icon-submit" type="submit" value="&#xf0c7;" form="editQuestionScaleForm" />
+                        </g:if>
+                        <g:else>
+                            <g:link class="icon-link" controller="question" action="edit" params="[id: questionInstance.id, toBeEdited: 'scale']">
+                                <i class="fa fa-pencil"></i>
+                            </g:link>
+                        </g:else>
                     </div>
                 </div>
             </div>

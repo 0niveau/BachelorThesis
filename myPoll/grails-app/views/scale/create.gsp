@@ -13,9 +13,9 @@
 			</ul>
 		</nav>
 		<div class="row dim greyText shadow">
-            <section class="col">
+            <div class="col">
 			    <h1><g:message code="default.create.label" args="[entityName]" /></h1>
-            </section>
+            </div>
         </div>
 
         <g:if test="${flash.message}">
@@ -50,15 +50,8 @@
 
         <div class="row white shadow">
             <section class="l-six m-six s-twelve cols">
-                <g:form url="[resource: scaleInstance, action:'save']" >
-
-                    <g:render template="form" model="['scaleInstance': scaleInstance]"></g:render>
-
-                    <div class="row">
-                        <div class="col">
-                            <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                        </div>
-                    </div>
+                <g:form url="[resource: scaleInstance, action:'save']" name="createScaleForm">
+                    <g:render template="form" model="['scaleInstance': scaleInstance, 'form': 'createScaleForm']"></g:render>
                 </g:form>
             </section>
 		</div>

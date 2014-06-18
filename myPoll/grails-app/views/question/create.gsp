@@ -13,9 +13,9 @@
 			</ul>
 		</nav>
 		<div id="create-question" class="row dim greyText shadow">
-            <section class="col" >
+            <div class="col" >
                 <h1><g:message code="default.create.label" args="[entityName]" /></h1>
-            </section>
+            </div>
         </div>
 
         <g:if test="${flash.message}">
@@ -39,51 +39,44 @@
         </g:hasErrors>
 
         <div class="row white shadow">
-            <section class="l-six m-six s-twelve cols">
-			<g:form url="[resource:questionInstance, action:'save']" >
+            <div class="l-six m-six s-twelve cols">
 				<div class="row">
-                    <div class="col ${hasErrors(bean: questionInstance, field: 'text', 'error')} ">
-                        <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
-                        <textarea name="text">${questionInstance?.text}</textarea>
-                    </div>
-                </div>
+                    <div class="l-ten m-ten s-ten cols">
+                        <g:form url="[resource:questionInstance, action:'save']" name="questionCreateForm" >
+                            <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
+                            <textarea class="${hasErrors(bean: questionInstance, field: 'text', 'error')}" name="text">${questionInstance?.text}</textarea>
 
-                <div class="row">
-                    <div class="col">
-                        <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                        <div class="row">
-                            <div class="l-six m-six s-twelve cols">
-                                <h3><g:message code="question.scale.available" default="Available Scales" /></h3>
-                                <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                                <div class="selectable" data-selectionRef="options${scale.id}">
-                                    <label class="radioInputLabel">
-                                        <input type="radio" name="scale" value="${scale.id}" id="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/>
-                                        ${ scale.name }
-                                    </label>
+                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
+                            <div class="row">
+                                <div class="l-six m-six s-twelve cols">
+                                    <h3><g:message code="question.scale.available" default="Available Scales" /></h3>
+                                    <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
+                                        <div class="selectable" data-selectionRef="options${scale.id}">
+                                            <label class="radioInputLabel">
+                                                <input type="radio" name="scale" value="${scale.id}" id="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/>
+                                                ${ scale.name }
+                                            </label>
+                                        </div>
+                                    </g:each>
                                 </div>
+                                <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
+                                    <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols">
+                                        <h3><g:message code="scale.options.label" default="Options" /></h3>
+                                        <ol>
+                                            <g:each in="${ scale.options }" var="option" >
+                                                <li>${option.value}</li>
+                                            </g:each>
+                                        </ol>
+                                    </div>
                                 </g:each>
                             </div>
-                            <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                            <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols">
-                                <h3><g:message code="scale.options.label" default="Options" /></h3>
-                                <ol>
-                                    <g:each in="${ scale.options }" var="option" >
-                                        <li>${option.value}</li>
-                                    </g:each>
-                                </ol>
-                            </div>
-                            </g:each>
-                        </div>
+                        </g:form>
+                    </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <input class="icon-submit" type="submit" form="questionCreateForm" value="&#xf0c7;" />
                     </div>
                 </div>
-
-				<div class="row">
-					<div class="col">
-                        <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-					</div>
-				</div>
-			</g:form>
-            </section>
+            </div>
 		</div>
 	</body>
 </html>

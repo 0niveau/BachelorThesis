@@ -49,7 +49,8 @@ class PollController {
 
     def show(Poll pollInstance) {
         def targetId = params.targetId as Long
-        render view: 'show', model: [pollInstance: pollInstance, targetId: targetId]
+        def mode = params.mode
+        render view: 'show', model: [pollInstance: pollInstance, targetId: targetId, mode: mode]
     }
 
     def create() {

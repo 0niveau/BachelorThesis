@@ -40,29 +40,27 @@
 
         <div class="row white shadow">
             <section class="l-six m-six s-twelve cols">
-                <g:form url="[resource: pollInstance, action:'save']" >
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="property-header">Give your Poll a name!</h2>
-                            <input id="name" type="text" required="required" name="name" value="${ pollInstance.name }"/>
-                            <h2 class="property-header">Briefly describe your poll!</h2>
-                            <textarea id="description" required="required" name="description">${ pollInstance.description }</textarea>
-                            <h2 class="property-header">Select some sections for your poll!</h2>
-                            <label for="clustering"><input id="clustering" type="checkbox" name="clustering"/>Clustering</label>
-                            <label for="comparing"><input id="comparing" type="checkbox" name="comparing"/>Comparing</label>
-                            <label for="feedback"><input id="feedback" type="checkbox" name="feedback"/>Feedback</label>
-                            <h2 class="property-header">Name the Web-Sites you want to compare!</h2>
-                            <input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com"/>
-                            <span>vs</span>
-                            <input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com"/>
-                        </div>
+                <div class="row">
+                    <div class="l-ten m-ten s-ten cols">
+                        <g:form url="[resource: pollInstance, action:'save']" name="pollCreateForm">
+                        <h2 class="property-header">Give your Poll a name!</h2>
+                        <input id="name" type="text" required="required" name="name" value="${ pollInstance.name }"/>
+                        <h2 class="property-header">Briefly describe your poll!</h2>
+                        <textarea id="description" required="required" name="description">${ pollInstance.description }</textarea>
+                        <h2 class="property-header">Select some sections for your poll!</h2>
+                        <label for="clustering"><input id="clustering" type="checkbox" name="clustering"/>Clustering</label>
+                        <label for="comparing"><input id="comparing" type="checkbox" name="comparing"/>Comparing</label>
+                        <label for="feedback"><input id="feedback" type="checkbox" name="feedback"/>Feedback</label>
+                        <h2 class="property-header">Name the Web-Sites you want to compare!</h2>
+                        <input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com"/>
+                        <span>vs</span>
+                        <input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com"/>
+                        </g:form>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                        </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <input class="icon-submit" type="submit" form="pollCreateForm" value="&#xf0c7;" />
                     </div>
-                </g:form>
+                </div>
             </section>
         </div>
 	</body>

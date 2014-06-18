@@ -1,7 +1,5 @@
 package mypoll
 
-
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -114,13 +112,12 @@ class OpinionController {
 
         if (opinionInstance.submitted) opinionInstance.errors.reject('opinion.submitted.editFailure',
                 "Your opinion has already been submitted. Changing your answers is no longer possible")
+        opinionInstance.selections.putAll(cmd.selections)
 
         if (opinionInstance.hasErrors()) {
             respond opinionInstance.errors, view: 'error'
             return
         }
-
-        opinionInstance.selections.putAll(cmd.selections)
 
         opinionInstance.save flush:true
 

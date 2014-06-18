@@ -16,36 +16,47 @@
 			</ul>
 		</nav>
 		<div class="row dim greyText shadow">
-			<section class="col">
+			<div class="col">
 				<h1>${ scaleInstance?.name }</h1>
-			</section>
+			</div>
         </div>
 						
         <g:if test="${flash.message}">
-        <div class="row">
-            <section class="col">
-                <h2><g:message code="" default="Name"/></h2>
-                <div class="message" role="status">${flash.message}</div>
-            </section>
-        </div>
+            <div class="row">
+                <section class="col">
+                    <h2><g:message code="" default="Name"/></h2>
+                    <div class="message" role="status">${flash.message}</div>
+                </section>
+            </div>
         </g:if>
+
+        <g:hasErrors bean="${ scaleInstance}">
+            <div class="row">
+                <div class="col">
+                    <g:eachError bean="${scaleInstance}" var="error">
+                        <p class="hint"><g:message error="${error}"/></p>
+                    </g:eachError>
+                </div>
+            </div>
+        </g:hasErrors>
 
         <div class="row white shadow">
             <section class="properties l-six m-six s-twelve cols">
                 <g:if test="${scaleInstance?.options}">
-                <div class="property">
-                    <h2 class="property-header"><g:message code="scale.options.label" default="Options"/></h2>
-                    <ol class="optionList draggableItemList" data-listedElements="options">
-                        <g:each in="${scaleInstance.options}" var="o" status="s">
-                        <li class="property-value option draggableItem" draggable="true">
-                            ${ o.value }
-                            <input type="hidden" name="options[${ s }]" value="${ o.id }" form="reorderOptionsForm"/>
-                        </li>
-                        </g:each>
-                    </ol>
-                    <g:form name="reorderOptionsForm" controller="scale" action="update" id="${ scaleInstance?.id }" method="PUT">
-                        <g:submitButton name="save" value="Save Order"/>
-                    </g:form>
+                <div class="row">
+                    <div class="l-ten m-ten s-ten cols">
+                        <h2 class="property-header"><g:message code="scale.options.label" default="Options"/></h2>
+                        <ol class="optionList" data-listedElements="options">
+                            <g:each in="${scaleInstance.options}" var="o" status="s">
+                                <li class="property-value option">
+                                    ${ o.value }
+                                </li>
+                            </g:each>
+                        </ol>
+                    </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <g:link class="icon-link" action="edit" resource="${scaleInstance}"><i class="fa fa-pencil"></i></g:link>
+                    </div>
                 </div>
                 </g:if>
             </section>
@@ -54,7 +65,7 @@
         <div class="row dim">
             <section class="col">
                 <g:form url="[resource:scaleInstance, action:'delete']" method="DELETE">
-                    <g:link class="edit" action="edit" resource="${scaleInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+
                     <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                 </g:form>
             </section>

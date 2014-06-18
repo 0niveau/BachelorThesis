@@ -22,6 +22,7 @@ h4 {
 html {
 	background: #F0F0F0;
     font-family: helveticaneue-light, sans-serif;
+    height: 100%;
 }
 
 body {
@@ -117,6 +118,9 @@ fieldset.buttons {
 .padding-left {
     padding-left: 1em;
 }
+.padding-right {
+    padding-right: 1em;
+}
 
 input[type="text"] {
 	width: 100%;
@@ -153,7 +157,7 @@ iframe.cols {
 input[type="submit"].icon-submit {
     font-family: FontAwesome;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 2em;
     background: none;
     border: none;
 }
@@ -166,12 +170,16 @@ input[type="submit"].icon-submit:focus {
     outline: none;
 }
 
+a {
+    color: #000000;
+}
+
 a:visited {
-    color: #000;
+    color: #000000;
 }
 
 a.icon-link {
-    font-size: 1.5em;
+    font-size: 2em;
 
 }
 
@@ -224,6 +232,18 @@ a.disabled {
     color: #F0F0F0;
 }
 
+.darkgreyText {
+    color: #c7c7c7;
+}
+
+.redText {
+    color: red;
+}
+
+.greenText {
+    color: green;
+}
+
 .thin {
     font-weight: normal;
 }
@@ -263,7 +283,7 @@ a.disabled {
 }
 
 .odd {
-	background-color: paleturquoise;
+	background-color: #f0f0f0;
 }
 
 .item:nth-child(n+3) {
@@ -275,6 +295,10 @@ a.disabled {
 .radioInputLabel {
     display: inline-block;
     width: 100%;
+}
+
+.border-blueDotted {
+    border: dotted 0.1em #43B6BB;
 }
 
 .border-left-blueDotted {
@@ -305,6 +329,18 @@ a.disabled {
     height: 12em;
 }
 
+.big {
+    height: 15em;
+}
+
+.bigger {
+    height: 18em;
+}
+
+.biggest {
+    height: 24em;
+}
+
 .full-height {
     height: 100%;
 }
@@ -314,9 +350,30 @@ a.disabled {
 }
 
 .actions {
-    background: #FFD999;
-    height: 100%;
+    padding-top: 1.2em;
+    padding-bottom: 1.2em;
+    background: #f0f0f0;
     text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: row;
+}
+
+.overlayContent {
+    padding: 0 1em;
+    min-width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 @media only screen and (min-width: 1025px) {

@@ -21,7 +21,11 @@ class PollSectionController {
     }
 
     def show(PollSection pollSectionInstance) {
-        respond pollSectionInstance
+        redirect controller: 'poll', action: 'show', params: [id: pollSectionInstance.poll.id, targetId: pollSectionInstance.id]
+    }
+
+    def showAllItems(PollSection pollSectionInstance) {
+        render view: "/poll/show", model: [pollInstance: pollSectionInstance.poll, targetId: pollSectionInstance.id, mode: 'showAllItems']
     }
 
     def create() {
@@ -81,7 +85,7 @@ class PollSectionController {
 		def allQuestions = Question.getAll()		
 		def selectableQuestions = allQuestions.findAll { !idsOfAddedQuestions.contains(it.id) }
 		
-		render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, selectableQuestions: selectableQuestions, mode: 'sectionAddItems']
+		render view: '/poll/show', model: [pollInstance: pollInstance, targetId: pollSectionInstance.id, selectableQuestions: selectableQuestions, mode: 'addSectionItems']
 	}
 	
 	/*
@@ -119,15 +123,20 @@ class PollSectionController {
 			}
 			itemInstance.save flush: true
 		}
-        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
+        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: 'showAllItems']
 		
 	}
+
+    def reorderItems(PollSection pollSectionInstance) {
+
+        render view: "/poll/show", model: [pollInstance: pollSectionInstance.poll, targetId: pollSectionInstance.id, mode: 'reorderSectionItems']
+    }
 
     @Transactional
     def update(PollSection pollSectionInstance) {
         Poll pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an active poll")
 
         if (pollInstance.hasErrors()) {
             resond pollInstance.errors, view: 'poll/show'
@@ -148,7 +157,7 @@ class PollSectionController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
 
-        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
+        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: params.mode]
     }
 
     @Transactional

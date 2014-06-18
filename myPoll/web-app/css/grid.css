@@ -10,7 +10,11 @@
 
 .col, .cols							{ width: 100%; margin: 0; padding: 0 1em; box-sizing: border-box; -moz-box-sizing: border-box; display: inline; float: left; }
 
-.col.boxInside, .cols.boxInside     { padding: 0.2em 1.5em 0em 1.5em }
+.col.boxInside, .cols.boxInside     { padding: 0 1.5em }
+
+.col.padding-l, .cols.padding-l     { padding-left: 1.5em }
+
+.col.padding-r, .cols.padding-r     { padding-right: 1.5em }
 
 .first 								{ clear: left; }
 
