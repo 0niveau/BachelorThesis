@@ -1,5 +1,7 @@
 package mypoll
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -37,6 +39,7 @@ class saveSubjectSelectionsCommand {
     Map<Item, Option> selections
 }
 
+@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 @Transactional(readOnly = true)
 class PollController {
 

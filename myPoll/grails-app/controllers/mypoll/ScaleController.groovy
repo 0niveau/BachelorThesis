@@ -1,5 +1,7 @@
 package mypoll
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -32,6 +34,7 @@ class ScaleUpdateCommand {
     }
 }
 
+@Secured(['IS_AUTHENTICATED_REMEMBERED'])
 @Transactional(readOnly = true)
 class ScaleController {
 	

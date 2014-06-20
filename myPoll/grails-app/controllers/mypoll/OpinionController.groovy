@@ -1,8 +1,11 @@
 package mypoll
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 @Transactional(readOnly = true)
 class OpinionController {
 
@@ -48,7 +51,9 @@ class OpinionController {
 
     /*
      * groups the submitted Opinions by testObjectUrl and passes both lists to the corresponding view
+     * TODO factor this out to poll controller
      */
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def opinionList(Poll pollInstance) {
         List<Opinion> opinionsA = []
         List<Opinion> opinionsB = []
@@ -62,7 +67,9 @@ class OpinionController {
 
     /*
      * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
+     * TODO factor this out to poll controller
      */
+    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def exportOpinions() {
         Poll pollInstance = Poll.get(params.pollId)
 
