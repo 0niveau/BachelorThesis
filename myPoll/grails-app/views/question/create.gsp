@@ -39,7 +39,7 @@
         </g:hasErrors>
 
         <div class="row white shadow">
-            <div class="l-six m-six s-twelve cols">
+            <div class="l-six m-twelve s-twelve cols">
 				<div class="row">
                     <div class="l-ten m-ten s-ten cols">
                         <g:form url="[resource:questionInstance, action:'save']" name="questionCreateForm" >

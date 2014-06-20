@@ -5,12 +5,12 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Secured(['IS_AUTHENTICATED_REMEMBERED'])
-@Transactional(readOnly = true)
 class PollSectionAddItemsCommand {
 	List questionIds = []
 }
 
+@Secured(['IS_AUTHENTICATED_REMEMBERED'])
+@Transactional(readOnly = true)
 class PollSectionController {
 
     static allowedMethods = [save: "POST", updateItemOrder: "PUT", update: "PUT", delete: "DELETE"]

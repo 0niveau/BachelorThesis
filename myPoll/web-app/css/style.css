@@ -86,7 +86,6 @@ ul {
 }
 
 p {
-    margin: 0;
 }
 
 fieldset {
@@ -164,6 +163,7 @@ input[type="submit"].icon-submit {
 
 input[type="submit"].icon-submit:hover {
     cursor: pointer;
+    color: #43b6bb;
 }
 
 input[type="submit"].icon-submit:focus {
@@ -180,7 +180,14 @@ a:visited {
 
 a.icon-link {
     font-size: 2em;
+}
 
+a.icon-link.normal {
+    font-size: 1.5em;
+}
+
+a.icon-link:not(.disabled):hover {
+    color: #43b6bb;
 }
 
 a.disabled {
@@ -350,8 +357,7 @@ a.disabled {
 }
 
 .actions {
-    padding-top: 1.2em;
-    padding-bottom: 1.2em;
+    padding: 1.2em 0;
     background: #f0f0f0;
     text-align: center;
 }
@@ -394,7 +400,7 @@ a.disabled {
 @media only screen and (min-width: 768px) {
 
     a.icon-link.big {
-        font-size: 7em;
+        font-size: 6em;
     }
 
     .l-border-left-solidGrey {
@@ -404,6 +410,30 @@ a.disabled {
 	.main {
 		padding: 1rem;
 	}
+
+    .l-flatter {
+        height: 6em;
+    }
+
+    .l-flat {
+        height: 9em;
+    }
+
+    .l-regular {
+        height: 12em;
+    }
+
+    .l-bigger {
+        height: 18em;
+    }
+
+    .l-nomargin-bottom {
+        margin-bottom: 0;
+    }
+
+    .l-padding-bottom {
+        padding-bottom: 1em;
+    }
 
 	aside {
 		box-shadow: 
@@ -424,6 +454,14 @@ a.disabled {
         font-size: 5em;
     }
 
+    .m-flatter {
+
+    }
+
+    .m-border-bottom-blueDotted {
+        border-bottom: dotted 0.1em #43B6BB;
+    }
+
 	aside {
 		border-top: solid thin gray;
 	}
@@ -433,6 +471,10 @@ a.disabled {
 
     a.icon-link.big {
         font-size: 3em;
+    }
+
+    .s-flatter {
+
     }
 }
 

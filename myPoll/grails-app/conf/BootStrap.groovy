@@ -1,6 +1,7 @@
 import org.example.SecRole
 import org.example.SecUser
 import org.example.SecUserSecRole
+import grails.util.Environment
 
 class BootStrap {
     def springSecurityService
@@ -17,6 +18,13 @@ class BootStrap {
             SecUserSecRole.create adminUser, adminRole
         }
 
+        switch(Environment.current) {
+            case Environment.DEVELOPMENT:
+                def testUser = SecUser.findByUsername('test') ?: new SecUser (
+                    username: 'test',
+                    password: 'test',
+                    enabled: true).save(failOnError: true)
+        }
     }
     def destroy = {
     }

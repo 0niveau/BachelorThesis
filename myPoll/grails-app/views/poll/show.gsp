@@ -45,7 +45,7 @@
         <div class="row white shadow">
             <g:if test="${ pollInstance?.description }" >
                 <div class="l-six m-twelve s-twelve cols boxInside">
-                    <div class="property row regular border-bottom-blueDotted">
+                    <div class="property row l-regular border-bottom-blueDotted">
                         <div class="l-ten m-ten s-ten cols">
                             <g:if test="${ toBeEdited == 'pollDescription' }">
                                 <h2 class="property-header"><g:message code="poll.description.label" default="Enter a new Description" /></h2>
@@ -76,7 +76,7 @@
 
 
             <div class="l-six m-twelve s-twelve cols boxInside ">
-                <div class="property row regular border-bottom-blueDotted">
+                <div class="property row l-regular border-bottom-blueDotted">
                     <div class="l-ten m-ten s-ten cols">
                         <g:if test="${ toBeEdited == 'testObjects' }">
                             <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
@@ -125,7 +125,7 @@
                                     model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
                         </g:each>
                         <g:if test="${ !pollInstance?.isActive }">
-                            <div id="newSection" class="propertyDetails row bigger ${ targetId == 'newSection' ? 'selected' : '' }" >
+                            <div id="newSection" class="propertyDetails row l-bigger ${ targetId == 'newSection' ? 'selected' : '' }" >
                                 <div class="l-ten m-ten s-ten cols">
                                     <h2 class="property-header">Add a new Section</h2>
                                     <g:hasErrors bean="${ newPollSectionInstance }">
@@ -159,7 +159,7 @@
             </div>
 
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row flat border-bottom-blueDotted">
+                <div class="row l-flat border-bottom-blueDotted">
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Share your poll!</h2>
                         <g:if test="${ pollInstance?.isActive }" >
@@ -188,7 +188,7 @@
 
 
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row flat border-bottom-blueDotted">
+                <div class="row l-flat border-bottom-blueDotted">
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Opinions</h2>
                         <g:if test="${ pollInstance?.opinions }" >

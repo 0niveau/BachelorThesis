@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="row flat border-bottom-blueDotted">
+    <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
             <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
             <g:if test="${ toBeEdited == 'sectionDescription' && !pollSection.poll.isActive }">
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="row flatter border-bottom-blueDotted">
+    <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
             <h3 class="propertyDetail-header"><g:message code="pollSection.testObject.required" default="Testobject required" /></h3>
             <g:if test="${ pollSection?.needsTestObject }">
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    <div class="row flatter border-bottom-blueDotted">
+    <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
             <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Added Items"/></h3>
             <p>You have already added ${ pollSection?.items?.size() } items to your section</p>

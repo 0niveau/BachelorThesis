@@ -41,7 +41,7 @@
         </g:hasErrors>
 
         <div class="row white shadow">
-            <section class="properties l-six m-six s-twelve cols">
+            <section class="properties l-six m-twelve s-twelve cols">
                 <g:if test="${scaleInstance?.options}">
                 <div class="row">
                     <div class="l-ten m-ten s-ten cols">

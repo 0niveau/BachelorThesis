@@ -7,7 +7,7 @@
 <body>
     <div class="row white shadow top">
         <div class="col">
-            <div class="row flat">
+            <div class="row l-flat">
                 <div class="l-six m-eight s-nine cols">
                     <h1>${ pollInstance?.name }</h1>
                     <p class="margin-bottom">${ pollInstance?.description }</p>
@@ -24,20 +24,27 @@
 
             <div class="row highlight">
             <g:each in="${ pollInstance?.sections }" status="s" var="pollSectionInstance">
-                <div class="l-four m-six s-twelve cols boxInside">
-                    <div class="row regular">
+                <div class="l-four m-twelve s-twelve cols boxInside">
+                    <div class="row">
                         <div class="col">
                             <h3>${ pollSectionInstance?.name }</h3>
+                        </div>
+                        <div class="l-ten m-ten s-ten cols">
                             <p class="status margin-bottom">
                                 <g:if test="${!opinionInstance.submitted}">
                                     ${answeredItemsPerSection.get(pollSectionInstance)} of ${ pollSectionInstance?.items?.size()} items have already been answered
-                                    <g:link class="icon-link" controller="opinion" action="answerSectionItems" params="[pollId: pollInstance.id, opinionId: opinionInstance.id, sectionId: pollSectionInstance.id]">
-                                        <i class="fa fa-share padding-left"></i>
-                                    </g:link>
                                 </g:if>
                             </p>
+                        </div>
+                        <div class="l-two m-two s-two cols">
+                            <g:link class="icon-link" controller="opinion" action="answerSectionItems" params="[pollId: pollInstance.id, opinionId: opinionInstance.id, sectionId: pollSectionInstance.id]">
+                                <i class="fa fa-share"></i>
+                            </g:link>
+                        </div>
+                        <div class="col">
                             <p>${ pollSectionInstance?.description }</p>
                         </div>
+
                     </div>
                 </div>
             </g:each>

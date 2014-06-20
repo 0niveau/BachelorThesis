@@ -41,7 +41,7 @@
         </g:hasErrors>
 
         <div class="row white shadow">
-            <div class="l-six m-six s-twelve cols">
+            <div class="l-six m-twelve s-twelve cols">
                 <g:form url="[resource:scaleInstance, action:'update']" method="PUT" name="scaleEditForm">
                     <g:hiddenField name="version" value="${scaleInstance?.version}" />
                     <g:render template="form" model="[scaleInstance: scaleInstance, form: 'scaleEditForm']"/>

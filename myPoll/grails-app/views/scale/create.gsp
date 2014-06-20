@@ -49,7 +49,7 @@
         </g:hasErrors>
 
         <div class="row white shadow">
-            <section class="l-six m-six s-twelve cols">
+            <section class="l-six m-twelve s-twelve cols">
                 <g:form url="[resource: scaleInstance, action:'save']" name="createScaleForm">
                     <g:render template="form" model="['scaleInstance': scaleInstance, 'form': 'createScaleForm']"></g:render>
                 </g:form>
