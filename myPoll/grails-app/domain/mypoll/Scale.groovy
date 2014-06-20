@@ -8,6 +8,7 @@ class Scale {
 	List options
 	
     static constraints = {
-		name blank: false
+		name blank: false, maxSize: 25
+        options minSize: 2
     }
 }

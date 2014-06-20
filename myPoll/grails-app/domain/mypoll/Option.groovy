@@ -5,6 +5,6 @@ class Option {
 	String value
 	
     static constraints = {
-		value blank: false
+		value blank: false, maxSize: 25
     }
 }

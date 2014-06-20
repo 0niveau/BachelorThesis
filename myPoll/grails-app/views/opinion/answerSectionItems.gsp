@@ -13,9 +13,9 @@
 	<g:javascript library="application"/>
 	<r:layoutResources />
 </head>
-<body class="page ${ needsTestObject ? 'full' : '' } darkgrey">
-    <div class="row white nomargin-bottom ${ !needsTestObject ? 'shadow top' : '' }">
-        <section class="${ needsTestObject ? 'l-three m-twelve s-twelve' : '' } cols">
+<body class="page ${ displayTestObjectInIFrame ? 'full' : '' } darkgrey">
+    <div class="row white nomargin-bottom ${ !displayTestObjectInIFrame ? 'shadow top' : '' }">
+        <section class="${ displayTestObjectInIFrame ? 'l-three m-twelve s-twelve' : '' } cols">
             <div class="row">
                 <div class="col">
                     <h1 class="blueText">Welcome to ${ pollSectionInstance?.name }</h1>
@@ -23,9 +23,8 @@
                 </div>
             </div>
 
-            <div class="row">
-
-                <div class="slider highlight l-twelve m-twelve s-twelve cols">
+            <div class="row highlight">
+                <div class="slider l-six m-six s-twelve cols">
                     <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
                         <div class="sliderElement">
                             <p class="blueText bold">${ itemInstance?.question }</p>
@@ -43,6 +42,14 @@
                         </div>
                     </g:each>
                 </div>
+                <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
+                    <div class="l-six m-six s-twelve cols">
+                        <p>It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions.</p>
+                        <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
+                    </div>
+                </g:if>
+            </div>
+            <div class="row">
                 <div class="sliderNavigation l-four m-four s-four cols centered-text">
                     <a href="#" class="icon-link" id="prev"><i class="fa fa-arrow-left"></i></a>
                 </div>
@@ -57,7 +64,7 @@
             </div>
         </section>
 
-        <g:if test="${ needsTestObject }">
+        <g:if test="${ displayTestObjectInIFrame }">
             <iframe src="${ opinionInstance?.testObjectUrl }" class="l-nine m-twelve s-twelve cols l-border-left-solidGrey"></iframe>
         </g:if>
     </div>

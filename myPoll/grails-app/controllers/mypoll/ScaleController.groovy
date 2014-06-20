@@ -69,13 +69,17 @@ class ScaleController {
 
 		for (option in cmd.options) {
 			Option optionInstance = new Option(value: option)
-			if (optionInstance.hasErrors()) {
-				return
+			if (optionInstance.validate()) {
+                scaleInstance.options.add(optionInstance)
 			}
-			optionInstance.save flush:true
-			scaleInstance.options.add(optionInstance)
 		}
-		scaleInstance.save flush:true
+
+        if (scaleInstance.validate()) {
+            scaleInstance.save flush:true
+        } else {
+            respond scaleInstance.errors, view: 'create'
+            return
+        }
 		
 		request.withFormat {
 			form multipartForm {

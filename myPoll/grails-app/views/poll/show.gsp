@@ -68,7 +68,7 @@
                                         <i class="fa fa-pencil"></i></g:link>
                                 </g:else>
                             </g:if>
-                            <g:else><a class="icon-link darkgreyText"><i class="fa fa-pencil"></i></a></g:else>
+                            <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                                     <i class="fa fa-pencil"></i></g:link>
                             </g:else>
                         </g:if>
-                        <g:else><a class="icon-link darkgreyText"><i class="fa fa-pencil"></i></a></g:else>
+                        <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
                     </div>
                 </div>
             </div>
@@ -159,7 +159,7 @@
             </div>
 
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row l-flat border-bottom-blueDotted">
+                <div class="row l-regular border-bottom-blueDotted">
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Share your poll!</h2>
                         <g:if test="${ pollInstance?.isActive }" >
@@ -188,7 +188,7 @@
 
 
             <div class="l-six m-twelve s-twelve cols boxInside">
-                <div class="row l-flat border-bottom-blueDotted">
+                <div class="row l-regular border-bottom-blueDotted">
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Opinions</h2>
                         <g:if test="${ pollInstance?.opinions }" >

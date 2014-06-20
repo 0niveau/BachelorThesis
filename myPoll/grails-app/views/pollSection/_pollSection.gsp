@@ -36,7 +36,7 @@
                         <i class="fa fa-pencil"></i></g:link>
                 </g:else>
             </g:if>
-            <g:else><a class="icon-link darkgreyText"><i class="fa fa-pencil"></i></a></g:else>
+            <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
         </div>
     </div>
 
@@ -65,7 +65,7 @@
                     </g:else>
                 </g:form>
             </g:if>
-            <g:else><a class="icon-link darkgreyText"><i class="fa fa-power-off"></i></a></g:else>
+            <g:else><a class="icon-link disabled"><i class="fa fa-power-off"></i></a></g:else>
         </div>
     </div>
 
@@ -183,14 +183,14 @@
                         <g:link class="icon-link" controller="pollSection" action="addableItems" id="${ pollSection.id }" params="[addToSection: 'addToSection']">
                             <i class="fa fa-plus"></i></g:link>
                     </g:if>
-                    <g:else><a class="icon-link darkgreyText"><i class="fa fa-plus"></i></a></g:else>
+                    <g:else><a class="icon-link disabled"><i class="fa fa-plus"></i></a></g:else>
                 </div>
                 <div class="actions l-one m-two s-two cols">
                     <g:if test="${ !pollSection.poll.isActive && !pollSection?.items?.empty }">
                         <g:link class="icon-link" controller="pollSection" action="reorderItems" id="${ pollSection.id }" >
                             <i class="fa fa-list-ol"></i></g:link>
                     </g:if>
-                    <g:else><a class="icon-link darkgreyText"><i class="fa fa-list-ol"></i></a></g:else>
+                    <g:else><a class="icon-link disabled"><i class="fa fa-list-ol"></i></a></g:else>
                 </div>
                 <div class="actions l-one m-two s-two cols">
                     <g:link class="icon-link" controller="pollSection" action="show" id="${ pollSection?.id }"><i class="fa fa-times"></i></g:link>

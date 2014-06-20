@@ -12,7 +12,7 @@ class PollSection {
     List items
 	
     static constraints = {
-    	name blank: false
-		description nullable: true
+    	name blank: false, maxSize: 50
+		description nullable: true, maxSize: 255
     }
 }

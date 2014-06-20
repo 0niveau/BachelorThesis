@@ -29,9 +29,9 @@
         <g:hasErrors bean="${pollInstance}">
             <div class="row">
                 <div class="col">
-                    <ul class="errors" role="alert">
+                    <ul>
                         <g:eachError bean="${pollInstance}" var="error">
-                            <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                            <li class="hint"><g:message error="${error}"/></li>
                         </g:eachError>
                     </ul>
                 </div>

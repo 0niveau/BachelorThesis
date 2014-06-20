@@ -36,18 +36,6 @@
         </div>
         </g:hasErrors>
 
-        <g:hasErrors bean="${scaleInstance}">
-        <div class="row">
-            <section class="col">
-                <ul class="errors" role="alert">
-                    <g:eachError bean="${scaleInstance}" var="error">
-                    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-                    </g:eachError>
-                </ul>
-            </section>
-        </div>
-        </g:hasErrors>
-
         <div class="row white shadow">
             <section class="l-six m-twelve s-twelve cols">
                 <g:form url="[resource: scaleInstance, action:'save']" name="createScaleForm">

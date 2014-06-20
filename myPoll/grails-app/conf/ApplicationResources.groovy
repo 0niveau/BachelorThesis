@@ -5,6 +5,7 @@ modules = {
 		resource url: 'js/dragAndDrop.js'
 		resource url: 'js/createScale.js'
 		resource url: 'js/slider.js'
+        resource url: 'js/submitDisplayWidth.js'
 		
 		resource url: 'css/grid.css'
 		resource url: 'css/style.css'

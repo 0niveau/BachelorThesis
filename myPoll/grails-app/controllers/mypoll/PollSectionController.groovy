@@ -70,7 +70,7 @@ class PollSectionController {
 		PollSection pollSectionInstance = PollSection.get(params.id)
 		Poll pollInstance = pollSectionInstance.poll
 
-        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an active poll")
 
         if (pollInstance.hasErrors()) {
             resond pollInstance.errors, view: 'poll/show'

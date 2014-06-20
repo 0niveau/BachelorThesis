@@ -25,15 +25,9 @@ class OpinionController {
 	 */
     def indexSubject(Opinion opinionInstance) {
         Poll pollInstance = opinionInstance.poll
-        Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
-        for (pollSectionInstance in pollInstance.sections) {
-            Integer count = 0
-            for (itemInstance in pollSectionInstance.items) {
-                if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
-            }
-            answeredItemsPerSection.put(pollSectionInstance, count)
-        }
-        model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection]
+        def answeredItemsPerSection = getAnsweredItemsPerSection(opinionInstance)
+        Boolean submittable = allItemsAnswered(opinionInstance)
+        model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection, submittable: submittable]
     }
 
     /*
@@ -73,7 +67,7 @@ class OpinionController {
     def exportOpinions() {
         Poll pollInstance = Poll.get(params.pollId)
 
-        List items = pollInstance.sections.collect{ it.items }.flatten()
+        List items = pollInstance.getPollItems()
 
         String testObjectUrl = params.testObjectUrl
         String filename = testObjectUrl.replace("http://","")
@@ -111,15 +105,20 @@ class OpinionController {
 
         Boolean needsTestObject = pollSectionInstance.needsTestObject
 
-        model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject]
+        def displayWidth = params.displayWidth as int
+
+        Boolean wideEnoughForIFrame
+
+        displayWidth < 768 ? (wideEnoughForIFrame = false) : (wideEnoughForIFrame = true)
+        Boolean displayTestObjectInIFrame = needsTestObject && wideEnoughForIFrame
+
+        model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame]
     }
 
-    def saveSubjectSelections(saveSubjectSelectionsCommand cmd) {
-        Opinion opinionInstance = Opinion.get(params.id)
+    def saveSubjectSelections(Opinion opinionInstance) {
 
         if (opinionInstance.submitted) opinionInstance.errors.reject('opinion.submitted.editFailure',
                 "Your opinion has already been submitted. Changing your answers is no longer possible")
-        opinionInstance.selections.putAll(cmd.selections)
 
         if (opinionInstance.hasErrors()) {
             respond opinionInstance.errors, view: 'error'
@@ -132,6 +131,18 @@ class OpinionController {
     }
 
     def submitOpinion(Opinion opinionInstance) {
+        def pollInstance = opinionInstance.poll
+
+        if (!allItemsAnswered(opinionInstance)) {
+            opinionInstance.errors.reject('opinion.items.unanswered', "You have not answered all items. Please answer the remaining items and submit your opinion again")
+        }
+
+        if (opinionInstance.hasErrors()) {
+            def answeredItemsPerSection = getAnsweredItemsPerSection(opinionInstance)
+            respond opinionInstance.errors, view: 'indexSubject', model: [pollInstance: pollInstance, opinionInstance: opinionInstance, answeredItemsPerSection: answeredItemsPerSection]
+            return
+        }
+
         opinionInstance.submitted = true
         opinionInstance.save flush:true
 
@@ -150,5 +161,23 @@ class OpinionController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+
+    private Map<PollSection,Integer> getAnsweredItemsPerSection (Opinion opinionInstance) {
+        Poll pollInstance = opinionInstance.poll
+        Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
+        for (pollSectionInstance in pollInstance.sections) {
+            Integer count = 0
+            for (itemInstance in pollSectionInstance.items) {
+                if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
+            }
+            answeredItemsPerSection.put(pollSectionInstance, count)
+        }
+        return answeredItemsPerSection
+    }
+
+    private Boolean allItemsAnswered(Opinion opinionInstance) {
+        def itemIds = opinionInstance.poll.getPollItems().collect { it.id as String }
+        opinionInstance.selections.keySet().containsAll(itemIds) ? true : false
     }
 }

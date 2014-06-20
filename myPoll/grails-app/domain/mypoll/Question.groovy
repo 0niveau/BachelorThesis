@@ -6,5 +6,6 @@ class Question {
 	Scale scale
 
     static constraints = {
+        text maxSize: 255
     }
 }

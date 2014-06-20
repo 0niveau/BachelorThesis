@@ -178,6 +178,15 @@ a:visited {
     color: #000000;
 }
 
+a.text-link {
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+a.text-link:hover {
+    color: #43b6bb;
+}
+
 a.icon-link {
     font-size: 2em;
 }
@@ -191,7 +200,8 @@ a.icon-link:not(.disabled):hover {
 }
 
 a.disabled {
-    color: #F0F0F0;
+    color: #c7c7c7;
+    cursor: default;
 }
 
 .navigation__links {
