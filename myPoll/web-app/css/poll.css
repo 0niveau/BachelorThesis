@@ -57,12 +57,7 @@
 	display: block;
 }
 
-.pollSectionItemList {
-	padding-bottom: 10px;
-}
-
 .pollSectionItem {
-	border-top: solid 2px transparent;
 }
 
 .pollSectionItem td {

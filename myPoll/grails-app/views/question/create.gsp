@@ -47,17 +47,21 @@
                             <textarea class="${hasErrors(bean: questionInstance, field: 'text', 'error')}" name="text">${questionInstance?.text}</textarea>
 
                             <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
+                            <p class="hint">If you can't find any scale that fits for your purpose, you can easily create your own. Just follow this link.</p>
+                            <g:link controller="scale" action="create"><i class="fa fa-hand-o-right padding-right"></i>new Scale</g:link>
                             <div class="row">
                                 <div class="l-six m-six s-twelve cols">
                                     <h3><g:message code="question.scale.available" default="Available Scales" /></h3>
-                                    <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                                        <div class="selectable" data-selectionRef="options${scale.id}">
-                                            <label class="radioInputLabel">
-                                                <input type="radio" name="scale" value="${scale.id}" id="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/>
-                                                ${ scale.name }
-                                            </label>
-                                        </div>
-                                    </g:each>
+                                    <ul>
+                                        <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
+                                            <li class="selectable" data-selectionRef="options${scale.id}">
+                                                <label class="radioInputLabel">
+                                                    <input type="radio" name="scale" value="${scale.id}" id="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/>
+                                                    ${ scale.name }
+                                                </label>
+                                            </li>
+                                        </g:each>
+                                    </ul>
                                 </div>
                                 <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
                                     <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols">

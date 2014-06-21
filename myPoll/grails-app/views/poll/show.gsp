@@ -192,7 +192,7 @@
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Opinions</h2>
                         <g:if test="${ pollInstance?.opinions }" >
-                            <p class="property-value box">Your poll has already received ${ pollInstance?.opinions?.size() } opinions</p>
+                            <p class="property-value box">Your poll has already received ${ pollInstance?.opinions?.findAll { it.submitted }.size() } opinions</p>
                         </g:if>
                         <g:else>
                             <p class="property-value box">Nobody has submitted an opinion yet</p>

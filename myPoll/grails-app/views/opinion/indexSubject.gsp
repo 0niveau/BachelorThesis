@@ -36,8 +36,9 @@
                 </div>
             </div>
 
-            <div class="row highlight nomargin-bottom">
             <g:each in="${ pollInstance?.sections }" status="s" var="pollSectionInstance">
+                <g:if test="${ s % 3 == 0 }"><div class="row highlight nomargin-bottom"></g:if>
+
                 <div class="l-four m-twelve s-twelve cols boxInside">
                     <div class="row">
                         <div class="col">
@@ -50,20 +51,21 @@
                                 </g:if>
                             </p>
                         </div>
-                        <div class="l-two m-two s-two cols">
+                        <div class="l-two m-two s-two cols nopadding">
                             <g:form controller="opinion" action="answerSectionItems" params="[pollId: pollInstance.id, opinionId: opinionInstance.id, sectionId: pollSectionInstance.id]">
                                 <input class="displayWidthInput" name="displayWidth" type="hidden" value="">
                                 <input class="icon-submit" type="submit" value="&#xf064;">
                             </g:form>
                         </div>
-                        <div class="col">
-                            <p>${ pollSectionInstance?.description }</p>
-                        </div>
-
+                        <g:if test="${ pollSectionInstance?.description }">
+                            <div class="col">
+                                <p>${ pollSectionInstance?.description }</p>
+                            </div>
+                        </g:if>
                     </div>
                 </div>
+                <g:if test="${ s % 3 == 2 || s == (pollInstance?.sections?.size() -1)}"></div></g:if>
             </g:each>
-            </div>
         </div>
     </div>
 </body>

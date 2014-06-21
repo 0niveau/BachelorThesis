@@ -10,11 +10,6 @@ class ScaleCreateCommand {
 	String name
 	List options = []
 	
-	static constraints = {
-		name blank: false
-		options minSize: 2
-	}
-	
 	Scale createScale () {
 		Scale scaleInstance = new Scale(
 			name: name,
@@ -27,11 +22,6 @@ class ScaleCreateCommand {
 class ScaleUpdateCommand {
     String name
     List options = []
-
-    static constraints = {
-        name blank: false
-        options minSize: 2
-    }
 }
 
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -67,8 +57,8 @@ class ScaleController {
 		
 		Scale scaleInstance = cmd.createScale()		
 
-		for (option in cmd.options) {
-			Option optionInstance = new Option(value: option)
+		cmd.options.each { value ->
+			Option optionInstance = new Option(value: value)
 			if (optionInstance.validate()) {
                 scaleInstance.options.add(optionInstance)
 			}
@@ -99,33 +89,34 @@ class ScaleController {
 	def update(ScaleUpdateCommand cmd) {
         Scale scaleInstance = Scale.get(params.id)
 
-        scaleInstance.name = cmd.name
-        List<Option> currentOptions = scaleInstance.options
-        List<Option> newOptions = createOptionsFromValues(cmd.options)
+        if (scaleInstance == null) {
+            notFound()
+            return
+        }
 
+        List<Option> newOptions = []
+
+        cmd.options.each { value ->
+            Option optionInstance = new Option(value: value)
+            if (optionInstance.validate()) {
+                newOptions.add(optionInstance)
+            }
+        }
+
+        scaleInstance.name = cmd.name
         scaleInstance.options = newOptions
 
-		if (scaleInstance == null) {
-			notFound()
-			return
-		}
-		
-		if (scaleInstance.hasErrors()) {
-			respond scaleInstance.errors, view: 'edit'
-			return
-		}
+		if (scaleInstance.validate()) {
+            scaleInstance.save flush:true
 
-        /*
-        for (optionInstance in currentOptions) {
-            optionInstance.delete flush:true
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'Scale.label', default: 'Scale'), scaleInstance.id])
+
+            redirect scaleInstance
+
+        } else {
+            respond scaleInstance.errors, view: 'edit'
+            return
         }
-        */
-
-		scaleInstance.save flush:true
-		
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'Scale.label', default: 'Scale'), scaleInstance.id])
-		
-		redirect scaleInstance
 	}
 	
 	protected void notFound() {
@@ -137,17 +128,4 @@ class ScaleController {
 			'*'{ render status: NOT_FOUND }
 		}
 	}
-
-    def createOptionsFromValues (List<String> values) {
-        List<Option> options = []
-        for (value in values) {
-            Option optionInstance = new Option(value: value)
-            if (optionInstance.hasErrors()) {
-                return
-            }
-            optionInstance.save flush:true
-            options.add(optionInstance)
-        }
-        return options
-    }
 }

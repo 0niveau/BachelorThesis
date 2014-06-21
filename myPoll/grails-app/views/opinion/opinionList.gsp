@@ -30,7 +30,7 @@
                         <tr>
                             <th class="thin">${ pollInstance.testObjectUrlA }</th>
                             <g:each in="${ opinionsA }" var="opinionInstance">
-                            <td> ${ opinionInstance.selections.get( itemInstance.id as String).value }</td>
+                            <td> ${ opinionInstance.selections.get( itemInstance.id as String)?.value }</td>
                             </g:each>
                         </tr>
                         <tr>

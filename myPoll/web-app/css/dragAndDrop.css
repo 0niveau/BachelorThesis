@@ -9,12 +9,27 @@
   -webkit-user-drag: element;
 }
 
+.draggableItem:before {
+    font-family: FontAwesome;
+    content: "\f07d";
+    padding-right: 1em;
+}
+
+.draggableItem:hover {
+    cursor: move;
+}
+
 .beingDragged {
  	background-color: lightgreen;
 }
 
-.pollSectionItemList.over {
+.pollSectionItemList {
+    margin-bottom: 0.5em;
+}
 
+.pollSectionItemList.over {
+    outline: #43b6bb dotted 0.1em;
+    outline-offset: 0.2em;
 }
 
 .pollSectionItem.over {
@@ -23,8 +38,4 @@
 
 .lastMoved {
 	background-color: lightgreen;
-}
-
-#lastPollSectionItem {
-	height: 20px;
 }

@@ -109,7 +109,7 @@ class PollController {
     @Transactional
     def update(Poll pollInstance) {
 
-        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an acitve poll")
+        if (pollInstance.isActive) pollInstance.errors.reject('poll.isActive.editFailure', "You can't edit an active poll")
 
         if (pollInstance == null) {
             notFound()
@@ -150,12 +150,7 @@ class PollController {
 
         // Deleting old Opinions
         if (pollInstance.isActive) {
-            def oldOpinions = pollInstance.opinions
-            pollInstance.opinions = []
-
-            for (opinionInstance in oldOpinions) {
-                opinionInstance.delete flush: true
-            }
+            resetOpinions(pollInstance)
         }
 
         pollInstance.save flush:true
@@ -187,6 +182,12 @@ class PollController {
             }
             '*'{ render status: NO_CONTENT }
         }
+    }
+
+    private resetOpinions(Poll pollInstance) {
+        def oldOpinions = pollInstance.opinions
+        pollInstance.opinions = []
+        oldOpinions.each { opinion -> opinion.delete flush: true }
     }
 
     protected void notFound() {

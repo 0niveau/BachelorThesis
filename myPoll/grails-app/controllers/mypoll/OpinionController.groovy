@@ -49,12 +49,8 @@ class OpinionController {
      */
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def opinionList(Poll pollInstance) {
-        List<Opinion> opinionsA = []
-        List<Opinion> opinionsB = []
-        pollInstance.opinions.each {
-            opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA ? opinionsA.add(opinion) : opinionsB.add(opinion)
-        }
-
+        List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted }
+        List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted }
 
         model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB]
     }
