@@ -122,7 +122,7 @@
                         <g:each in="${ pollInstance?.sections }" var="s" >
                             <g:render
                                     template="/pollSection/pollSection"
-                                    model="['pollSection': s, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
+                                    model="['pollSection': s, pollSectionInstance: pollSectionInstance, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
                         </g:each>
                         <g:if test="${ !pollInstance?.isActive }">
                             <div id="newSection" class="propertyDetails row l-bigger ${ targetId == 'newSection' ? 'selected' : '' }" >

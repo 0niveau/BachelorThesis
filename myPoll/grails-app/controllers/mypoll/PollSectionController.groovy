@@ -148,16 +148,16 @@ class PollSectionController {
             return
         }
 
-        if (pollSectionInstance.hasErrors()) {
-            respond pollSectionInstance.errors, view:'edit'
+        if (pollSectionInstance.validate()) {
+            pollSectionInstance.save flush:true
+
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
+
+            redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: params.mode]
+        } else {
+            respond pollSectionInstance.errors, view:'/poll/show', model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, targetId: pollSectionInstance.id]
             return
         }
-
-        pollSectionInstance.save flush:true
-
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
-
-        redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: params.mode]
     }
 
     @Transactional

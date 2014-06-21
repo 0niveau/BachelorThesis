@@ -9,6 +9,16 @@
         </div>
     </div>
 
+    <g:hasErrors bean="${ pollSectionInstance }">
+        <div class="row">
+            <div class="col">
+                <g:eachError bean="${pollSectionInstance}" var="error">
+                    <p class="hint"><g:message error="${error}"/></p>
+                </g:eachError>
+            </div>
+        </div>
+    </g:hasErrors>
+
     <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
             <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
