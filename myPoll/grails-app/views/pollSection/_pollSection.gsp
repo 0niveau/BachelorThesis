@@ -103,7 +103,7 @@
                     <g:else>
                         <p class="hint">You have added all available questions to your section. Follow the link below to create some more.</p>
                     </g:else>
-                    <g:link controller="question" action="create"><i class="fa fa-hand-o-right padding-right"></i>new Question</g:link>
+                    <g:link controller="question" action="create" params="[pollSectionId: pollSection.id]"><i class="fa fa-hand-o-right padding-right"></i>new Question</g:link>
                 </div>
                 <div class="actions l-two m-two s-two cols">
                     <g:form id="${ pollSection.id }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
@@ -169,7 +169,7 @@
                     <g:if test="${ !pollSection?.items?.isEmpty() }">
                         <ul class="draggableItemList pollSectionItemList" data-listedElements="items">
                             <g:each in="${ pollSection?.items }" status="i" var="itemInstance">
-                                <li class="${ pollSection.poll.isActive ? '' : 'draggableItem'} pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" ${ pollSection.poll.isActive ? '' : "draggable='true'" }>
+                                <li class="${ pollSection.poll.isActive ? '' : 'draggableItem'} pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" ${ pollSection.poll.isActive ? '' : "draggable=true" }>
                                     <span>${ itemInstance?.question }</span>
                                     <input type="hidden" class="itemIdInput"
                                            name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance?.id }" />

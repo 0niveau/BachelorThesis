@@ -24,7 +24,7 @@
             </div>
 
             <div class="row highlight">
-                <div class="slider l-six m-six s-twelve cols">
+                <div class="slider l-twelve m-twelve s-twelve cols">
                     <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
                         <div class="sliderElement">
                             <p class="blueText bold">${ itemInstance?.question }</p>

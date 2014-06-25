@@ -29,7 +29,11 @@ class QuestionController {
     }
 
     def create() {
-        respond new Question(params)
+		def pollSectionId
+		if(params.pollSectionId) {
+			pollSectionId = params.pollSectionId as long
+		}
+        respond new Question(params), model:[pollSectionId: pollSectionId]
     }
 
     @Transactional
@@ -45,6 +49,11 @@ class QuestionController {
         }
 
         questionInstance.save flush:true
+		
+		if(params.pollSectionId) {
+			redirect controller: 'pollSection', action: 'addableItems', id: params.pollSectionId as long
+			return
+		}
 
         request.withFormat {
             form multipartForm {

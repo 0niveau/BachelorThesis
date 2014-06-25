@@ -74,6 +74,9 @@
                                     </div>
                                 </g:each>
                             </div>
+                            <g:if test="${ pollSectionId }">
+                            	<input type="hidden" name="pollSectionId" value="${ pollSectionId }" />
+                            </g:if>
                         </g:form>
                     </div>
                     <div class="actions l-two m-two s-two cols">

@@ -27,6 +27,7 @@ window.addEventListener("load", function() {
 
 		e.dataTransfer.effectAllowed = 'move';
 		e.dataTransfer.setData('text/html', this.innerHTML);
+		return false;
 	}
 
 	function handleDragOver(e) {
@@ -82,6 +83,7 @@ window.addEventListener("load", function() {
 		[].forEach.call(draggableItems, function(draggableItem) {
 			draggableItem.classList.remove('over');
 		});  
+		return false;
 	}
 
 	function swapElements (el1,el2) {

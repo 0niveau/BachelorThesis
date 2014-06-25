@@ -75,6 +75,14 @@ table.itemResults td {
     width: 100px;
 }
 
+tr {
+	line-height: 2em;
+}
+
+tr:not(:last-child) {
+	border-bottom: dotted 0.1em #c7c7c7;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -84,6 +92,10 @@ ul {
 li {
     line-height: 2em;
     padding-left: 0.5em;
+}
+
+li:not(:last-child) {
+	border-bottom: dotted 0.1em #c7c7c7;
 }
 
 p {
@@ -302,10 +314,6 @@ a.disabled {
 
 .item {
 	padding: 0.5rem;
-}
-
-.odd {
-	background-color: #f0f0f0;
 }
 
 .item:nth-child(n+3) {

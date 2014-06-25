@@ -28,8 +28,7 @@
 }
 
 .pollSectionItemList.over {
-    outline: #43b6bb dotted 0.1em;
-    outline-offset: 0.2em;
+    box-shadow: 0 0 0.2em #43b6bb;
 }
 
 .pollSectionItem.over {
