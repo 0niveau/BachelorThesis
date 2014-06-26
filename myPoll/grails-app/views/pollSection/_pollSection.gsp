@@ -114,7 +114,7 @@
             <g:if test="${ !selectableQuestions?.empty }">
                 <div class="row">
                     <div class="col">
-                        <ul>
+                        <ul class="enclosedItems">
                             <g:each in="${selectableQuestions}" status="i" var="questionInstance">
                                 <li class="${(i % 2) == 0 ? 'even' : 'odd'} ">
                                     <input class="padding-right" name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" />
@@ -167,7 +167,7 @@
             <div class="row">
                 <div class="col">
                     <g:if test="${ !pollSection?.items?.isEmpty() }">
-                        <ul class="draggableItemList pollSectionItemList" data-listedElements="items">
+                        <ul class="draggableItemList pollSectionItemList enclosedItems" data-listedElements="items">
                             <g:each in="${ pollSection?.items }" status="i" var="itemInstance">
                                 <li class="${ pollSection.poll.isActive ? '' : 'draggableItem'} pollSectionItem ${(i % 2) == 0 ? 'even' : 'odd'}" ${ pollSection.poll.isActive ? '' : "draggable=true" }>
                                     <span>${ itemInstance?.question }</span>

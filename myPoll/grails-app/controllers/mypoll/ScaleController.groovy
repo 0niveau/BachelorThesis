@@ -40,7 +40,11 @@ class ScaleController {
 	}
 	
 	def create() {
-		respond new Scale(params)
+		boolean useInQuestion
+		if(params.useInQuestion) { 
+			useInQuestion = params.useInQuestion as boolean
+		}
+		respond new Scale(params), model: [useInQuestion: useInQuestion]
 	}
 	
 	@Transactional
@@ -70,6 +74,11 @@ class ScaleController {
             respond scaleInstance.errors, view: 'create'
             return
         }
+		
+		if (params.useInQuestion) {
+			redirect controller: 'question', action: 'create'
+			return	
+		}
 		
 		request.withFormat {
 			form multipartForm {

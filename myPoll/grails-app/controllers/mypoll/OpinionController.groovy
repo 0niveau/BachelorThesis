@@ -37,7 +37,11 @@ class OpinionController {
         if (!pollInstance.isActive) return
 
         String testObjectUrl = ( pollInstance.opinions.size() % 2 == 0 ? pollInstance.testObjectUrlA : pollInstance.testObjectUrlB )
-        Opinion opinionInstance = new Opinion(testObjectUrl: testObjectUrl, poll: pollInstance)
+        Opinion opinionInstance = new Opinion(
+			testObjectUrl: testObjectUrl, 
+			poll: pollInstance, 
+			submittable: false, 
+			submitted: false)
         opinionInstance.save flush:true
 
         redirect action: 'indexSubject', id: opinionInstance.id
@@ -91,22 +95,24 @@ class OpinionController {
 
     }
 
-    def answerSectionItems() {
-        Opinion opinionInstance = Opinion.get(params.opinionId)
+    def answerSectionItems(Opinion opinionInstance) {
 
         if (opinionInstance.submitted) return
 
-        Poll pollInstance = Poll.get(params.pollId)
-        PollSection pollSectionInstance = PollSection.get(params.sectionId)
+        Poll pollInstance = opinionInstance.poll
+        PollSection pollSectionInstance = pollInstance.sections.find{ pollSectionInstance -> 
+				allSectionItemsAnswered(opinionInstance.selections, pollSectionInstance) == false }
+		
+		if (pollSectionInstance == null) {
+			opinionInstance.submittable = true
+			opinionInstance.save flush:true
+			redirect action: 'indexSubject', id: opinionInstance.id
+			return
+		}
 
-        Boolean needsTestObject = pollSectionInstance.needsTestObject
-
-        def displayWidth = params.displayWidth as int
-
-        Boolean wideEnoughForIFrame
-
-        displayWidth < 768 ? (wideEnoughForIFrame = false) : (wideEnoughForIFrame = true)
-        Boolean displayTestObjectInIFrame = needsTestObject && wideEnoughForIFrame
+        boolean needsTestObject = pollSectionInstance.needsTestObject
+		boolean displayWideEnoughForIFrame = displayWideEnoughForIFrame(params.displayWidth as int)
+        boolean displayTestObjectInIFrame = needsTestObject && displayWideEnoughForIFrame
 
         model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame]
     }
@@ -123,13 +129,13 @@ class OpinionController {
 
         opinionInstance.save flush:true
 
-        redirect action: 'indexSubject', id: opinionInstance.id
+        redirect action: 'answerSectionItems', id: opinionInstance.id, params: [displayWidth: params.displayWidth]
     }
 
     def submitOpinion(Opinion opinionInstance) {
         def pollInstance = opinionInstance.poll
 
-        if (!allItemsAnswered(opinionInstance)) {
+        if (!opinionInstance.submittable) {
             opinionInstance.errors.reject('opinion.items.unanswered', "You have not answered all items. Please answer the remaining items and submit your opinion again")
         }
 
@@ -140,6 +146,7 @@ class OpinionController {
         }
 
         opinionInstance.submitted = true
+		opinionInstance.submittable = false
         opinionInstance.save flush:true
 
         redirect action: 'thanks'
@@ -172,8 +179,18 @@ class OpinionController {
         return answeredItemsPerSection
     }
 
-    private Boolean allItemsAnswered(Opinion opinionInstance) {
+    private boolean allItemsAnswered(Opinion opinionInstance) {
         def itemIds = opinionInstance.poll.getPollItems().collect { it.id as String }
-        opinionInstance.selections.keySet().containsAll(itemIds) ? true : false
+		return opinionInstance.selections.keySet().containsAll(itemIds)
     }
+	
+	private boolean allSectionItemsAnswered(Map<String, Option> selections, PollSection pollSectionInstance) {
+		def itemIds = pollSectionInstance.items.collect { it.id as String }
+		return selections.keySet().containsAll(itemIds)
+
+	}
+	
+	private boolean displayWideEnoughForIFrame(int displayWidth) {
+		return displayWidth > 768
+	}
 }

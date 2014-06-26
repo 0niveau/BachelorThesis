@@ -42,7 +42,7 @@
 						
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="enclosedItems">
 					<g:each in="${pollInstanceList}" status="i" var="pollInstance">
 						<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 						

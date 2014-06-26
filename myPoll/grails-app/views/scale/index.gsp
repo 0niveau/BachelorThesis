@@ -27,7 +27,7 @@
 					
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="enclosedItems">
 				<g:each in="${scaleInstanceList}" status="i" var="scaleInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					

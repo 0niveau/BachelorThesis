@@ -30,7 +30,7 @@
 						<th></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="enclosedItems">
 				<g:each in="${questionInstanceList}" status="i" var="questionInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					

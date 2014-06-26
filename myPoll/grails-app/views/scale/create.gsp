@@ -40,6 +40,9 @@
             <section class="l-six m-twelve s-twelve cols">
                 <g:form url="[resource: scaleInstance, action:'save']" name="createScaleForm">
                     <g:render template="form" model="['scaleInstance': scaleInstance, 'form': 'createScaleForm']"></g:render>
+                    <g:if test="${ useInQuestion }">
+                    	<input type="hidden" name="useInQuestion" value=true />
+                    </g:if>
                 </g:form>
             </section>
 		</div>

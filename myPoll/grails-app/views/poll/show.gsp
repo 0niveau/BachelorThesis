@@ -163,10 +163,8 @@
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Share your poll!</h2>
                         <g:if test="${ pollInstance?.isActive }" >
-                            <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>
-                            <p class="box">
-                                <span><g:link controller="opinion" action="addOpinion" id="${ pollInstance.id }">Participate</g:link></span>
-                            </p>
+                            <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>                            
+                            <span><g:link class="padding-left" controller="opinion" action="addOpinion" id="${ pollInstance.id }" name="participationLink">Participate</g:link></span>
                         </g:if>
                         <g:else>
                             <p class="property-value box">This poll is currently Deactivated. Configure your poll according to your preferences and publish it to receive opinions!</p>

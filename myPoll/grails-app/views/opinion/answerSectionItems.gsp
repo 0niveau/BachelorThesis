@@ -24,7 +24,7 @@
             </div>
 
             <div class="row highlight">
-                <div class="slider l-twelve m-twelve s-twelve cols">
+                <div class="slider col">
                     <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
                         <div class="sliderElement">
                             <p class="blueText bold">${ itemInstance?.question }</p>
@@ -43,7 +43,7 @@
                     </g:each>
                 </div>
                 <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
-                    <div class="l-six m-six s-twelve cols">
+                    <div class="col">
                         <p>It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions.</p>
                         <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
                     </div>
@@ -58,6 +58,7 @@
                 </div>
                 <div class="l-four m-four s-four cols centered-text">
                     <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
+                     	<input class="displayWidthInput" name="displayWidth" type="hidden" value="">
                         <input class="icon-submit" type="submit" value="&#xf0c7;" />
                     </g:form>
                 </div>

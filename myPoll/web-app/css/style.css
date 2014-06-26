@@ -79,7 +79,7 @@ tr {
 	line-height: 2em;
 }
 
-tr:not(:last-child) {
+.enclosedItems tr:not(:last-child) {
 	border-bottom: dotted 0.1em #c7c7c7;
 }
 
@@ -94,7 +94,7 @@ li {
     padding-left: 0.5em;
 }
 
-li:not(:last-child) {
+.enclosedItems li:not(:last-child) {
 	border-bottom: dotted 0.1em #c7c7c7;
 }
 
@@ -187,6 +187,15 @@ input[type="submit"].icon-submit:focus {
     outline: none;
 }
 
+label.iconSubmitLabel {
+	text-decoration: underline;
+}
+
+label.iconSubmitLabel:hover {
+	color: #43b6bb;
+	cursor: pointer;
+}
+
 a {
     color: #000000;
 }
@@ -206,6 +215,10 @@ a.text-link:hover {
 
 a.icon-link {
     font-size: 2em;
+}
+
+a.icon-link span {
+	font-size: 0.5em;
 }
 
 a.icon-link.normal {
