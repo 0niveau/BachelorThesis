@@ -5,7 +5,7 @@ class Opinion {
 	String testObjectUrl
     	
 	static belongsTo = [poll: Poll]
-    static hasMany = [selections: Option]
+    static hasMany = [selections: Selection]
 
 	Map selections = [:]
 	

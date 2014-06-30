@@ -32,7 +32,7 @@
                                 <g:each in="${ itemInstance?.options }" status="z" var="optionInstance">
                                     <li>
                                         <label>
-                                            <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ optionInstance?.id }"
+                                            <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ optionInstance?.value }"
                                                 ${ opinionInstance?.selections?.get(itemInstance?.id as String) == optionInstance ? "checked='checked" : '' }/>
                                             ${ optionInstance?.value }
                                         </label>

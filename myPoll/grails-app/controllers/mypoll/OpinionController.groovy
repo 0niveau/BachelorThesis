@@ -5,6 +5,10 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+class SaveSubjectSelectionsCommand {
+	Map<String, String> selections
+}
+
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 @Transactional(readOnly = true)
 class OpinionController {
@@ -53,11 +57,39 @@ class OpinionController {
      */
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
     def opinionList(Poll pollInstance) {
+		
         List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted }
         List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted }
 
-        model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB]
+		def aggregatedResults = aggregatePollResults(pollInstance)
+		
+        model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB, aggregatedResults: aggregatedResults]
     }
+	
+	private List<ItemAggregation> aggregatePollResults(Poll pollInstance) {
+		List<Item> pollItems = pollInstance.getPollItems()
+		List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted }
+		List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted }
+		
+		List<ItemAggregation> itemAggregations = []
+		
+		for (pollItem in pollItems) {
+			
+			List<Selection> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) }
+			List<Selection> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) }
+			
+			ItemAggregation itemAggregation = new ItemAggregation()
+			itemAggregation.item = pollItem
+			itemAggregation.question = pollItem.question
+			itemAggregation.possibleAnswers = pollItem.options.collect {option -> option.value }
+			itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
+			itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
+			
+			itemAggregations.add(itemAggregation)
+		}
+			
+		return itemAggregations
+	}
 
     /*
      * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
@@ -117,8 +149,9 @@ class OpinionController {
         model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame]
     }
 
-    def saveSubjectSelections(Opinion opinionInstance) {
-
+    def saveSubjectSelections(SaveSubjectSelectionsCommand cmd) {
+		Opinion opinionInstance = Opinion.get(params.id)
+		
         if (opinionInstance.submitted) opinionInstance.errors.reject('opinion.submitted.editFailure',
                 "Your opinion has already been submitted. Changing your answers is no longer possible")
 
@@ -126,6 +159,10 @@ class OpinionController {
             respond opinionInstance.errors, view: 'error'
             return
         }
+		
+		cmd.selections.each { subjectSelection ->
+			opinionInstance.selections.put(subjectSelection.getKey(), new Selection( item: Item.get(subjectSelection.getKey() as long), value: subjectSelection.getValue()) )				
+		}
 
         opinionInstance.save flush:true
 
