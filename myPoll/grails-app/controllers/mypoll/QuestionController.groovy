@@ -21,7 +21,7 @@ class QuestionController {
 			sectionId=params.id
 		}
         params.max = Math.min(max ?: 10, 100)
-        respond Question.list(params), model:[questionInstanceCount: Question.count(), selectable: selectable, sectionId: sectionId]
+        respond Question.list(params), model:[questionInstanceCount: Question.count(), sort: params.sort, order: params.order, selectable: selectable, sectionId: sectionId]
     }
 
     def show(Question questionInstance) {

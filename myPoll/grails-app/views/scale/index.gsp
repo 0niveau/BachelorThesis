@@ -14,32 +14,56 @@
 				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div id="list-scale" class="main row">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-			<thead>
-					<tr>
-					
-						<g:sortableColumn property="name" title="${message(code: 'scale.name.label', default: 'Name')}" />
-					
-					</tr>
-				</thead>
-				<tbody class="enclosedItems">
-				<g:each in="${scaleInstanceList}" status="i" var="scaleInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${scaleInstance.id}">${fieldValue(bean: scaleInstance, field: "name")}</g:link></td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${scaleInstanceCount ?: 0}" />
+		<div class="row dim greyText shadow">
+			<div class="col">
+				<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			</div>
+		</div>
+		
+		<g:if test="${flash.message}">
+			<div class="row">
+				<div class="col">
+					<div class="message" role="status">${flash.message}</div>
+				</div>
+			</div>			
+		</g:if>
+		
+		<div class="row shadow actions left-text">
+			<div class="col">
+				<g:if test="${ order == 'asc' && sort == 'name' }">
+					<g:link class="icon-link" controller="scale" action="index" params="[sort: 'name', max: 10, order: 'desc']">
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach name ab</span>
+					</g:link>					
+				</g:if>
+				<g:else>
+					<g:link class="icon-link" controller="scale" action="index" params="[sort: 'name', max: 10, order: 'asc']">
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach name auf</span>
+					</g:link>
+				</g:else>
+			</div>
+		</div>
+		
+		<div class="row white shadow">
+			<div class="col">
+				<g:each in="${ scaleInstanceList }" status="i" var="scaleInstance">
+					<div class="row instanceListItem">
+						<div class="col">
+							<g:link class="text-link" controller="scale" action="show" id="${ scaleInstance?.id }">
+								<h2 class="nomargin">${ scaleInstance?.name }</h2>
+							</g:link>
+							<ol class="inlineItems nopadding nomargin">
+								<g:each in="${ scaleInstance?.options }">
+									<li><span class="italic">${ it?.value }</span></li>
+								</g:each>
+							</ol>
+						</div>
+					</div>
+				</g:each>
+				
+			</div>
+		</div>		
+		<div class="pagination">
+			<g:paginate total="${scaleInstanceCount ?: 0}" />
 		</div>
 	</body>
 </html>

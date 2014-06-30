@@ -19,23 +19,35 @@
             <h1>${ pollInstance.name }</h1>
         </div>
     </section>
-    <g:each in="${ pollInstance?.sections }" var="sectionInstance">
-    	<section class="row white shadow">
+    
+    <section class="row shadow">
+    	<div class="col actions left-text">
+    		<g:link class="icon-link" action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlA,'pollId': pollInstance.id]">
+    			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlA }</span>
+    		</g:link>
+    	</div>
+    	<div class="col actions left-text">
+    		<g:link class="icon-link" action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlB,'pollId': pollInstance.id]">
+    			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlB }</span>
+    		</g:link>
+    	</div>
+    </section>
+    
+    <section class="row white shadow padding-bottom">
+    	<g:each in="${ pollInstance?.sections }" var="sectionInstance">  
     		<div class="col">
-    			<h2>${ sectionInstance?.name }</h2>
+    			<h2 class="blueText">${ sectionInstance?.name }</h2>
     			<g:each in="${ sectionInstance?.items }" var="itemInstance">
     				<g:set var="itemAggregation" value="${ aggregatedResults.find { aggregation -> aggregation.item.equals(itemInstance) } }"></g:set>
-    				<h3>${ itemAggregation?.question }</h3>
+    				<h3 class="orangeText">${ itemAggregation?.question }</h3>
     				<table class="itemResults">
-    					<thead>
+						<tbody>
     						<tr>
     							<th></th>
-    							<th class="thin">${ pollInstance?.testObjectUrlA }</th>
-    							<th class="thin">${ pollInstance?.testObjectUrlB }</th>
+    							<td class="thin">A</td>
+    							<td class="thin">B</td>
     							    							
     						</tr>
-    					</thead>
-    					<tbody>
     						<g:each in="${ itemAggregation?.possibleAnswers }" var="answer">    							
     						<tr>
     							<th>${ answer }</th>
@@ -47,15 +59,7 @@
     				</table>
     			</g:each>
     		</div>
-    	</section>
-    </g:each>
-    
-    
-    <section class="row dim greyText shadow">
-        <div class="col">
-            <g:link action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlA,'pollId': pollInstance.id]">export ${ pollInstance?.testObjectUrlA }</g:link>
-            <g:link action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlB,'pollId': pollInstance.id]">export ${ pollInstance?.testObjectUrlB }</g:link>
-        </div>
-    </section>
+    	</g:each>
+   	</section>
 </body>
 </html>

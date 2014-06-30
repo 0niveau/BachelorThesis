@@ -56,14 +56,11 @@ class OpinionController {
      * TODO factor this out to poll controller
      */
     @Secured(['IS_AUTHENTICATED_REMEMBERED'])
-    def opinionList(Poll pollInstance) {
-		
-        List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted }
-        List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted }
+    def opinionList(Poll pollInstance) {		
 
 		def aggregatedResults = aggregatePollResults(pollInstance)
 		
-        model: [pollInstance: pollInstance, opinionsA: opinionsA, opinionsB: opinionsB, aggregatedResults: aggregatedResults]
+        model: [pollInstance: pollInstance, aggregatedResults: aggregatedResults]
     }
 	
 	private List<ItemAggregation> aggregatePollResults(Poll pollInstance) {

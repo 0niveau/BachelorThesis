@@ -32,7 +32,7 @@ class ScaleController {
 
     def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		respond Scale.list(params), model:[scaleInstanceCount: Scale.count()]
+		respond Scale.list(params), model:[scaleInstanceCount: Scale.count(), sort: params.sort, order: params.order]
 	}
 	
 	def show(Scale scaleInstance) {

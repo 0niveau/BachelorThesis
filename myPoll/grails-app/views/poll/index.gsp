@@ -14,56 +14,75 @@
 				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div id="list-poll" class="main">
-			<section class="row">
+		<section class="row dim greyText shadow">
+			<div class="col">
 				<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			</section>
-			
-			<g:if test="${flash.message}">
-			<section class="row">
+			</div>				
+		</section>
+		
+		<g:if test="${flash.message}">
+		<section class="row">
+			<div class="col">
 				<div class="message" role="status">${flash.message}</div>
-			</section>			
-			</g:if>
-			
-			<section class="row">
-				<table>
-				<thead>
-						<tr>
-						
-							<g:sortableColumn property="name" title="${message(code: 'poll.name.label', default: 'Name')}" />
-						
-							<g:sortableColumn property="description" title="${message(code: 'poll.description.label', default: 'Description')}" />
-						
-							<g:sortableColumn property="isActive" title="${message(code: 'poll.isActive.label', default: 'Is Active')}" />
-						
-							<g:sortableColumn property="testObjectUrlA" title="${message(code: 'poll.testObjectUrlA.label', default: 'Test Object Url A')}" />
-						
-							<g:sortableColumn property="testObjectUrlB" title="${message(code: 'poll.testObjectUrlB.label', default: 'Test Object Url B')}" />
-						
-						</tr>
-					</thead>
-					<tbody class="enclosedItems">
-					<g:each in="${pollInstanceList}" status="i" var="pollInstance">
-						<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-						
-							<td><g:link action="show" id="${pollInstance.id}">${fieldValue(bean: pollInstance, field: "name")}</g:link></td>
-						
-							<td>${fieldValue(bean: pollInstance, field: "description")}</td>
-						
-							<td><g:formatBoolean boolean="${pollInstance.isActive}" /></td>
-						
-							<td>${fieldValue(bean: pollInstance, field: "testObjectUrlA")}</td>
-						
-							<td>${fieldValue(bean: pollInstance, field: "testObjectUrlB")}</td>
-						
-						</tr>
-					</g:each>
-					</tbody>
-				</table>
+			</div>				
+		</section>			
+		</g:if>
+		
+		<section class="row shadow">
+			<div class="col actions left-text">
+				<g:if test="${ order == 'asc' && sort == 'name' }">
+					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'name', max: 10, order: 'desc']">
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach name ab</span>
+					</g:link>												
+				</g:if>
+				<g:else>
+					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'name', max: 10, order: 'asc']">
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach name auf</span>
+					</g:link>
+				</g:else>
+			</div>
+			<div class="col actions left-text">
+				<g:if test="${ order == 'asc' && sort == 'isActive' }">
+					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'isActive', max: 10, order: 'desc']">
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach isActive ab</span>
+					</g:link>					
+				</g:if>
+				<g:else>
+					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'isActive', max: 10, order: 'asc']">
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach isActive auf</span>
+					</g:link>
+				</g:else>				
+			</div>
+		</section>
+		
+		<section class="row white shadow">
+			<div class="col">
+				
+				<g:each in="${pollInstanceList}" status="i" var="pollInstance">
+					<div class="row instanceListItem">
+						<div class="l-one m-two s-two cols icon-box lightgrey">
+							<g:if test="${ pollInstance?.isActive }">
+								<i class="fa fa-lock"></i>
+							</g:if>
+							<g:else>
+								<i class="fa fa-unlock"></i>
+							</g:else>
+						</div>
+						<div class="l-eleven m-ten s-ten cols">
+							<g:link class="text-link" controller="poll" action="show" id="${ pollInstance?.id }">
+								<h2 class="nomargin-top">${ pollInstance?.name }</h2>
+							</g:link>
+							<p class="nomargin"><span class="italic">${ pollInstance?.testObjectUrlA }</span> vs <span class="italic">${ pollInstance?.testObjectUrlB }</span></p>
+							<p class="nomargin hint">${ pollInstance?.opinions?.findAll{ it.submitted == true }.size() } opinions submitted</p>
+						</div>
+					</div>
+				</g:each>
+				
 				<div class="pagination">
 					<g:paginate total="${pollInstanceCount ?: 0}" />
 				</div>			
-			</section>
-		</div>
+			
+			</div>
+		</section>
 	</body>
 </html>

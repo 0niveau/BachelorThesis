@@ -14,47 +14,59 @@
 				<li class="navigation__links"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</nav>
-		<div id="list-question" class="main row">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-			<thead>
-					<tr>
-					
-						<th><g:message code="question.scale.label" default="Scale" /></th>
-					
-						<g:sortableColumn property="text" title="${message(code: 'question.text.label', default: 'Text')}" />				
-						
-						<th></th>
-					</tr>
-				</thead>
-				<tbody class="enclosedItems">
-				<g:each in="${questionInstanceList}" status="i" var="questionInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${questionInstance.id}">${fieldValue(bean: questionInstance, field: "scale")}</g:link></td>
-					
-						<td>${fieldValue(bean: questionInstance, field: "text")}</td>
-						
-						<g:if test="${ selectable }">
-						<td><label>auswählen<input name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }"></label></td>
-						</g:if>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${questionInstanceCount ?: 0}" />
+		<div class="row dim greyText shadow">
+			<div class="col">
+				<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			</div>
-			
-			<g:if test="${ selectable }">
-			<g:form id="${ sectionId }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
-				<button type="submit">Auswahl hinzufügen</button>
-			</g:form>
-			</g:if>
 		</div>
+		
+		<g:if test="${flash.message}">
+			<div class="row">
+				<div class="col">
+					<div class="message" role="status">${flash.message}</div>
+				</div>
+			</div>							
+		</g:if>
+		
+		<div class="row shadow">
+			<div class="col actions left-text">
+				<g:if test="${ order == 'asc' && sort == 'text' }">
+					<g:link class="icon-link" controller="question" action="index" params="[sort: 'text', max: 10, order: 'desc']">
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach text ab</span>
+					</g:link>
+				</g:if>
+				<g:else>
+					<g:link class="icon-link" controller="question" action="index" params="[sort: 'text', max: 10, order: 'asc']">
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach text auf</span>
+					</g:link>
+				</g:else>
+			</div>
+		</div>
+		
+		<div class="row white shadow">
+			<div class="col">
+				<g:each in="${ questionInstanceList }" status="i" var="questionInstance">
+					<div class="row instanceListItem">
+						<div class="col">
+							<g:link class="text-link" controller="question" action="show" id="${ questionInstance?.id }">
+								<h2 class="nomargin">${ questionInstance?.text }</h2>
+							</g:link>
+							<p class="nomargin italic">
+								<g:link controller="scale" action="show" id="${ questionInstance?.scale?.id}">Scale: ${ questionInstance?.scale?.name }</g:link>
+							</p>
+						</div>
+					</div>
+				</g:each>
+			</div>
+		</div>			
+		<div class="pagination">
+			<g:paginate total="${questionInstanceCount ?: 0}" />
+		</div>
+		
+		<g:if test="${ selectable }">
+		<g:form id="${ sectionId }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
+			<button type="submit">Auswahl hinzufügen</button>
+		</g:form>
+		</g:if>
 	</body>
 </html>

@@ -47,7 +47,7 @@ class PollController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Poll.list(params), model:[pollInstanceCount: Poll.count()]
+        respond Poll.list(params), model:[pollInstanceCount: Poll.count(), sort: params.sort, order: params.order]
     }
 
     def show(Poll pollInstance) {
