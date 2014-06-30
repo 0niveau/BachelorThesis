@@ -53,7 +53,7 @@
 							</g:link>
 							<ol class="inlineItems nopadding nomargin">
 								<g:each in="${ scaleInstance?.options }">
-									<li><span class="italic">${ it?.value }</span></li>
+									<li><span class="italic nomargin">${ it?.value }</span></li>
 								</g:each>
 							</ol>
 						</div>

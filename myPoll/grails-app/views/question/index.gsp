@@ -52,7 +52,7 @@
 								<h2 class="nomargin">${ questionInstance?.text }</h2>
 							</g:link>
 							<p class="nomargin italic">
-								<g:link controller="scale" action="show" id="${ questionInstance?.scale?.id}">Scale: ${ questionInstance?.scale?.name }</g:link>
+								${ questionInstance?.scale?.name }
 							</p>
 						</div>
 					</div>
