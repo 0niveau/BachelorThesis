@@ -125,7 +125,7 @@
                                     model="['pollSection': s, pollSectionInstance: pollSectionInstance, 'targetId': targetId, 'selectableQuestions': selectableQuestions, 'toBeEdited': toBeEdited]"/>
                         </g:each>
                         <g:if test="${ !pollInstance?.isActive }">
-                            <div id="newSection" class="propertyDetails row l-bigger ${ targetId == 'newSection' ? 'selected' : '' }" >
+                            <div id="newSection" class="propertyDetails row ${ targetId == 'newSection' ? 'selected' : '' }" >
                                 <div class="l-ten m-ten s-ten cols">
                                     <h2 class="property-header">Add a new Section</h2>
                                     <g:hasErrors bean="${ newPollSectionInstance }">
