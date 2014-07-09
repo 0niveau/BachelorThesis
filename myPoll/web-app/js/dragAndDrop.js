@@ -92,19 +92,12 @@ window.addEventListener("load", function() {
 	}
 
 	function resetIndexes(parent) {
-//		find input elements in parent
+//		find item id input elements in parent
 		var childNodes = parent.childNodes
-		,   inputNodes = []
-		,   itemIdInputs = parent.getElementsByTagName('input')
+		,   itemIdInputs = parent.getElementsByClassName('itemIdInput')
 		,   loopCount = 0
 		,	listedElements = parent.getAttribute('data-listedElements')
 		,   attributeValue = '';
-
-		[].forEach.call(childNodes, function(childNode) {
-			if(childNode.tagName === 'input') {
-				inputNodes.add(childNode);
-			}
-		});
 
 //		reset 'name' attribute according to new order
 		[].forEach.call(itemIdInputs, function(itemIdInput) {

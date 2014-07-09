@@ -159,7 +159,7 @@ class OpinionController {
         }
 		
 		cmd.selections.each { subjectSelection ->
-			opinionInstance.selections.put(subjectSelection.getKey(), new Selection( item: Item.get(subjectSelection.getKey() as long), value: subjectSelection.getValue()) )				
+			opinionInstance.selections.put(subjectSelection.getKey(), new Selection( opinion: opinionInstance, value: subjectSelection.getValue()) )				
 		}
 
         opinionInstance.save flush:true

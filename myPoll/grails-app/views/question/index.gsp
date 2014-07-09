@@ -47,13 +47,18 @@
 			<div class="col">
 				<g:each in="${ questionInstanceList }" status="i" var="questionInstance">
 					<div class="row instanceListItem">
-						<div class="col">
+						<div class="l-eleven m-ten s-ten cols">
 							<g:link class="text-link" controller="question" action="show" id="${ questionInstance?.id }">
 								<h2 class="nomargin">${ questionInstance?.text }</h2>
 							</g:link>
 							<p class="nomargin italic">
 								${ questionInstance?.scale?.name }
 							</p>
+						</div>
+						<div class="actions l-one m-two s-two cols">
+							 <g:form url="[resource:questionInstance, action:'delete']" method="DELETE">
+			                    <input class="icon-submit" type="submit" value="&#xf014;" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+			                </g:form>
 						</div>
 					</div>
 				</g:each>

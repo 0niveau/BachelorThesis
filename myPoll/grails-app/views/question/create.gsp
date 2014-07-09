@@ -52,7 +52,7 @@
                             <div class="row">
                                 <div class="l-six m-six s-twelve cols">
                                     <h3><g:message code="question.scale.available" default="Available Scales" /></h3>
-                                    <ul>
+                                    <ul class="selectableList">
                                         <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
                                             <li class="selectable" data-selectionRef="options${scale.id}">
                                                 <label class="radioInputLabel">
@@ -64,7 +64,7 @@
                                     </ul>
                                 </div>
                                 <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                                    <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols">
+                                    <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols highlight">
                                         <h3><g:message code="scale.options.label" default="Options" /></h3>
                                         <ol>
                                             <g:each in="${ scale.options }" var="option" >

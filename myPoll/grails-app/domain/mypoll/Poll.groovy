@@ -20,7 +20,7 @@ class Poll {
 		testObjectUrlA blank: false, maxSize: 255
 		testObjectUrlB blank: false, maxSize: 255
     }
-
+	
     def List<Item> getPollItems(){
         def pollItems = this.sections.collect { it.items }.flatten()
         return pollItems

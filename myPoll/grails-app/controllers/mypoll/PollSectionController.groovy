@@ -175,13 +175,15 @@ class PollSectionController {
             notFound()
             return
         }
-
+		
+		pollInstance.sections.remove(pollSectionInstance)
+		pollInstance.save flush:true
         pollSectionInstance.delete flush:true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
-                redirect action:"index", method:"GET"
+                redirect controller:"poll", action:"show", id: pollInstance.id, method:"GET"
             }
             '*'{ render status: NO_CONTENT }
         }

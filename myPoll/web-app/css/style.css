@@ -118,6 +118,9 @@ li {
     padding-left: 0.5em;
 }
 
+li form {
+	display: inline;
+}
 .enclosedItems li:not(:last-child) {
 	border-bottom: dotted 0.1em #c7c7c7;
 }
@@ -216,6 +219,13 @@ input[type="submit"].icon-submit {
     font-size: 2em;
     background: none;
     border: none;
+}
+
+input[type="submit"].icon-submit.inline {
+	font-size: 1.5em;
+	float: right;
+	display: inline;
+	padding: 0;
 }
 
 input[type="submit"].icon-submit:hover {
@@ -470,6 +480,8 @@ a.disabled {
 .overlayContent {
     padding: 0 1em;
     min-width: 60vw;
+    max-height: 85vh;
+    overflow-y: scroll;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;

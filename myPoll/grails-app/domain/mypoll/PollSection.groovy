@@ -15,4 +15,8 @@ class PollSection {
     	name blank: false, maxSize: 50
 		description nullable: true, maxSize: 255
     }
+	
+	static mapping = {
+		items cascade: 'all-delete-orphan'
+	}
 }

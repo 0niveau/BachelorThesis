@@ -79,14 +79,14 @@ class ItemController {
             notFound()
             return
         }
+		
 		pollSectionInstance.items.remove(itemInstance)
 		pollSectionInstance.save flush:true
-        itemInstance.delete flush:true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Item.label', default: 'Item'), itemInstance.id])
-                redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id]
+                redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: "showAllItems"]
             }
             '*'{ render status: NO_CONTENT }
         }

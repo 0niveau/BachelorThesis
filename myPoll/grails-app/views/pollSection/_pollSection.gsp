@@ -88,6 +88,23 @@
             <g:link class="icon-link" controller="pollSection" action="showAllItems" id="${pollSection.id}"><i class="fa fa-eye"></i></g:link>
         </div>
     </div>
+    
+    <div class="row border-bottom-blueDotted">
+    	<div class="propertyDetail l-ten m-ten s-ten cols">
+    		<h3 class="propertyDetail-header">Delete this section</h3>
+    		<p>If you delete this section, you are not able to access the opinion results related to it anymore</p>
+    	</div>
+    	<div class="actions l-two m-two s-two cols">
+    		<g:if test="${ !pollInstance?.isActive }">
+            	<g:form controller="pollSection" action="delete" method="DELETE" id="${ pollSection?.id }">
+            		<input class="icon-submit" type="submit" value="&#xf014;" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+            	</g:form>            
+           	</g:if>
+           	<g:else>
+           		<a class="icon-link disabled"><i class="fa fa-trash-o"></i></a>
+           	</g:else>
+    	</div>
+    </div>
 </div>
 
 <g:if test="${ (mode == 'addSectionItems') && (pollSection.id == targetId) && !pollSection.poll.isActive}">
@@ -173,6 +190,9 @@
                                     <span>${ itemInstance?.question }</span>
                                     <input type="hidden" class="itemIdInput"
                                            name="items[${i}]" form="reorderItemsForm${ pollSection?.name }" value="${ itemInstance?.id }" />
+                                    <g:form controller="item" action="delete" id="${ itemInstance?.id }" params="[pollSectionId: pollSection.id]" method="DELETE">
+                                    	<input class="icon-submit inline" type="submit" value="&#xf014;"/>
+                                    </g:form>
                                 </li>
                             </g:each>
                         </ul>

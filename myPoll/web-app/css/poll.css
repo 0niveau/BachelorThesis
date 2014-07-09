@@ -2,9 +2,14 @@
 	display: none;
 }
 
-#pollSectionList {
-	list-style-type: none;
-	padding: 0;	
+ul.selectableList {
+	margin-top: 0.5em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;	
+}
+
+ul.selectableList li {
+	line-height: 2.5em;
 }
 
 .property-header {
@@ -38,7 +43,8 @@
 
 .selectable:hover {
     cursor: pointer;
-    background: #C7C7C7;
+    padding-left: 0.5em;
+    box-shadow: 0 0 0.2em #43b6bb;
 }
 
 .selectable.selected {

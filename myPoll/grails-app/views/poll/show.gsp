@@ -55,7 +55,7 @@
                             </g:if>
                             <g:else>
                                 <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                                <p class="property-value box">${ pollInstance?.description }</p>
+                                <p class="property-value">${ pollInstance?.description }</p>
                             </g:else>
                         </div>
                         <div class="actions l-two m-two s-two cols">
@@ -81,7 +81,7 @@
                         <g:if test="${ toBeEdited == 'testObjects' }">
                             <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
                             <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollTestObjectsForm">
-                                <div class="box">
+                                <div>
                                     <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance?.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
                                     <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance?.testObjectUrlB }" placeholder="www.site-b.com" /></label>
                                 </div>
@@ -89,7 +89,7 @@
                         </g:if>
                         <g:else>
                             <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                            <p class="property-value box">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                            <p class="property-value">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
                         </g:else>
                     </div>
                     <div class="actions l-two m-two s-two cols">
@@ -111,12 +111,24 @@
                 <div class="property row">
                     <div class="l-six m-twelve s-twelve cols">
                         <h2 class="property-header"><g:message code="poll.sections.label" default="Sections" /></h2>
-                        <g:each in="${ pollInstance?.sections }" status="i" var="s" >
-                        <div class="property-value selectable box pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">${s?.name}</div>
-                        </g:each>
-                        <g:if test="${ !pollInstance?.isActive }">
-                            <div class="property-valeu selectable box pollSection ${ targetId == 'newSection' ? 'selected' : '' }" data-selectionRef="newSection"><i class="fa fa-plus"></i> Add a new Section</div>
-                        </g:if>
+                        <ul class="selectableList">
+	                        <g:each in="${ pollInstance?.sections }" status="i" var="s" >
+	                        	<li class="property-value selectable nopadding pollSection ${ s.id == targetId ? 'selected' : '' }" data-selectionRef="section${ s?.id }" data-sectionId="${ s.id }">			                        			                        			                       		                        	
+		                        	<a>
+		                        		<i class="fa fa-info-circle">
+		                        		</i><span class="padding-left">${s?.name}</span>
+		                        	</a>			                       	
+		                       	</li>
+	                        </g:each>
+	                        <g:if test="${ !pollInstance?.isActive }">
+	                            <li class="property-value selectable nopadding pollSection ${ targetId == 'newSection' ? 'selected' : '' }" data-selectionRef="newSection">
+	                            	<a>
+	                            		<i class="fa fa-plus"></i>
+	                            		<span class="padding-left">Add a new Section</span>
+	                            	</a>
+	                            </li>
+	                        </g:if>
+                        </ul>
                     </div>
                     <div class="l-six m-twelve s-twelve cols">
                         <g:each in="${ pollInstance?.sections }" var="s" >
@@ -163,7 +175,7 @@
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Share your poll!</h2>
                         <g:if test="${ pollInstance?.isActive }" >
-                            <p class="property-value box">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>                            
+                            <p class="property-value">This poll is currently active. It is not possible to edit it right now. Share this link to get some opinions for your poll!</p>                            
                             <span><g:link class="padding-left" controller="opinion" action="addOpinion" id="${ pollInstance.id }" name="participationLink">Participate</g:link></span>
                         </g:if>
                         <g:else>
@@ -190,7 +202,7 @@
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header">Opinions</h2>
                         <g:if test="${ pollInstance?.opinions }" >
-                            <p class="property-value box">Your poll has already received ${ pollInstance?.opinions?.findAll { it.submitted }.size() } opinions</p>
+                            <p class="property-value">Your poll has already received ${ pollInstance?.opinions?.findAll { it.submitted }.size() } opinions</p>
                         </g:if>
                         <g:else>
                             <p class="property-value box">Nobody has submitted an opinion yet</p>

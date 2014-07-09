@@ -2,7 +2,7 @@ package mypoll
 
 class Selection {
 	
-	static belongsTo = [item: Item]
+	static belongsTo = [opinion: Opinion]
 	String value
 
     static constraints = {
