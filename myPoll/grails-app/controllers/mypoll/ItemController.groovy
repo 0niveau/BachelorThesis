@@ -80,6 +80,8 @@ class ItemController {
             return
         }
 		
+		pollInstance.opinions.clear()
+		pollInstance.save flush:true
 		pollSectionInstance.items.remove(itemInstance)
 		pollSectionInstance.save flush:true
 

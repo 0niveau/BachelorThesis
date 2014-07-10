@@ -8,7 +8,7 @@ class Poll {
 	String testObjectUrlA
 	String testObjectUrlB
 
-	static hasMany = [sections:PollSection, opinions: Opinion]
+	static hasMany = [sections: PollSection, opinions: Opinion]
 	
 	List sections = []
 	List opinions = []
@@ -20,6 +20,10 @@ class Poll {
 		testObjectUrlA blank: false, maxSize: 255
 		testObjectUrlB blank: false, maxSize: 255
     }
+	
+	static mapping = {
+		opinions cascade: 'all-delete-orphan'
+	}
 	
     def List<Item> getPollItems(){
         def pollItems = this.sections.collect { it.items }.flatten()

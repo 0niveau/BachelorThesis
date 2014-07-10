@@ -18,7 +18,8 @@
         <section class="${ displayTestObjectInIFrame ? 'l-three m-twelve s-twelve' : '' } cols">
             <div class="row">
                 <div class="col">
-                    <h1 class="blueText">Welcome to ${ pollSectionInstance?.name }</h1>
+                	<g:set var="sectionName" value="${ pollSectionInstance?.name }" />
+                    <h1 class="blueText"><g:message code="opinion.answerSectionItems.welcome" args="[sectionName]" default="Welcome to ${ sectionName }"/></h1>
                     <p>${ pollSectionInstance?.description }</p>
                 </div>
             </div>
@@ -44,7 +45,10 @@
                 </div>
                 <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
                     <div class="col">
-                        <p>It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions.</p>
+                        <p>
+                        	<g:message code="hint.opinion.smallDisplay" 
+                        	default="It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions."/>
+                        </p>
                         <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
                     </div>
                 </g:if>

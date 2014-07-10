@@ -28,16 +28,23 @@
 			</div>							
 		</g:if>
 		
+		<g:set var="text" value="${ message(code: 'question.text.label', default:'text') }" />
 		<div class="row shadow">
 			<div class="col actions left-text">
 				<g:if test="${ order == 'asc' && sort == 'text' }">
 					<g:link class="icon-link" controller="question" action="index" params="[sort: 'text', max: 10, order: 'desc']">
-						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach text ab</span>
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">
+							<g:message code="instanceList.sortBy.desc"
+							args="[text]" 
+							default="sort by text descending"/></span>
 					</g:link>
 				</g:if>
 				<g:else>
 					<g:link class="icon-link" controller="question" action="index" params="[sort: 'text', max: 10, order: 'asc']">
-						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach text auf</span>
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">
+						<g:message code="instanceList.sortBy.asc"
+						args="[text]" 
+						default="sort by text ascending"/></span>
 					</g:link>
 				</g:else>
 			</div>
@@ -67,11 +74,5 @@
 		<div class="pagination">
 			<g:paginate total="${questionInstanceCount ?: 0}" />
 		</div>
-		
-		<g:if test="${ selectable }">
-		<g:form id="${ sectionId }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
-			<button type="submit">Auswahl hinzufügen</button>
-		</g:form>
-		</g:if>
 	</body>
 </html>

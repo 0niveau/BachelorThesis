@@ -2,8 +2,8 @@
     <thead>
     <tr>
         <th class="selectScaleTable__radios"></th>
-        <th class="selectScaleTable__scales">Scale</th>
-        <th class="selectScaleTable__options">Options</th>
+        <th class="selectScaleTable__scales"><g:message code="scale.label" default="Scale" /></th>
+        <th class="selectScaleTable__options"><g:message code="scale.options.label" default="Options" /></th>
     </tr>
     </thead>
     <tbody>

@@ -30,26 +30,41 @@
 		
 		<section class="row shadow">
 			<div class="col actions left-text">
+				<g:set var="name" value="${ message(code: 'poll.name.label', default: 'name') }"/>
 				<g:if test="${ order == 'asc' && sort == 'name' }">
 					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'name', max: 10, order: 'desc']">
-						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach name ab</span>
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">
+							<g:message code="instanceList.sortBy.desc"
+							args="[name]" 
+							default="sort by ${ name } descending"/></span>
 					</g:link>												
 				</g:if>
 				<g:else>
 					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'name', max: 10, order: 'asc']">
-						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach name auf</span>
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">
+							<g:message code="instanceList.sortBy.asc"
+							args="[name]" 
+							default="sort by ${ name } ascending"/></span>
 					</g:link>
 				</g:else>
 			</div>
-			<div class="col actions left-text">
+			<div class="col actions left-text">								
 				<g:if test="${ order == 'asc' && sort == 'isActive' }">
+					<g:set var="status" value="${ message(code: 'poll.plural.shared.not', default: 'Not shared') }"/>
 					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'isActive', max: 10, order: 'desc']">
-						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">sort nach isActive ab</span>
+						<i class="fa fa-arrow-circle-o-down"></i><span class="padding-left">
+							<g:message code="instanceList.sortBy.first"
+							args="[status]" 
+							default="${ status } first"/></span>
 					</g:link>					
 				</g:if>
 				<g:else>
+					<g:set var="status" value="${ message(code: 'poll.plural.shared', default: 'Shared') }"/>
 					<g:link class="icon-link" controller="poll" action="index" params="[sort: 'isActive', max: 10, order: 'asc']">
-						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">sort nach isActive auf</span>
+						<i class="fa fa-arrow-circle-o-up"></i><span class="padding-left">
+							<g:message code="instanceList.sortBy.first"
+							args="[status]" 
+							default="${ status } first"/></span>
 					</g:link>
 				</g:else>				
 			</div>
@@ -68,13 +83,18 @@
 								<i class="fa fa-unlock"></i>
 							</g:else>
 						</div>
-						<div class="l-eleven m-ten s-ten cols">
+						<div class="l-ten m-eight s-eight cols">
 							<g:link class="text-link" controller="poll" action="show" id="${ pollInstance?.id }">
 								<h2 class="nomargin-top">${ pollInstance?.name }</h2>
 							</g:link>
 							<p class="nomargin"><span class="italic">${ pollInstance?.testObjectUrlA }</span> vs <span class="italic">${ pollInstance?.testObjectUrlB }</span></p>
 							<p class="nomargin hint">${ pollInstance?.opinions?.findAll{ it.submitted == true }.size() } opinions submitted</p>
-						</div>
+						</div>						
+						<div class="actions l-one m-two s-two cols">							
+							<g:form controller="poll" action="delete" id="${ pollInstance?.id }" method="DELETE">
+								<input class="icon-submit" type="submit" value="&#xf014;" />
+							</g:form>
+						</div>						
 					</div>
 				</g:each>
 				

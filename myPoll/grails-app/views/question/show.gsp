@@ -34,14 +34,14 @@
                 <div class="row">
                     <div class="property l-ten m-ten s-ten cols">
                         <g:if test="${ toBeEdited == 'text' }">
-                            <h2>Edit question Text</h2>
+                            <h2 class="property-header"><g:message code="question.edit.text" default="Edit text"/></h2>
                             <g:form url="[resource: questionInstance, action: 'update']" method="PUT" name="editQuestionTextForm">
                                 <textArea name="text">${ questionInstance?.text }</textArea>
                             </g:form>
                         </g:if>
                         <g:else>
                             <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
-                            <p class="property-value box nomargin top" data-selectionRef="text">${questionInstance?.text}</p>
+                            <p class="property-value box nomargin top">${questionInstance?.text}</p>
                         </g:else>
                     </div>
                     <div class="l-two m-two s-two cols actions">
@@ -63,14 +63,14 @@
                 <div class="row">
                     <div class="property l-ten m-ten s-ten cols">
                         <g:if test="${ toBeEdited == 'scale'}">
-                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
+                            <h2 class="property-header"><g:message code="question.edit.scale" default="Scale" /></h2>
                             <g:form url="[resource: questionInstance, action: 'update']" method="PUT" name="editQuestionScaleForm">
                                 <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
                             </g:form>
                         </g:if>
                         <g:else>
-                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                            <p class="property-value box nomargin top" data-selectionRef="scale">${questionInstance?.scale?.name}</p>
+                            <h2 class="property-header"><g:message code="scale.label" default="Scale" /></h2>
+                            <p class="property-value box nomargin top">${questionInstance?.scale?.name}</p>
                         </g:else>
                     </div>
                     <div class="l-two m-two s-two cols actions">

@@ -176,6 +176,7 @@ class PollSectionController {
             return
         }
 		
+		pollInstance.opinions.clear()
 		pollInstance.sections.remove(pollSectionInstance)
 		pollInstance.save flush:true
         pollSectionInstance.delete flush:true

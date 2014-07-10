@@ -127,12 +127,20 @@ class ScaleController {
         }
 	}
 	
-	/*
 	@Transactional
 	def delete(Scale scaleInstance) {
 
 		if (scaleInstance == null) {
 			notFound()
+			return
+		}
+		
+		if (!scaleInstance.questions.isEmpty()) {
+			scaleInstance.errors.reject('scaleInstance.delete.failure.inUse', "You can't delete a scale, that is still used by a question!")
+		}
+		
+		if (scaleInstance.hasErrors()) {
+			respond scaleInstance.errors, view: 'index', model: [scaleInstanceList: Scale.list(), defectiveScale: scaleInstance]
 			return
 		}
 
@@ -146,8 +154,6 @@ class ScaleController {
 			'*'{ render status: NO_CONTENT }
 		}
 	}
-	
-	*/
 	
 	protected void notFound() {
 		request.withFormat {

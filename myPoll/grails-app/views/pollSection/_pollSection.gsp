@@ -32,7 +32,7 @@
                     <p>${ pollSection?.description }</p>
                 </g:if>
                 <g:else>
-                    <p>No description entered so far!</p>
+                    <p><g:message code="pollSection.description.empty" default=" No description entered so far!" /></p>
                 </g:else>
             </g:else>
         </div>
@@ -52,12 +52,12 @@
 
     <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
-            <h3 class="propertyDetail-header"><g:message code="pollSection.testObject.required" default="Testobject required" /></h3>
+            <h3 class="propertyDetail-header"><g:message code="pollSection.testObject.label" default="Testobject" /></h3>
             <g:if test="${ pollSection?.needsTestObject }">
-            <p>This section needs a test object</p>
+            <p><g:message code="pollSection.testObject.needed" default="This section needs a test object"/></p>
             </g:if>
             <g:else>
-            <p>This section does not need a test object</p>
+            <p><g:message code="pollSection.testObject.notNeeded" default="This section does not need a test object"/></p>
             </g:else>
             <g:if test="${ !pollSection.poll.isActive }">
 
@@ -82,7 +82,12 @@
     <div class="row border-bottom-blueDotted">
         <div class="propertyDetail l-ten m-ten s-ten cols">
             <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Added Items"/></h3>
-            <p>You have already added ${ pollSection?.items?.size() } items to your section</p>
+            <g:set var="itemCount" value="${ pollSection?.items?.size() }"/>
+            <p>
+            	<g:message code="pollSection.items.count" 
+            	args="[itemCount]" 
+            	default="You have already added ${ itemCount } items to your section"/>
+            </p>
         </div>
         <div class="actions l-two m-two s-two cols">
             <g:link class="icon-link" controller="pollSection" action="showAllItems" id="${pollSection.id}"><i class="fa fa-eye"></i></g:link>
@@ -91,8 +96,10 @@
     
     <div class="row border-bottom-blueDotted">
     	<div class="propertyDetail l-ten m-ten s-ten cols">
-    		<h3 class="propertyDetail-header">Delete this section</h3>
-    		<p>If you delete this section, you are not able to access the opinion results related to it anymore</p>
+    		<h3 class="propertyDetail-header"><g:message code="pollSection.delete" default="Delete this section"/></h3>
+    		<p>
+    			<g:message code="hint.pollSection.delete.lostOpinions"
+    			default="If you delete this section, you are not able to access the opinion results related to it anymore"/></p>
     	</div>
     	<div class="actions l-two m-two s-two cols">
     		<g:if test="${ !pollInstance?.isActive }">
@@ -112,15 +119,24 @@
         <div class="overlayContent white">
             <div class="row">
                 <div class="l-ten m-ten s-ten cols">
-                    <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Addable Items"/></h3>
+                    <h3 class="propertyDetail-header"><g:message code="pollSection.items.addable" default="Addable Items"/></h3>
                     <g:if test="${ !selectableQuestions?.empty }">
-                        <p class="hint">Wählen Sie die Fragen aus, die Sie als Items zu ihrer Umfrage hinzufügen wollen</p>
-                        <p class="hint">If you can't find questions that fit for your purpose, you can easily create your own questions. Just follow this link</p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.items.add" 
+                        	default="Select the items you want to add to this section"/>
+                        </p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.items.add.missingItem"
+                        	default="If you can't find questions that fit for your purpose, you can easily create your own questions. Just follow this link"/>
+                        </p>
                     </g:if>
                     <g:else>
-                        <p class="hint">You have added all available questions to your section. Follow the link below to create some more.</p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.items.add.noItems"
+                        	default="You have added all available questions to your section. Follow the link below to create some more."/>
+                        </p>
                     </g:else>
-                    <g:link controller="question" action="create" params="[pollSectionId: pollSection.id]"><i class="fa fa-hand-o-right padding-right"></i>new Question</g:link>
+                    <g:link controller="question" action="create" params="[pollSectionId: pollSection.id]"><i class="fa fa-hand-o-right padding-right"></i><g:message code="question.new" default="New question" /></g:link>
                 </div>
                 <div class="actions l-two m-two s-two cols">
                     <g:form id="${ pollSection.id }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
@@ -153,13 +169,20 @@
                 <div class="l-nine m-six s-six cols">
                     <h3 class="propertyDetail-header"><g:message code="pollSection.items.added" default="Added Items"/></h3>
                     <g:if test="${ pollSection?.items?.empty }">
-                        <p class="hint">No Items added so far. Please add some Items to your section.</p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.items.empty" 
+                        	default="No Items added so far. Please add some Items to your section."/></p>
                     </g:if>
                     <g:elseif test="${ pollSection.poll.isActive }">
-                        <p class="hint">Your poll is currently active. you can't change anything :P</p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.poll.activated" 
+                        	default="Your poll is currently active. you can't change anything :P"/></p>
                     </g:elseif>
                     <g:else>
-                        <p class="hint">Sortieren Sie die Items mit Drag and Drop oder fügen Sie neue hinzu</p>
+                        <p class="hint">
+                        	<g:message code="hint.pollSection.items.edit" 
+                        	default="Sort your items by dragging and dropping or add new items to this section"/>
+                        </p>
                     </g:else>
                 </div>
                 <div class="actions l-one m-two s-two cols">

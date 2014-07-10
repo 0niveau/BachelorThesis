@@ -2,7 +2,7 @@
 
 <div class="row fieldcontain ${hasErrors(bean: scaleInstance, field: 'name', 'error')} required">
     <div class="l-ten m-ten s-ten cols">
-        <h2 class="property-header"><g:message code="Scale.name.label" default="Name" /></h2>
+        <h2 class="property-header"><g:message code="scale.name.label" default="Name" /></h2>
         <g:textField name="name" required="" value="${scaleInstance?.name}"/>
     </div>
     <div class="actions l-two m-two s-two cols">
@@ -12,7 +12,7 @@
 
 <div class="row fieldcontain ${hasErrors(bean: scaleInstance, field: 'options', 'error')} ">
     <div class="l-ten m-ten s-ten cols">
-        <h2 class="property-header">Define the options!</h2>
+        <h2 class="property-header"><g:message code="scale.options.label" default="Define some options" /></h2>
         <ol id="scaleOptionList">
             <g:if test="${ scaleInstance?.options?.size() >= 2 }">
                 <g:each in="${ scaleInstance?.options }" status="i" var="option">

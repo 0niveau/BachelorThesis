@@ -46,12 +46,15 @@
                             <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
                             <textarea class="${hasErrors(bean: questionInstance, field: 'text', 'error')}" name="text">${questionInstance?.text}</textarea>
 
-                            <h2 class="property-header"><g:message code="question.scale.label" default="Scale" /></h2>
-                            <p class="hint">If you can't find any scale that fits for your purpose, you can easily create your own. Just follow this link.</p>
-                            <g:link controller="scale" action="create" params="[useInQuestion: true]"><i class="fa fa-hand-o-right padding-right"></i>new Scale</g:link>
+                            <h2 class="property-header"><g:message code="scale.label" default="Scale" /></h2>
+                            <p class="hint">
+                            	<g:message code="hint.question.create.missingScale" 
+                            	default="If you can't find any scale that fits for your purpose, you can easily create your own. Just follow this link" />
+                            </p>
+                            <g:link controller="scale" action="create" params="[useInQuestion: true]"><i class="fa fa-hand-o-right padding-right"></i><g:message code="scale.new" default="new Scale" /></g:link>
                             <div class="row">
                                 <div class="l-six m-six s-twelve cols">
-                                    <h3><g:message code="question.scale.available" default="Available Scales" /></h3>
+                                    <h3><g:message code="scale.available" default="Available Scales" /></h3>
                                     <ul class="selectableList">
                                         <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
                                             <li class="selectable" data-selectionRef="options${scale.id}">

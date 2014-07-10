@@ -43,19 +43,34 @@
                 <div class="row">
                     <div class="l-ten m-ten s-ten cols">
                         <g:form url="[resource: pollInstance, action:'save']" name="pollCreateForm">
-                            <h2 class="property-header">Give your Poll a name!</h2>
+                            <h2 class="property-header"><g:message code="poll.name.label" default="Name" /></h2>
                             <input id="name" type="text" required="required" name="name" value="${ pollInstance.name }"/>
-                            <h2 class="property-header">Briefly describe your poll!</h2>
+                            <h2 class="property-header"><g:message code="poll.create.describe" default="Description"/></h2>
                             <textarea id="description" required="required" name="description">${ pollInstance.description }</textarea>
-                            <h2 class="property-header">Select some sections for your poll!</h2>
+                            <h2 class="property-header"><g:message code="poll.create.selectSections" default="Select some sections"/></h2>
                             <ul>
-                                <li><label for="clustering"><input id="clustering" type="checkbox" name="clustering"/>Clustering</label></li>
-                                <li><label for="comparing"><input id="comparing" type="checkbox" name="comparing"/>Comparing</label></li>
-                                <li><label for="feedback"><input id="feedback" type="checkbox" name="feedback"/>Feedback</label></li>
+                                <li>
+                                	<label for="clustering">
+	                                	<input id="clustering" type="checkbox" name="clustering"/>
+	                                	<g:message code="poll.sections.clustering.label" default="Demographic Clustering" />
+                                	</label>
+                                </li>
+                                <li>
+                                	<label for="comparing">
+                                		<input id="comparing" type="checkbox" name="comparing"/>
+                                		<g:message code="poll.sections.comparing.label" default="WebSite Evaluation" />
+                                	</label>
+                                </li>
+                                <li>
+                                	<label for="feedback">
+                                		<input id="feedback" type="checkbox" name="feedback"/>
+                                		<g:message code="poll.sections.feedback.label" default="Feedback" />
+                                	</label>
+                                </li>
                             </ul>
-                            <h2 class="property-header">Name the Web-Sites you want to compare!</h2>
-                            <p>page A<input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="www.site-a.com"/></p>
-                            <p>page B<input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="www.site-b.com"/></p>
+                            <h2 class="property-header"><g:message code="poll.create.testObjects" default="Testobjects" /></h2>
+                            <p><g:message code="poll.testObjectUrlA" default="page A"/> <input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="http://www.site-a.com"/></p>
+                            <p><g:message code="poll.testObjectUrlB" default="page B"/> <input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="http://www.site-b.com"/></p>
                         </g:form>
                     </div>
                     <div class="actions l-two m-two s-two cols">

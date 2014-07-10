@@ -150,7 +150,7 @@ class PollController {
 
         // Deleting old Opinions
         if (pollInstance.isActive) {
-            resetOpinions(pollInstance)
+            pollInstance.opinions.clear()
         }
 
         pollInstance.save flush:true
@@ -182,12 +182,6 @@ class PollController {
             }
             '*'{ render status: NO_CONTENT }
         }
-    }
-
-    private resetOpinions(Poll pollInstance) {
-        def oldOpinions = pollInstance.opinions
-        pollInstance.opinions = []
-        oldOpinions.each { opinion -> opinion.delete flush: true }
     }
 
     protected void notFound() {

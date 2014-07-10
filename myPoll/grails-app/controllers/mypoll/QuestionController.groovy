@@ -50,6 +50,10 @@ class QuestionController {
 
         questionInstance.save flush:true
 		
+		def scaleInstance = questionInstance.scale
+		scaleInstance.questions.add(questionInstance)
+		scaleInstance.save flush:true
+		
 		if(params.pollSectionId) {
 			redirect controller: 'pollSection', action: 'addableItems', id: params.pollSectionId as long
 			return
@@ -100,7 +104,10 @@ class QuestionController {
             notFound()
             return
         }
-
+		
+		def scaleInstance = questionInstance.scale
+		scaleInstance.questions.remove(questionInstance)
+		scaleInstance.save flush:true
         questionInstance.delete flush:true
 
         request.withFormat {
