@@ -31,7 +31,7 @@
         <g:hasErrors bean="${scaleInstance}">
         <div class="row">
             <div class="col">
-                <ul class="errors" role="alert">
+                <ul class="errors">
                     <g:eachError bean="${scaleInstance}" var="error">
                     <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
                     </g:eachError>

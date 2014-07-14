@@ -46,7 +46,7 @@ class PollSectionController {
 
         pollSectionInstance.save flush:true
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'pollSectionInstance.label', default: 'PollSection'), pollSectionInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
 
         redirect controller: 'poll', action: 'show', params: [id: pollSectionInstance.poll.id, targetId: pollSectionInstance.id]
 
@@ -111,15 +111,15 @@ class PollSectionController {
         def questions = []
         for (questionId in cmd.questionIds) {
 			if( questionId!=null && !idsOfAddedQuestions.contains(questionId as Long) ) {
-				questions.add(Question.get(questionId))
+				questions.add(Question.get(questionId as long))
 			}			
 		}		
 		
 		// for each question, create an item and add it to the pollSection
 		for (question in questions) {
 			def itemInstance = new Item(question: question.text, idOfOrigin: question.id, pollSection: pollSectionInstance)
-			for (option in question.getScale().getOptions()) {
-				itemInstance.addToOptions(option)
+			for (choice in question.getScale().getChoices()) {
+				itemInstance.addToChoices(choice as Choice)
 			}
 			itemInstance.save flush: true
 		}
@@ -151,12 +151,11 @@ class PollSectionController {
         if (pollSectionInstance.validate()) {
             pollSectionInstance.save flush:true
 
-            flash.message = message(code: 'default.updated.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
 
             redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: params.mode]
         } else {
             respond pollSectionInstance.errors, view:'/poll/show', model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, targetId: pollSectionInstance.id]
-            return
         }
     }
 
@@ -183,7 +182,7 @@ class PollSectionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'PollSection.label', default: 'PollSection'), pollSectionInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
                 redirect controller:"poll", action:"show", id: pollInstance.id, method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -193,7 +192,7 @@ class PollSectionController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'pollSectionInstance.label', default: 'PollSection'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'pollSection.label', default: 'PollSection'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

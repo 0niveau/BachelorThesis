@@ -3,7 +3,7 @@
     <tr>
         <th class="selectScaleTable__radios"></th>
         <th class="selectScaleTable__scales"><g:message code="scale.label" default="Scale" /></th>
-        <th class="selectScaleTable__options"><g:message code="scale.options.label" default="Options" /></th>
+        <th class="selectScaleTable__choices"><g:message code="scale.choices.label" default="Choices" /></th>
     </tr>
     </thead>
     <tbody>
@@ -12,8 +12,8 @@
             <td><input type="radio" name="scale" value="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/></td>
             <td>${ scale.name }</td>
             <td>
-                <g:each in="${ scale.options }" var="option" >
-                <span>'${option.value}'</span>
+                <g:each in="${ scale.choices }" var="choice" >
+                <span>'${choice.value}'</span>
                 </g:each>
             </td>
         </tr>

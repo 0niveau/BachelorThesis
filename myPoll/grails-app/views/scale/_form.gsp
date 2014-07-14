@@ -10,27 +10,27 @@
     </div>
 </div>
 
-<div class="row fieldcontain ${hasErrors(bean: scaleInstance, field: 'options', 'error')} ">
+<div class="row fieldcontain ${hasErrors(bean: scaleInstance, field: 'choices', 'error')} ">
     <div class="l-ten m-ten s-ten cols">
-        <h2 class="property-header"><g:message code="scale.options.label" default="Define some options" /></h2>
-        <ol id="scaleOptionList">
-            <g:if test="${ scaleInstance?.options?.size() >= 2 }">
-                <g:each in="${ scaleInstance?.options }" status="i" var="option">
+        <h2 class="property-header"><g:message code="scale.choices.label" default="Define some choices" /></h2>
+        <ol id="scaleChoiceList">
+            <g:if test="${ scaleInstance?.choices?.size() >= 2 }">
+                <g:each in="${ scaleInstance?.choices }" status="i" var="choice">
                     <li>
-                        <input name="options[${ i }]" type="text" value="${option.value}" ${ i<=1 ? "required='required'" : ''}/>
+                        <input name="choices[${ i }]" type="text" value="${choice.value}" ${ i<=1 ? "required='required'" : ''}/>
                     </li>
                 </g:each>
             </g:if>
             <g:else>
-                <li><input name="options[0]" type="text" required="required"/></li>
-                <li><input name="options[1]" type="text" required="required"/></li>
+                <li><input name="choices[0]" type="text" required="required"/></li>
+                <li><input name="choices[1]" type="text" required="required"/></li>
             </g:else>
         </ol>
     </div>
     <div class="l-two m-two s-two cols centered-text">
         <div class="margin-top">
-            <a href="#" id="addNewOption" class="icon-link"><i class="fa fa-plus-square"></i></a>
-            <a href="#" id="removeLastOption" class="icon-link ${ scaleInstance?.options?.size() <= 2 ? 'disabled' : '' }"><i class="fa fa-minus-square"></i></a>
+            <a href="#" id="addNewChoice" class="icon-link"><i class="fa fa-plus-square"></i></a>
+            <a href="#" id="removeLastChoice" class="icon-link ${ scaleInstance?.choices?.size() <= 2 ? 'disabled' : '' }"><i class="fa fa-minus-square"></i></a>
         </div>
     </div>
 </div>

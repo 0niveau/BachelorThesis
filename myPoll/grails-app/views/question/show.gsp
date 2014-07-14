@@ -65,7 +65,7 @@
                         <g:if test="${ toBeEdited == 'scale'}">
                             <h2 class="property-header"><g:message code="question.edit.scale" default="Scale" /></h2>
                             <g:form url="[resource: questionInstance, action: 'update']" method="PUT" name="editQuestionScaleForm">
-                                <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']"></g:render>
+                                <g:render template="selectScale" model="[idOfSelectedScale: questionInstance?.scale?.id, mode: 'editQuestion']" />
                             </g:form>
                         </g:if>
                         <g:else>

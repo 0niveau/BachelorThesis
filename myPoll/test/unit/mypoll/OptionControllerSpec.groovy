@@ -6,7 +6,7 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(OptionController)
-@Mock(Option)
+@Mock(Choice)
 class OptionControllerSpec extends Specification {
 
     def populateValidParams(params) {
@@ -37,7 +37,7 @@ class OptionControllerSpec extends Specification {
 
         when:"The save action is executed with an invalid instance"
             request.contentType = FORM_CONTENT_TYPE
-            def option = new Option()
+            def option = new Choice()
             option.validate()
             controller.save(option)
 
@@ -48,14 +48,14 @@ class OptionControllerSpec extends Specification {
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            option = new Option(params)
+            option = new Choice(params)
 
             controller.save(option)
 
         then:"A redirect is issued to the show action"
             response.redirectedUrl == '/option/show/1'
             controller.flash.message != null
-            Option.count() == 1
+            Choice.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -67,7 +67,7 @@ class OptionControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def option = new Option(params)
+            def option = new Choice(params)
             controller.show(option)
 
         then:"A model is populated containing the domain instance"
@@ -83,7 +83,7 @@ class OptionControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def option = new Option(params)
+            def option = new Choice(params)
             controller.edit(option)
 
         then:"A model is populated containing the domain instance"
@@ -102,7 +102,7 @@ class OptionControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def option = new Option()
+            def option = new Choice()
             option.validate()
             controller.update(option)
 
@@ -113,7 +113,7 @@ class OptionControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            option = new Option(params).save(flush: true)
+            option = new Choice(params).save(flush: true)
             controller.update(option)
 
         then:"A redirect is issues to the show action"
@@ -133,16 +133,16 @@ class OptionControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def option = new Option(params).save(flush: true)
+            def option = new Choice(params).save(flush: true)
 
         then:"It exists"
-            Option.count() == 1
+            Choice.count() == 1
 
         when:"The domain instance is passed to the delete action"
             controller.delete(option)
 
         then:"The instance is deleted"
-            Option.count() == 0
+            Choice.count() == 0
             response.redirectedUrl == '/option/index'
             flash.message != null
     }

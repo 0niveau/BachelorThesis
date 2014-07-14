@@ -12,16 +12,8 @@ class QuestionController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
-		def selectable
-		def sectionId
-		if (params.addToSection) {
-			selectable = true
-		}
-		if (params.id) {
-			sectionId=params.id
-		}
         params.max = Math.min(max ?: 10, 100)
-        respond Question.list(params), model:[questionInstanceCount: Question.count(), sort: params.sort, order: params.order, selectable: selectable, sectionId: sectionId]
+        respond Question.list(params), model:[questionInstanceCount: Question.count(), sort: params.sort, order: params.order]
     }
 
     def show(Question questionInstance) {
@@ -29,7 +21,7 @@ class QuestionController {
     }
 
     def create() {
-		def pollSectionId
+		def pollSectionId = ""
 		if(params.pollSectionId) {
 			pollSectionId = params.pollSectionId as long
 		}
@@ -61,7 +53,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'questionInstance.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
                 redirect questionInstance
             }
             '*' { respond questionInstance, [status: CREATED] }
@@ -90,7 +82,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Question.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
                 redirect questionInstance
             }
             '*'{ respond questionInstance, [status: OK] }
@@ -112,7 +104,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Question.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -122,7 +114,7 @@ class QuestionController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'questionInstance.label', default: 'Question'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'question.label', default: 'Question'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

@@ -13,10 +13,6 @@ class SaveSubjectSelectionsCommand {
 @Transactional(readOnly = true)
 class OpinionController {
 
-    // injecting exportService from export plugin
-    def exportService
-    def grailsApplication
-
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
@@ -51,86 +47,13 @@ class OpinionController {
         redirect action: 'indexSubject', id: opinionInstance.id
     }
 
-    /*
-     * groups the submitted Opinions by testObjectUrl and passes both lists to the corresponding view
-     * TODO factor this out to poll controller
-     */
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
-    def opinionList(Poll pollInstance) {		
-
-		def aggregatedResults = aggregatePollResults(pollInstance)
-		
-        model: [pollInstance: pollInstance, aggregatedResults: aggregatedResults]
-    }
-	
-	private List<ItemAggregation> aggregatePollResults(Poll pollInstance) {
-		List<Item> pollItems = pollInstance.getPollItems()
-		List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted }
-		List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted }
-		
-		List<ItemAggregation> itemAggregations = []
-		
-		for (pollItem in pollItems) {
-			
-			List<Selection> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) }
-			List<Selection> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) }
-			
-			ItemAggregation itemAggregation = new ItemAggregation()
-			itemAggregation.item = pollItem
-			itemAggregation.question = pollItem.question
-			itemAggregation.possibleAnswers = pollItem.options.collect {option -> option.value }
-			itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
-			itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
-			
-			itemAggregations.add(itemAggregation)
-		}
-			
-		return itemAggregations
-	}
-
-    /*
-     * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
-     * TODO factor this out to poll controller
-     */
-    @Secured(['IS_AUTHENTICATED_REMEMBERED'])
-    def exportOpinions() {
-        Poll pollInstance = Poll.get(params.pollId)
-
-        List items = pollInstance.getPollItems()
-
-        String testObjectUrl = params.testObjectUrl
-        String filename = testObjectUrl.replace("http://","")
-
-        // only the opinions with the desired testObjectUrl will be exported
-        List opinions = Opinion.findAll { testObjectUrl == testObjectUrl }
-
-        List<String> fields = []
-        Map labels = [:]
-
-        for (itemInstance in items) {
-            // Extracting the values from the opinions' selections
-            fields.add("selections.${ itemInstance.id as String }.value")
-
-            // labeling each column with the corresponding question-text
-            labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
-        }
-
-        Map parameters = [separator: ',', encoding: "ISO-8859-1", quoteCharacter: "\u0000"]
-
-        response.contentType = "text/csv"
-        response.addHeader("Content-disposition", "attachment;filename=${filename}.csv")
-
-        exportService.export('csv', response.outputStream, opinions, fields as List<String>, labels, [:], parameters)
-
-    }
-
     def answerSectionItems(Opinion opinionInstance) {
 
         if (opinionInstance.submitted) return
 
         Poll pollInstance = opinionInstance.poll
         PollSection pollSectionInstance = pollInstance.sections.find{ pollSectionInstance -> 
-				allSectionItemsAnswered(opinionInstance.selections, pollSectionInstance) == false }
+				allSectionItemsAnswered(opinionInstance.selections as Map<String, Choice>, pollSectionInstance as PollSection) == false } as PollSection
 		
 		if (pollSectionInstance == null) {
 			opinionInstance.submittable = true
@@ -147,7 +70,7 @@ class OpinionController {
     }
 
     def saveSubjectSelections(SaveSubjectSelectionsCommand cmd) {
-		Opinion opinionInstance = Opinion.get(params.id)
+		Opinion opinionInstance = Opinion.get(params.id as long)
 		
         if (opinionInstance.submitted) opinionInstance.errors.reject('opinion.submitted.editFailure',
                 "Your opinion has already been submitted. Changing your answers is no longer possible")
@@ -193,14 +116,14 @@ class OpinionController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'opinionInstance.label', default: 'Opinion'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'opinion.label', default: 'Opinion'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
         }
     }
 
-    private Map<PollSection,Integer> getAnsweredItemsPerSection (Opinion opinionInstance) {
+    private static Map<PollSection,Integer> getAnsweredItemsPerSection (Opinion opinionInstance) {
         Poll pollInstance = opinionInstance.poll
         Map<PollSection, Integer> answeredItemsPerSection = new HashMap<PollSection, Integer>()
         for (pollSectionInstance in pollInstance.sections) {
@@ -208,23 +131,23 @@ class OpinionController {
             for (itemInstance in pollSectionInstance.items) {
                 if (opinionInstance.selections.containsKey(itemInstance.id as String))  count += 1
             }
-            answeredItemsPerSection.put(pollSectionInstance, count)
+            answeredItemsPerSection.put(pollSectionInstance as PollSection, count)
         }
         return answeredItemsPerSection
     }
 
-    private boolean allItemsAnswered(Opinion opinionInstance) {
+    private static boolean allItemsAnswered(Opinion opinionInstance) {
         def itemIds = opinionInstance.poll.getPollItems().collect { it.id as String }
 		return opinionInstance.selections.keySet().containsAll(itemIds)
     }
 	
-	private boolean allSectionItemsAnswered(Map<String, Option> selections, PollSection pollSectionInstance) {
+	private static boolean allSectionItemsAnswered(Map<String, Choice> selections, PollSection pollSectionInstance) {
 		def itemIds = pollSectionInstance.items.collect { it.id as String }
 		return selections.keySet().containsAll(itemIds)
 
 	}
 	
-	private boolean displayWideEnoughForIFrame(int displayWidth) {
+	private static boolean displayWideEnoughForIFrame(int displayWidth) {
 		return displayWidth > 1024
 	}
 }

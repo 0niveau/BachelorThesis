@@ -34,8 +34,8 @@ environments {
 			pooled = true
             dbCreate = "update"
 			driverClassName = "com.mysql.jdbc.Driver"
-            url = "jdbc:mysql://aa17jgjbzwflk5k.c3wsxcumn3dv.us-west-2.rds.amazonaws.com:3306/ebdb?user=nico&password=joocinjo091!"
-			dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            url = "jdbc:mysql://aa1mgsv0q4xe157.c4dck7l14glq.eu-west-1.rds.amazonaws.com:3306/ebdb?user=nico&password=joocinjo091!"
+			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
             properties {
                // See http://grails.org/doc/latest/guide/conf.html#dataSource for documentation
 				validationQuery = "SELECT 1"

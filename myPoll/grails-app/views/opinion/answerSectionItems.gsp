@@ -30,12 +30,12 @@
                         <div class="sliderElement">
                             <p class="blueText bold">${ itemInstance?.question }</p>
                             <ul>
-                                <g:each in="${ itemInstance?.options }" status="z" var="optionInstance">
+                                <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
                                     <li>
                                         <label>
-                                            <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ optionInstance?.value }"
-                                                ${ opinionInstance?.selections?.get(itemInstance?.id as String) == optionInstance ? "checked='checked" : '' }/>
-                                            ${ optionInstance?.value }
+                                            <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
+                                                ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
+                                            ${ choiceInstance?.value }
                                         </label>
                                     </li>
                                 </g:each>

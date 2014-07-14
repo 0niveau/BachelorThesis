@@ -4,7 +4,7 @@
 <head>
     <title></title>
     <meta name="layout" content="main">
-    <r:require module="export"></r:require>
+    <r:require module="export" />
 </head>
 <body>
     <nav class="row">
@@ -22,12 +22,12 @@
     
     <section class="row shadow">
     	<div class="col actions left-text">
-    		<g:link class="icon-link" action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlA,'pollId': pollInstance.id]">
+    		<g:link class="icon-link" controller ="poll" action="exportOpinions" id="${ pollInstance.id }" params="['testObjectUrl': pollInstance.testObjectUrlA]">
     			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlA }</span>
     		</g:link>
     	</div>
     	<div class="col actions left-text">
-    		<g:link class="icon-link" action="exportOpinions" params="['testObjectUrl': pollInstance.testObjectUrlB,'pollId': pollInstance.id]">
+    		<g:link class="icon-link" controller="poll" action="exportOpinions" id="${ pollInstance.id }" params="['testObjectUrl': pollInstance.testObjectUrlB]">
     			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlB }</span>
     		</g:link>
     	</div>
@@ -38,7 +38,7 @@
     		<div class="col">
     			<h2 class="blueText">${ sectionInstance?.name }</h2>
     			<g:each in="${ sectionInstance?.items }" var="itemInstance">
-    				<g:set var="itemAggregation" value="${ aggregatedResults.find { aggregation -> aggregation.item.equals(itemInstance) } }"></g:set>
+    				<g:set var="itemAggregation" value="${ aggregatedResults.find { aggregation -> aggregation.item.equals(itemInstance) } }"/>
     				<h3 class="orangeText">${ itemAggregation?.question }</h3>
     				<table class="itemResults">
 						<tbody>
@@ -51,8 +51,8 @@
     						<g:each in="${ itemAggregation?.possibleAnswers }" var="answer">    							
     						<tr>
     							<th>${ answer }</th>
-    							<td>${ itemAggregation?.selectionsPerAnswerA.get(answer) }</td>    							
-    							<td>${ itemAggregation?.selectionsPerAnswerB.get(answer) }</td>  							
+    							<td>${ itemAggregation?.selectionsPerAnswerA?.get(answer) }</td>
+    							<td>${ itemAggregation?.selectionsPerAnswerB?.get(answer) }</td>
     						</tr>
     						</g:each>
     					</tbody>

@@ -7,12 +7,12 @@ import grails.transaction.Transactional
 
 class ScaleCreateCommand {
 	String name
-	List options = []
+	List choices = []
 	
 	Scale createScale () {
 		Scale scaleInstance = new Scale(
 			name: name,
-			options: []
+			choices: []
 		)
 		return scaleInstance
 	}
@@ -20,7 +20,7 @@ class ScaleCreateCommand {
 
 class ScaleUpdateCommand {
     String name
-    List options = []
+    List choices = []
 }
 
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
@@ -39,7 +39,7 @@ class ScaleController {
 	}
 	
 	def create() {
-		boolean useInQuestion
+		boolean useInQuestion = false
 		if(params.useInQuestion) { 
 			useInQuestion = params.useInQuestion as boolean
 		}
@@ -60,10 +60,10 @@ class ScaleController {
 		
 		Scale scaleInstance = cmd.createScale()		
 
-		cmd.options.each { value ->
-			Option optionInstance = new Option(value: value)
-			if (optionInstance.validate()) {
-                scaleInstance.options.add(optionInstance)
+		cmd.choices.each { value ->
+			Choice choiceInstance = new Choice(value: value)
+			if (choiceInstance.validate()) {
+                scaleInstance.choices.add(choiceInstance)
 			}
 		}
 
@@ -81,7 +81,7 @@ class ScaleController {
 		
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.created.message', args: [message(code: 'ScaleInstance.label', default: 'Scale'), scaleInstance.id])
+				flash.message = message(code: 'default.created.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
 				redirect scaleInstance
 			}
 			'*' { respond scaleInstance, [status: CREATED] }
@@ -102,28 +102,27 @@ class ScaleController {
             return
         }
 
-        List<Option> newOptions = []
+        List<Choice> newChoices = []
 
-        cmd.options.each { value ->
-            Option optionInstance = new Option(value: value)
-            if (optionInstance.validate()) {
-                newOptions.add(optionInstance)
+        cmd.choices.each { value ->
+            Choice choiceInstance = new Choice(value: value)
+            if (choiceInstance.validate()) {
+                newChoices.add(choiceInstance)
             }
         }
 
         scaleInstance.name = cmd.name
-        scaleInstance.options = newOptions
+        scaleInstance.choices = newChoices
 
 		if (scaleInstance.validate()) {
             scaleInstance.save flush:true
 
-            flash.message = message(code: 'default.updated.message', args: [message(code: 'Scale.label', default: 'Scale'), scaleInstance.id])
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
 
             redirect scaleInstance
 
         } else {
             respond scaleInstance.errors, view: 'edit'
-            return
         }
 	}
 	
@@ -148,7 +147,7 @@ class ScaleController {
 
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.deleted.message', args: [message(code: 'Question.label', default: 'Question'), scaleInstance.id])
+				flash.message = message(code: 'default.deleted.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
 				redirect action:"index", method:"GET"
 			}
 			'*'{ render status: NO_CONTENT }
@@ -158,7 +157,7 @@ class ScaleController {
 	protected void notFound() {
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.not.found.message', args: [message(code: 'ScaleInstance.label', default: 'Scale'), params.id])
+				flash.message = message(code: 'default.not.found.message', args: [message(code: 'scale.label', default: 'Scale'), params.id])
 				redirect action: "index", method: "GET"
 			}
 			'*'{ render status: NOT_FOUND }

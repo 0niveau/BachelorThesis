@@ -40,7 +40,7 @@ class ItemController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'itemInstance.label', default: 'Item'), itemInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'item.label', default: 'Item'), itemInstance.id])
                 redirect itemInstance
             }
             '*' { respond itemInstance, [status: CREATED] }
@@ -63,7 +63,7 @@ class ItemController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Item.label', default: 'Item'), itemInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'item.label', default: 'Item'), itemInstance.id])
                 redirect itemInstance
             }
             '*'{ respond itemInstance, [status: OK] }
@@ -87,7 +87,7 @@ class ItemController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Item.label', default: 'Item'), itemInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'item.label', default: 'Item'), itemInstance.id])
                 redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: "showAllItems"]
             }
             '*'{ render status: NO_CONTENT }
@@ -97,7 +97,7 @@ class ItemController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'itemInstance.label', default: 'Item'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'item.label', default: 'Item'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

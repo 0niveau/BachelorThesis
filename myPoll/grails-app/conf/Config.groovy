@@ -95,7 +95,7 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = "imu3hf5fbq.elasticbeanstalk.com"
+        grails.serverURL = ""// "http://Default-Environment-zkkbfujsir.elasticbeanstalk.com"
     }
 }
 

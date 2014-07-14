@@ -5,41 +5,15 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-class PollCreateCommand {
-	String name
-	String description
-	Boolean clustering
-	Boolean comparing
-	Boolean feedback
-	String testObjectUrlA
-	String testObjectUrlB
-	
-	static constraints = {
-		name blank: false
-		clustering nullable: true
-		comparing nullable: true
-		feedback nullable: true
-		testObjectUrlA nullable: false, blank: false
-		testObjectUrlB nullable: false, blank: false
-	}
-	
-	Poll createPoll() {
-		def pollInstance = new Poll(
-			name: name,
-			description: description,
-			isActive: false,
-			testObjectUrlA: testObjectUrlA,
-			testObjectUrlB: testObjectUrlB		
-		)
-        return pollInstance
-	}
-}
-
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 @Transactional(readOnly = true)
 class PollController {
 
     static allowedMethods = [save: "POST", update: "PUT",toggleActivation: "PUT", delete: "DELETE"]
+
+    // injecting exportService from export plugin
+    def exportService
+    def grailsApplication
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -75,21 +49,21 @@ class PollController {
 		pollInstance.save flush:true
 
 		if (params.clustering) {
-			def clustering = new PollSection(name: 'Clustering', needsTestObject: false, poll: pollInstance)
+			def clustering = new PollSection(name: message(code: 'poll.sections.clustering.label', default: 'Clustering'), needsTestObject: false, poll: pollInstance)
 			clustering.save flush:true
 		}
 		if (params.comparing) {
-			def comparing = new PollSection(name: 'Comparing', needsTestObject: true, poll: pollInstance)
+			def comparing = new PollSection(name: message(code: 'poll.sections.comparing.label', default: 'Comparing'), needsTestObject: true, poll: pollInstance)
 			comparing.save flush:true	
 		}
 		if (params.feedback) {
-			def feedback = new PollSection(name: 'Feedback', needsTestObject: false, poll: pollInstance)
+			def feedback = new PollSection(name: message(code: 'poll.sections.feedback.label', default: 'Feedback'), needsTestObject: false, poll: pollInstance)
 			feedback.save flush:true		
 		}
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'pollInstance.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
                 redirect pollInstance
             }
             '*' { respond pollInstance, [status: CREATED] }
@@ -121,7 +95,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
                 redirect pollInstance
             }
             '*'{ respond pollInstance, [status: OK] }
@@ -153,11 +127,77 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
                 redirect pollInstance
             }
             '*'{ respond pollInstance, [status: OK] }
         }
+    }
+
+    /*
+     * groups the submitted Opinions by testObjectUrl and passes both lists to the corresponding view
+     */
+    def opinionList(Poll pollInstance) {
+
+        def aggregatedResults = aggregatePollResults(pollInstance)
+
+        render view: '/opinion/opinionList', model: [pollInstance: pollInstance, aggregatedResults: aggregatedResults]
+    }
+
+    private static List<ItemAggregation> aggregatePollResults(Poll pollInstance) {
+        List<Item> pollItems = pollInstance.getPollItems()
+        List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted } as List<Opinion>
+        List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted } as List<Opinion>
+
+        List<ItemAggregation> itemAggregations = []
+
+        for (pollItem in pollItems) {
+
+            List<Selection> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) as Selection }
+            List<Selection> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) as Selection }
+
+            ItemAggregation itemAggregation = new ItemAggregation()
+            itemAggregation.item = pollItem
+            itemAggregation.question = pollItem.question
+            itemAggregation.possibleAnswers = pollItem.choices.collect {choice -> choice.value }
+            itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
+            itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
+
+            itemAggregations.add(itemAggregation)
+        }
+
+        return itemAggregations
+    }
+
+    /*
+     * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
+     */
+    def exportOpinions(Poll pollInstance) {
+        List items = pollInstance.getPollItems()
+
+        String testObjectUrl = params.testObjectUrl
+        String filename = testObjectUrl.replace("http://","")
+
+        // only the opinions with the desired testObjectUrl will be exported
+        List opinions = Opinion.findAll { testObjectUrl == testObjectUrl }
+
+        List<String> fields = []
+        Map labels = [:]
+
+        for (itemInstance in items) {
+            // Extracting the values from the opinions' selections
+            fields.add("selections.${ itemInstance.id as String }.value")
+
+            // labeling each column with the corresponding question-text
+            labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
+        }
+
+        Map parameters = [separator: ',', encoding: "ISO-8859-1", quoteCharacter: "\u0000"]
+
+        response.contentType = "text/csv"
+        response.addHeader("Content-disposition", "attachment;filename=${filename}.csv")
+
+        exportService.export('csv', response.outputStream, opinions, fields as List<String>, labels, [:], parameters)
     }
 
     @Transactional
@@ -173,7 +213,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -183,7 +223,7 @@ class PollController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'pollInstance.label', default: 'Poll'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'poll.label', default: 'Poll'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

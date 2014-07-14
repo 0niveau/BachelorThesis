@@ -5,10 +5,10 @@ class Item {
 	String question
 	Long idOfOrigin
 	
-	static hasMany = [options: Option]
+	static hasMany = [choices: Choice]
 	static belongsTo = [pollSection: PollSection]
 
-    List options
+    List choices
 
     static constraints = {
     }

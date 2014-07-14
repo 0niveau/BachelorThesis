@@ -42,14 +42,14 @@
 
         <div class="row white shadow">
             <section class="properties l-six m-twelve s-twelve cols">
-                <g:if test="${scaleInstance?.options}">
+                <g:if test="${scaleInstance?.choices}">
                 <div class="row">
                     <div class="l-ten m-ten s-ten cols">
-                        <h2 class="property-header"><g:message code="scale.options.label" default="Options"/></h2>
-                        <ol class="optionList" data-listedElements="options">
-                            <g:each in="${scaleInstance.options}" var="o" status="s">
-                                <li class="property-value option">
-                                    ${ o.value }
+                        <h2 class="property-header"><g:message code="scale.choices.label" default="choices"/></h2>
+                        <ol class="choicesList" data-listedElements="choices">
+                            <g:each in="${scaleInstance?.choices}" var="choice" status="s">
+                                <li class="property-value choice">
+                                    ${ choice.value }
                                 </li>
                             </g:each>
                         </ol>

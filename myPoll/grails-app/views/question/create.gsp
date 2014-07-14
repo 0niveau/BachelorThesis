@@ -57,7 +57,7 @@
                                     <h3><g:message code="scale.available" default="Available Scales" /></h3>
                                     <ul class="selectableList">
                                         <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                                            <li class="selectable" data-selectionRef="options${scale.id}">
+                                            <li class="selectable" data-selectionRef="choices${scale.id}">
                                                 <label class="radioInputLabel">
                                                     <input type="radio" name="scale" value="${scale.id}" id="${scale.id}" ${ scale.id == idOfSelectedScale ? "checked='checked'" : '' }/>
                                                     ${ scale.name }
@@ -67,11 +67,11 @@
                                     </ul>
                                 </div>
                                 <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
-                                    <div id="options${scale.id}" class="propertyDetails l-six m-six s-twelve cols highlight">
-                                        <h3><g:message code="scale.options.label" default="Options" /></h3>
+                                    <div id="choices${scale.id}" class="propertyDetails l-six m-six s-twelve cols highlight">
+                                        <h3><g:message code="scale.choices.label" default="Choices" /></h3>
                                         <ol>
-                                            <g:each in="${ scale.options }" var="option" >
-                                                <li>${option.value}</li>
+                                            <g:each in="${ scale.choices }" var="choice" >
+                                                <li>${choice.value}</li>
                                             </g:each>
                                         </ol>
                                     </div>

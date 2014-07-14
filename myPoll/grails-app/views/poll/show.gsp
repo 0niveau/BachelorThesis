@@ -155,7 +155,7 @@
                                             <h3><g:message code="pollSection.create.describe" default="Briefly describe your pollSection" /></h3>
                                             <textarea name="description">${ newPollSectionInstance?.description }</textArea>
                                             <h3><g:message code="pollSection.create.testObjectNeeded" default="Does your pollSection need a testObject?"/></h3>
-                                            <label><g:checkBox name="needsTestObject" value="${ newPollSectionInstance?.needsTestObject}"></g:checkBox> <g:message code="yes" default="yes" /></label>
+                                            <label><g:checkBox name="needsTestObject" value="${ newPollSectionInstance?.needsTestObject}" /><g:message code="yes" default="yes" /></label>
                                             <input type="hidden" name="poll" value="${ pollInstance?.id }">
                                         </fieldset>
                                     </g:form>
@@ -211,7 +211,7 @@
                     <div class="property l-ten m-ten s-ten cols">
                         <h2 class="property-header"><g:message code="poll.opinions.label" default="Opinions"/></h2>
                         <g:if test="${ pollInstance?.opinions }" >
-                        	<g:set var="opinionsCount" value="${ pollInstance?.opinions?.findAll { it.submitted }.size() }" />
+                        	<g:set var="opinionsCount" value="${ pollInstance?.opinions?.findAll { it.submitted }?.size() }" />
                             <p class="property-value">
                             	<g:message code="poll.opinions.count.submitted"
                             	args="[opinionsCount]" 
@@ -224,7 +224,7 @@
                         </g:else>
                     </div>
                     <div class="actions l-two m-two s-two cols">
-                        <g:link class="icon-link" controller="opinion" action="opinionList" id="${ pollInstance.id }"><i class="fa fa-eye"></i></g:link>
+                        <g:link class="icon-link" controller="poll" action="opinionList" id="${ pollInstance.id }"><i class="fa fa-eye"></i></g:link>
                     </div>
                 </div>
             </div>

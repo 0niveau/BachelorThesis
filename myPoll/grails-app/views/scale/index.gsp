@@ -71,7 +71,7 @@
 								<h2 class="nomargin">${ scaleInstance?.name }</h2>
 							</g:link>
 							<ol class="inlineItems nopadding nomargin">
-								<g:each in="${ scaleInstance?.options }">
+								<g:each in="${ scaleInstance?.choices }">
 									<li><span class="italic nomargin">${ it?.value }</span></li>
 								</g:each>
 							</ol>

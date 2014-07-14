@@ -1,36 +1,36 @@
-var addNewOptionLink = document.querySelector('#addNewOption')
-,   removeLastOptionLink = document.querySelector('#removeLastOption')
-,	scaleOptionList = document.querySelector('#scaleOptionList');
+var addNewChoiceLink = document.querySelector('#addNewChoice')
+,   removeLastChoiceLink = document.querySelector('#removeLastChoice')
+,	scaleChoiceList = document.querySelector('#scaleChoiceList');
 
-if (addNewOptionLink != null) addNewOptionLink.addEventListener('click', addOption, false);
-if (removeLastOptionLink != null) removeLastOptionLink.addEventListener('click', removeLastOption, false)
+if (addNewChoiceLink != null) addNewChoiceLink.addEventListener('click', addChoice, false);
+if (removeLastChoiceLink != null) removeLastChoiceLink.addEventListener('click', removeLastChoice, false)
 
-function addOption() {
-	var optionCount = scaleOptionList.childElementCount;
-	var newOption = createOptionLi(optionCount);
-	scaleOptionList.appendChild(newOption);
-    removeLastOptionLink.classList.remove('disabled');
+function addChoice() {
+	var choiceCount = scaleChoiceList.childElementCount;
+	var newChoice = createChoiceLi(choiceCount);
+	scaleChoiceList.appendChild(newChoice);
+    removeLastChoiceLink.classList.remove('disabled');
 }
 
-function createOptionLi (optionCount) {
+function createChoiceLi (choiceCount) {
 	
-	var optionLi = document.createElement('li');
+	var choiceLi = document.createElement('li');
 	var input = document.createElement('input');
-	var inputName = 'options[' + optionCount + ']';
+	var inputName = 'choices[' + choiceCount + ']';
 	input.setAttribute('name', inputName);
 	input.setAttribute('type', 'text');
 	
-	optionLi.appendChild(input);
+	choiceLi.appendChild(input);
 	
-	return optionLi;
+	return choiceLi;
 }
 
-function removeLastOption() {
-    var optionCount = scaleOptionList.childElementCount;
-    if (optionCount > 2) {
-        scaleOptionList.removeChild(scaleOptionList.lastElementChild);
-        var newOptionCount = scaleOptionList.childElementCount;
-        if (newOptionCount === 2) removeLastOptionLink.classList.add('disabled');
+function removeLastChoice() {
+    var choiceCount = scaleChoiceList.childElementCount;
+    if (choiceCount > 2) {
+        scaleChoiceList.removeChild(scaleChoiceList.lastElementChild);
+        var newChoiceCount = scaleChoiceList.childElementCount;
+        if (newChoiceCount === 2) removeLastChoiceLink.classList.add('disabled');
     }
 
     return

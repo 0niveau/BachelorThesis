@@ -2,7 +2,8 @@
 
 <html>
 <head>
-  <title></title>
+    <title></title>
+    <meta name="layout" content="main">
 </head>
 <body>
 	<div class="row white shadow top">

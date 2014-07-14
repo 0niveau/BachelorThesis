@@ -1,6 +1,6 @@
 package mypoll
 
-class Option {
+class Choice {
 	
 	String value
 	

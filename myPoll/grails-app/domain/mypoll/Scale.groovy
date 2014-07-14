@@ -3,13 +3,13 @@ package mypoll
 class Scale {
 	
 	String name
-	List options
+	List choices
 	List questions
 	
-	static hasMany = [options: Option, questions: Question]
+	static hasMany = [choices: Choice, questions: Question]
 		
     static constraints = {
 		name blank: false, maxSize: 25
-        options minSize: 2
+        choices minSize: 2
     }
 }

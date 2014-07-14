@@ -44,9 +44,9 @@
                     <div class="l-ten m-ten s-ten cols">
                         <g:form url="[resource: pollInstance, action:'save']" name="pollCreateForm">
                             <h2 class="property-header"><g:message code="poll.name.label" default="Name" /></h2>
-                            <input id="name" type="text" required="required" name="name" value="${ pollInstance.name }"/>
+                            <input id="name" type="text" required="required" name="name" value="${ pollInstance?.name }"/>
                             <h2 class="property-header"><g:message code="poll.create.describe" default="Description"/></h2>
-                            <textarea id="description" required="required" name="description">${ pollInstance.description }</textarea>
+                            <textarea id="description" required="required" name="description">${ pollInstance?.description }</textarea>
                             <h2 class="property-header"><g:message code="poll.create.selectSections" default="Select some sections"/></h2>
                             <ul>
                                 <li>
