@@ -5,10 +5,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-class SaveSubjectSelectionsCommand {
-	Map<String, String> selections
-}
-
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 @Transactional(readOnly = true)
 class OpinionController {
