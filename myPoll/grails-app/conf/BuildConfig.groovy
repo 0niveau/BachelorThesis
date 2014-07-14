@@ -44,29 +44,33 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+
+        mavenRepo "http://repo.grails.org/grails/core"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         // runtime 'mysql:mysql-connector-java:5.1.27'
         // runtime 'org.postgresql:postgresql:9.3-1100-jdbc41'
+
+        compile 'commons-beanutils:commons-beanutils:1.8.3'
     }
 
     plugins {
         // plugins for the build system only
-        build ":tomcat:7.0.52.1"
+        build ":tomcat:7.0.54"
 
         // plugins for the compile step
-        compile ":scaffolding:2.0.2"
-        compile ":cache:1.1.1"
+        compile ":scaffolding:2.1.0"
+        compile ":cache:1.1.7"
 		//compile ":jquery:1.11.0.2"
-        compile ":export:1.5"
-        compile ":spring-security-core:2.0-RC3"
+        compile ":export:1.6"
+        compile ":spring-security-core:2.0-RC4"
 
         // plugins needed at runtime but not for compilation
-        runtime ":hibernate:3.6.10.9" // or ":hibernate4:4.3.4"
-        runtime ":database-migration:1.3.8"
-        runtime ":resources:1.2.7"
+        runtime ":hibernate:3.6.10.16" // or ":hibernate4:4.3.4"
+        runtime ":database-migration:1.4.0"
+        runtime ":resources:1.2.8"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"
