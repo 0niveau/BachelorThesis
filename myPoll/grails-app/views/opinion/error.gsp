@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col">
                 <g:eachError bean="${opinionInstance}" var="error">
-                    <p class="hint"><g:message error="${error}"></g:message></p>
+                    <p class="hint"><g:message error="${error}"/></p>
                 </g:eachError>
             </div>
         </div>

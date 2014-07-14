@@ -5,6 +5,6 @@ class Choice {
 	String value
 	
     static constraints = {
-		value blank: false, maxSize: 25
+		value blank: false, maxSize: 50
     }
 }

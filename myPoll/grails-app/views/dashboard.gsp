@@ -29,10 +29,10 @@
                     	</g:else>                    	
                		</p>
                     <p>
-                    	<g:if test="${mypoll?.Poll?.findAll {isActive}?.size() > 0}">
+                    	<g:if test="${mypoll?.Poll?.findAll {isActive == true}?.size() > 0}">
                     		<g:message code="poll.count.active" 
-                    		args="${mypoll?.Poll?.findAll {isActive}?.size()}"
-                    		default="${mypoll?.Poll?.findAll {isActive}?.size()} polls are currently active"/>
+                    		args="${mypoll?.Poll?.findAll {isActive == true}?.size()}"
+                    		default="${mypoll?.Poll?.findAll {isActive == true}?.size()} polls are currently active"/>
                     	</g:if>
                     	<g:else>
                     		<g:message code="poll.count.active.zero" default="Currently no polls are active" />

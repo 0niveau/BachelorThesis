@@ -76,12 +76,12 @@ class ScaleController {
 		
 		if (params.useInQuestion) {
 			redirect controller: 'question', action: 'create'
-			return	
+			return
 		}
 		
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.created.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
+				flash.message = message(code: 'default.created.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.name])
 				redirect scaleInstance
 			}
 			'*' { respond scaleInstance, [status: CREATED] }
@@ -117,7 +117,7 @@ class ScaleController {
 		if (scaleInstance.validate()) {
             scaleInstance.save flush:true
 
-            flash.message = message(code: 'default.updated.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.name])
 
             redirect scaleInstance
 
@@ -147,7 +147,7 @@ class ScaleController {
 
 		request.withFormat {
 			form multipartForm {
-				flash.message = message(code: 'default.deleted.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.id])
+				flash.message = message(code: 'default.deleted.message', args: [message(code: 'scale.label', default: 'Scale'), scaleInstance.name])
 				redirect action:"index", method:"GET"
 			}
 			'*'{ render status: NO_CONTENT }

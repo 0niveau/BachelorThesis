@@ -63,7 +63,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.name])
                 redirect pollInstance
             }
             '*' { respond pollInstance, [status: CREATED] }
@@ -95,7 +95,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.name])
                 redirect pollInstance
             }
             '*'{ respond pollInstance, [status: OK] }
@@ -127,7 +127,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.name])
                 redirect pollInstance
             }
             '*'{ respond pollInstance, [status: OK] }
@@ -213,7 +213,7 @@ class PollController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'poll.label', default: 'Poll'), pollInstance.name])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

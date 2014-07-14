@@ -33,6 +33,7 @@ class OpinionController {
     /*
 	 * creates a new Opinion and links it to the poll, then redirects to the index page for subjects
 	 */
+    @Transactional
     def addOpinion(Poll pollInstance) {
         if (!pollInstance.isActive) return
 
@@ -47,6 +48,7 @@ class OpinionController {
         redirect action: 'indexSubject', id: opinionInstance.id
     }
 
+    @Transactional
     def answerSectionItems(Opinion opinionInstance) {
 
         if (opinionInstance.submitted) return
@@ -69,6 +71,7 @@ class OpinionController {
         model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame]
     }
 
+    @Transactional
     def saveSubjectSelections(SaveSubjectSelectionsCommand cmd) {
 		Opinion opinionInstance = Opinion.get(params.id as long)
 		
@@ -89,6 +92,7 @@ class OpinionController {
         redirect action: 'answerSectionItems', id: opinionInstance.id, params: [displayWidth: params.displayWidth]
     }
 
+    @Transactional
     def submitOpinion(Opinion opinionInstance) {
         def pollInstance = opinionInstance.poll
 

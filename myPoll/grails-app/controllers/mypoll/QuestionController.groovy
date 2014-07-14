@@ -53,7 +53,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.text])
                 redirect questionInstance
             }
             '*' { respond questionInstance, [status: CREATED] }
@@ -82,7 +82,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.text])
                 redirect questionInstance
             }
             '*'{ respond questionInstance, [status: OK] }
@@ -104,7 +104,7 @@ class QuestionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'question.label', default: 'Question'), questionInstance.text])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

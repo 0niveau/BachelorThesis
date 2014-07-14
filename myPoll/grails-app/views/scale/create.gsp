@@ -19,21 +19,31 @@
         </div>
 
         <g:if test="${flash.message}">
-        <div class="row">
-            <section class="col">
-                <div class="message" role="status">${flash.message}</div>
-            </section>
-        </div>
+            <div class="row">
+                <section class="col">
+                    <div class="message" role="status">${flash.message}</div>
+                </section>
+            </div>
         </g:if>
 
         <g:hasErrors bean="${ scaleInstance}">
-        <div class="row">
-            <div class="col">
-                <g:eachError bean="${scaleInstance}" var="error">
-                    <p class="hint"><g:message error="${error}"/></p>
-                </g:eachError>
+            <div class="row">
+                <div class="col">
+                    <g:eachError bean="${scaleInstance}" var="error">
+                        <p class="hint"><g:message error="${error}"/></p>
+                    </g:eachError>
+                </div>
             </div>
-        </div>
+        </g:hasErrors>
+
+        <g:hasErrors bean="${ choiceInstance }">
+            <div class="row">
+                <div class="col">
+                    <g:eachError bean="${choiceInstance}" var="error">
+                        <p class="hint"><g:message error="${error}"/></p>
+                    </g:eachError>
+                </div>
+            </div>
         </g:hasErrors>
 
         <div class="row white shadow">

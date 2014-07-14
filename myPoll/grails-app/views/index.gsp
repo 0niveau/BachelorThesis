@@ -11,9 +11,9 @@
 				padding: 1em;
 				width: 12em;
 				float: left;
-				-moz-box-shadow: 0px 0px 1.25em #ccc;
-				-webkit-box-shadow: 0px 0px 1.25em #ccc;
-				box-shadow: 0px 0px 1.25em #ccc;
+				-moz-box-shadow: 0 0 1.25em #ccc;
+				-webkit-box-shadow: 0 0 1.25em #ccc;
+				box-shadow: 0 0 1.25em #ccc;
 				-moz-border-radius: 0.6em;
 				-webkit-border-radius: 0.6em;
 				border-radius: 0.6em;
@@ -81,7 +81,7 @@
 		</style>
 	</head>
 	<body>
-		<a href="#page-body" class="skip"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+		<a href="#page-body" class="skip">Skip to content</a>
 		<div id="status" role="complementary">
 			<h1>Application Status</h1>
 			<ul>

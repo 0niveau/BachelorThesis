@@ -46,7 +46,7 @@ class PollSectionController {
 
         pollSectionInstance.save flush:true
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.name])
 
         redirect controller: 'poll', action: 'show', params: [id: pollSectionInstance.poll.id, targetId: pollSectionInstance.id]
 
@@ -55,6 +55,7 @@ class PollSectionController {
 	/*
 	 * Renders a poll's 'show' view in a specified state, that allows the user to edit specific properties of the pollSection
 	 */
+    @Transactional
     def edit(PollSection pollSectionInstance) {
         Poll pollInstance = pollSectionInstance.poll
         def toBeEdited = params.toBeEdited
@@ -92,6 +93,7 @@ class PollSectionController {
 	 * Takes a selection of myPoll.Question and for each them adds an item to the the pollSection
 	 * @cmd the command objects that contains the ids of the selected questions
 	 */
+    @Transactional
 	def addItems(PollSectionAddItemsCommand cmd) {
 		def pollSectionInstance = PollSection.get(params.id)
 		def pollInstance = pollSectionInstance.poll
@@ -128,7 +130,6 @@ class PollSectionController {
 	}
 
     def reorderItems(PollSection pollSectionInstance) {
-
         render view: "/poll/show", model: [pollInstance: pollSectionInstance.poll, targetId: pollSectionInstance.id, mode: 'reorderSectionItems']
     }
 
@@ -151,7 +152,7 @@ class PollSectionController {
         if (pollSectionInstance.validate()) {
             pollSectionInstance.save flush:true
 
-            flash.message = message(code: 'default.updated.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.name])
 
             redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: params.mode]
         } else {
@@ -182,7 +183,7 @@ class PollSectionController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'pollSection.label', default: 'PollSection'), pollSectionInstance.name])
                 redirect controller:"poll", action:"show", id: pollInstance.id, method:"GET"
             }
             '*'{ render status: NO_CONTENT }
