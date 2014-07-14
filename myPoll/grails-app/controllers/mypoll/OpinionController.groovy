@@ -5,6 +5,10 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+class SaveSubjectSelectionsCommand {
+    Map<String, String> selections
+}
+
 @Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 @Transactional(readOnly = true)
 class OpinionController {
@@ -111,7 +115,7 @@ class OpinionController {
             labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
         }
 
-        Map parameters = [separator: ',', quoteCharacter: "\u0000"]
+        Map parameters = [separator: ',', encoding: "ISO-8859-1", quoteCharacter: "\u0000"]
 
         response.contentType = "text/csv"
         response.addHeader("Content-disposition", "attachment;filename=${filename}.csv")
@@ -221,6 +225,6 @@ class OpinionController {
 	}
 	
 	private boolean displayWideEnoughForIFrame(int displayWidth) {
-		return displayWidth > 768
+		return displayWidth > 1024
 	}
 }

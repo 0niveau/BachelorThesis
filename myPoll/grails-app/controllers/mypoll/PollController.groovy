@@ -35,10 +35,6 @@ class PollCreateCommand {
 	}
 }
 
-class saveSubjectSelectionsCommand {
-    Map<Item, Option> selections
-}
-
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 @Transactional(readOnly = true)
 class PollController {
