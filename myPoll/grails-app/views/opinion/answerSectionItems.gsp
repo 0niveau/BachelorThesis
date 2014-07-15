@@ -24,49 +24,50 @@
                 </div>
             </div>
 
-            <div class="row highlight">
-                <div class="slider col">
-                    <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
-                        <div class="sliderElement">
-                            <p class="blueText bold">${ itemInstance?.question }</p>
-                            <ul>
-                                <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
-                                    <li>
-                                        <label>
-                                            <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
-                                                ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
-                                            ${ choiceInstance?.value }
-                                        </label>
-                                    </li>
-                                </g:each>
-                            </ul>
-                        </div>
-                    </g:each>
-                </div>
-                <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
-                    <div class="col">
-                        <p>
-                        	<g:message code="hint.opinion.smallDisplay" 
-                        	default="It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions."/>
-                        </p>
-                        <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
+            <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
+                <div class="row highlight">
+                    <div class="slider col">
+                        <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
+                            <div class="sliderElement">
+                                <p class="blueText bold">${ itemInstance?.question }</p>
+                                <ul>
+                                    <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
+                                        <li>
+                                            <label>
+                                                <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
+                                                    ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
+                                                ${ choiceInstance?.value }
+                                            </label>
+                                        </li>
+                                    </g:each>
+                                </ul>
+                            </div>
+                        </g:each>
                     </div>
-                </g:if>
-            </div>
-            <div class="row">
-                <div class="sliderNavigation l-four m-four s-four cols centered-text">
-                    <a href="#" class="icon-link" id="prev"><i class="fa fa-arrow-left"></i></a>
+                    <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
+                        <div class="col">
+                            <p>
+                                <g:message code="hint.opinion.smallDisplay"
+                                default="It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions."/>
+                            </p>
+                            <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
+                        </div>
+                    </g:if>
                 </div>
-                <div class="sliderNavigation l-four m-four s-four cols centered-text">
-                    <a href="#" class="icon-link" id="next"><i class="fa fa-arrow-right"></i></a>
+                <div class="row">
+                    <div class="sliderNavigation l-four m-four s-four cols centered-text">
+                        <a href="#" class="icon-link" id="prev"><i class="fa fa-arrow-left"></i></a>
+                    </div>
+                    <div class="sliderNavigation l-four m-four s-four cols centered-text">
+                        <a href="#" class="icon-link" id="next"><i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    <div class="l-four m-four s-four cols centered-text">
+
+                            <input class="displayWidthInput" name="displayWidth" type="hidden" value="">
+                            <input class="icon-submit" type="submit" value="&#xf0c7;" />
+                    </div>
                 </div>
-                <div class="l-four m-four s-four cols centered-text">
-                    <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
-                     	<input class="displayWidthInput" name="displayWidth" type="hidden" value="">
-                        <input class="icon-submit" type="submit" value="&#xf0c7;" />
-                    </g:form>
-                </div>
-            </div>
+            </g:form>
         </section>
 
         <g:if test="${ displayTestObjectInIFrame }">

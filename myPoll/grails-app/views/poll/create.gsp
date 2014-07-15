@@ -41,8 +41,8 @@
         <div class="row white shadow">
             <section class="l-six m-twelve s-twelve cols">
                 <div class="row">
-                    <div class="l-ten m-ten s-ten cols">
-                        <g:form url="[resource: pollInstance, action:'save']" name="pollCreateForm">
+                    <g:form url="[resource: pollInstance, action:'save']" name="pollCreateForm">
+                        <div class="l-ten m-ten s-ten cols">
                             <h2 class="property-header"><g:message code="poll.name.label" default="Name" /></h2>
                             <input id="name" type="text" required="required" name="name" value="${ pollInstance?.name }"/>
                             <h2 class="property-header"><g:message code="poll.create.describe" default="Description"/></h2>
@@ -71,11 +71,11 @@
                             <h2 class="property-header"><g:message code="poll.create.testObjects" default="Testobjects" /></h2>
                             <p><g:message code="poll.testObjectUrlA" default="page A"/> <input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="http://www.site-a.com"/></p>
                             <p><g:message code="poll.testObjectUrlB" default="page B"/> <input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="http://www.site-b.com"/></p>
-                        </g:form>
-                    </div>
-                    <div class="actions l-two m-two s-two cols">
-                        <input class="icon-submit" type="submit" form="pollCreateForm" value="&#xf0c7;" />
-                    </div>
+                        </div>
+                        <div class="actions l-two m-two s-two cols">
+                            <input class="icon-submit" type="submit" form="pollCreateForm" value="&#xf0c7;" />
+                        </div>
+                    </g:form>
                 </div>
             </section>
         </div>

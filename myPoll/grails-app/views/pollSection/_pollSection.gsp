@@ -20,34 +20,36 @@
     </g:hasErrors>
 
     <div class="row border-bottom-blueDotted">
-        <div class="propertyDetail l-ten m-ten s-ten cols">
-            <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
-            <g:if test="${ toBeEdited == 'sectionDescription' && !pollSection.poll.isActive }">
-                <g:form url="[resource: pollSection, action: 'update']" method="PUT" name="edit${pollSection?.name}DescriptionForm">
-                    <textarea name="description">${ pollSection?.description }</textarea>
-                </g:form>
-            </g:if>
-            <g:else>
-                <g:if test="${pollSection?.description}">
-                    <p>${ pollSection?.description }</p>
+        <g:form url="[resource: pollSection, action: 'update']" method="PUT" name="edit${pollSection?.name}DescriptionForm">
+            <div class="propertyDetail l-ten m-ten s-ten cols">
+                <h3 class="propertyDetail-header"><g:message code="pollSection.description.label" default="Description" /></h3>
+                <g:if test="${ toBeEdited == 'sectionDescription' && !pollSection.poll.isActive }">
+
+                        <textarea name="description">${ pollSection?.description }</textarea>
+
                 </g:if>
                 <g:else>
-                    <p><g:message code="pollSection.description.empty" default=" No description entered so far!" /></p>
+                    <g:if test="${pollSection?.description}">
+                        <p>${ pollSection?.description }</p>
+                    </g:if>
+                    <g:else>
+                        <p><g:message code="pollSection.description.empty" default=" No description entered so far!" /></p>
+                    </g:else>
                 </g:else>
-            </g:else>
-        </div>
-        <div class="actions l-two m-two s-two col">
-            <g:if test="${ !pollSection.poll.isActive }">
-                <g:if test="${ toBeEdited == 'sectionDescription' }">
-                    <input class="icon-submit" type="submit" value="&#xf0c7;" form="edit${pollSection?.name}DescriptionForm">
+            </div>
+            <div class="actions l-two m-two s-two col">
+                <g:if test="${ !pollSection.poll.isActive }">
+                    <g:if test="${ toBeEdited == 'sectionDescription' }">
+                        <input class="icon-submit" type="submit" value="&#xf0c7;" form="edit${pollSection?.name}DescriptionForm">
+                    </g:if>
+                    <g:else>
+                        <g:link class="icon-link" controller="pollSection" action="edit" id="${ pollSection.id }" params="[toBeEdited: 'sectionDescription']">
+                            <i class="fa fa-pencil"></i></g:link>
+                    </g:else>
                 </g:if>
-                <g:else>
-                    <g:link class="icon-link" controller="pollSection" action="edit" id="${ pollSection.id }" params="[toBeEdited: 'sectionDescription']">
-                        <i class="fa fa-pencil"></i></g:link>
-                </g:else>
-            </g:if>
-            <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
-        </div>
+                <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
+            </div>
+        </g:form>
     </div>
 
     <div class="row border-bottom-blueDotted">
@@ -117,47 +119,47 @@
 <g:if test="${ (mode == 'addSectionItems') && (pollSection.id == targetId) && !pollSection.poll.isActive}">
     <div class="overlay">
         <div class="overlayContent white">
-            <div class="row">
-                <div class="l-ten m-ten s-ten cols">
-                    <h3 class="propertyDetail-header"><g:message code="pollSection.items.addable" default="Addable Items"/></h3>
-                    <g:if test="${ !selectableQuestions?.empty }">
-                        <p class="hint">
-                        	<g:message code="hint.pollSection.items.add" 
-                        	default="Select the items you want to add to this section"/>
-                        </p>
-                        <p class="hint">
-                        	<g:message code="hint.pollSection.items.add.missingItem"
-                        	default="If you can't find questions that fit for your purpose, you can easily create your own questions. Just follow this link"/>
-                        </p>
-                    </g:if>
-                    <g:else>
-                        <p class="hint">
-                        	<g:message code="hint.pollSection.items.add.noItems"
-                        	default="You have added all available questions to your section. Follow the link below to create some more."/>
-                        </p>
-                    </g:else>
-                    <g:link controller="question" action="create" params="[pollSectionId: pollSection.id]"><i class="fa fa-hand-o-right padding-right"></i><g:message code="question.new" default="New question" /></g:link>
-                </div>
-                <div class="actions l-two m-two s-two cols">
-                    <g:form id="${ pollSection.id }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
-                        <input class="icon-submit" type="submit" value="&#xf00c;"/>
-                    </g:form>
-                </div>
-            </div>
-            <g:if test="${ !selectableQuestions?.empty }">
+            <g:form id="${ pollSection.id }" name="addItemsToSectionForm" controller="pollSection" action="addItems">
                 <div class="row">
-                    <div class="col">
-                        <ul class="enclosedItems">
-                            <g:each in="${selectableQuestions}" status="i" var="questionInstance">
-                                <li class="${(i % 2) == 0 ? 'even' : 'odd'} ">
-                                    <input class="padding-right" name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" />
-                                    <span>${fieldValue(bean: questionInstance, field: "text")}</span>
-                                </li>
-                            </g:each>
-                        </ul>
+                    <div class="l-ten m-ten s-ten cols">
+                        <h3 class="propertyDetail-header"><g:message code="pollSection.items.addable" default="Addable Items"/></h3>
+                        <g:if test="${ !selectableQuestions?.empty }">
+                            <p class="hint">
+                                <g:message code="hint.pollSection.items.add"
+                                default="Select the items you want to add to this section"/>
+                            </p>
+                            <p class="hint">
+                                <g:message code="hint.pollSection.items.add.missingItem"
+                                default="If you can't find questions that fit for your purpose, you can easily create your own questions. Just follow this link"/>
+                            </p>
+                        </g:if>
+                        <g:else>
+                            <p class="hint">
+                                <g:message code="hint.pollSection.items.add.noItems"
+                                default="You have added all available questions to your section. Follow the link below to create some more."/>
+                            </p>
+                        </g:else>
+                        <g:link controller="question" action="create" params="[pollSectionId: pollSection.id]"><i class="fa fa-hand-o-right padding-right"></i><g:message code="question.new" default="New question" /></g:link>
+                    </div>
+                    <div class="actions l-two m-two s-two cols">
+                        <input class="icon-submit" type="submit" value="&#xf00c;"/>
                     </div>
                 </div>
-            </g:if>
+                <g:if test="${ !selectableQuestions?.empty }">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="enclosedItems">
+                                <g:each in="${selectableQuestions}" status="i" var="questionInstance">
+                                    <li class="${(i % 2) == 0 ? 'even' : 'odd'} ">
+                                        <input class="padding-right" name="questionIds[${ i }]" form="addItemsToSectionForm" type="checkbox" value="${ questionInstance.id }" />
+                                        <span>${fieldValue(bean: questionInstance, field: "text")}</span>
+                                    </li>
+                                </g:each>
+                            </ul>
+                        </div>
+                    </div>
+                </g:if>
+            </g:form>
         </div>
     </div>
 </g:if>
@@ -186,14 +188,15 @@
                     </g:else>
                 </div>
                 <div class="actions l-one m-two s-two cols">
-                    <g:if test="${ !pollSection.poll.isActive }">
-                        <g:link class="icon-link" controller="pollSection" action="addableItems" id="${ pollSection.id }" params="[addToSection: 'addToSection']">
-                            <i class="fa fa-plus"></i></g:link>
+                    <g:if test="${ !pollSection?.poll?.isActive }">
+                        <g:link class="icon-link" controller="pollSection" action="addableItems" id="${ pollSection?.id }" params="[addToSection: 'addToSection']">
+                            <i class="fa fa-plus"></i>
+                        </g:link>
                     </g:if>
                     <g:else><a class="icon-link disabled"><i class="fa fa-plus"></i></a></g:else>
                 </div>
                 <div class="actions l-one m-two s-two cols">
-                    <g:if test="${ !pollSection.poll.isActive && !pollSection?.items?.isEmpty() }">
+                    <g:if test="${ !pollSection?.poll?.isActive && !pollSection?.items?.isEmpty() }">
                         <g:form controller="pollSection" action="update" params="[mode: 'showAllItems']" id="${pollSection.id}" method="PUT" name="reorderItemsForm${ pollSection?.name }">
                             <input class="icon-submit nomargin-bottom" type="submit" value="&#xf0c7;"/>
                         </g:form>

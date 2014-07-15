@@ -41,8 +41,8 @@
         <div class="row white shadow">
             <div class="l-six m-twelve s-twelve cols">
 				<div class="row">
-                    <div class="l-ten m-ten s-ten cols">
-                        <g:form url="[resource:questionInstance, action:'save']" name="questionCreateForm" >
+                    <g:form url="[resource:questionInstance, action:'save']" name="questionCreateForm" >
+                        <div class="l-ten m-ten s-ten cols">
                             <h2 class="property-header"><g:message code="question.text.label" default="Text" /></h2>
                             <textarea class="${hasErrors(bean: questionInstance, field: 'text', 'error')}" name="text">${questionInstance?.text}</textarea>
 
@@ -80,11 +80,11 @@
                             <g:if test="${ pollSectionId }">
                             	<input type="hidden" name="pollSectionId" value="${ pollSectionId }" />
                             </g:if>
-                        </g:form>
-                    </div>
-                    <div class="actions l-two m-two s-two cols">
-                        <input class="icon-submit" type="submit" form="questionCreateForm" value="&#xf0c7;" />
-                    </div>
+                        </div>
+                        <div class="actions l-two m-two s-two cols">
+                            <input class="icon-submit" type="submit" form="questionCreateForm" value="&#xf0c7;" />
+                        </div>
+                    </g:form>
                 </div>
             </div>
 		</div>

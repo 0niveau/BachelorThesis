@@ -46,30 +46,30 @@
             <g:if test="${ pollInstance?.description }" >
                 <div class="l-six m-twelve s-twelve cols boxInside">
                     <div class="property row l-regular border-bottom-blueDotted">
-                        <div class="l-ten m-ten s-ten cols">
-                            <g:if test="${ toBeEdited == 'pollDescription' }">
-                                <h2 class="property-header"><g:message code="poll.edit.description" default="Edit the poll's Description" /></h2>
-                                <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollDescriptionForm">
-                                    <textarea name="description">${ pollInstance?.description }</textarea>
-                                </g:form>
-                            </g:if>
-                            <g:else>
-                                <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
-                                <p class="property-value">${ pollInstance?.description }</p>
-                            </g:else>
-                        </div>
-                        <div class="actions l-two m-two s-two cols">
-                            <g:if test="${ !pollInstance?.isActive }">
+                        <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollDescriptionForm">
+                            <div class="l-ten m-ten s-ten cols">
                                 <g:if test="${ toBeEdited == 'pollDescription' }">
-                                    <input class="icon-submit" type="submit" form="editPollDescriptionForm" value="&#xf0c7;"/>
+                                    <h2 class="property-header"><g:message code="poll.edit.description" default="Edit the poll's Description" /></h2>
+                                    <textarea name="description">${ pollInstance?.description }</textarea>
                                 </g:if>
                                 <g:else>
-                                    <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'pollDescription']">
-                                        <i class="fa fa-pencil"></i></g:link>
+                                    <h2 class="property-header"><g:message code="poll.description.label" default="Description" /></h2>
+                                    <p class="property-value">${ pollInstance?.description }</p>
                                 </g:else>
-                            </g:if>
-                            <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
-                        </div>
+                            </div>
+                            <div class="actions l-two m-two s-two cols">
+                                <g:if test="${ !pollInstance?.isActive }">
+                                    <g:if test="${ toBeEdited == 'pollDescription' }">
+                                        <input class="icon-submit" type="submit" form="editPollDescriptionForm" value="&#xf0c7;"/>
+                                    </g:if>
+                                    <g:else>
+                                        <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'pollDescription']">
+                                            <i class="fa fa-pencil"></i></g:link>
+                                    </g:else>
+                                </g:if>
+                                <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
+                            </div>
+                        </g:form>
                     </div>
                 </div>
             </g:if>
@@ -77,33 +77,35 @@
 
             <div class="l-six m-twelve s-twelve cols boxInside ">
                 <div class="property row l-regular border-bottom-blueDotted">
-                    <div class="l-ten m-ten s-ten cols">
-                        <g:if test="${ toBeEdited == 'testObjects' }">
-                            <h2 class="property-header"><g:message code="poll.edit.testObjectUrls" default="Edit the test objects"/></h2>
-                            <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollTestObjectsForm">
-                                <div>
-                                    <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance?.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
-                                    <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance?.testObjectUrlB }" placeholder="www.site-b.com" /></label>
-                                </div>
-                            </g:form>
-                        </g:if>
-                        <g:else>
-                            <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                            <p class="property-value">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
-                        </g:else>
-                    </div>
-                    <div class="actions l-two m-two s-two cols">
-                        <g:if test="${ !pollInstance?.isActive }">
+                    <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollTestObjectsForm">
+                        <div class="l-ten m-ten s-ten cols">
                             <g:if test="${ toBeEdited == 'testObjects' }">
-                                <input class="icon-submit" type="submit" form="editPollTestObjectsForm" value="&#xf0c7;" />
+                                <h2 class="property-header"><g:message code="poll.edit.testObjectUrls" default="Edit the test objects"/></h2>
+
+                                    <div>
+                                        <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance?.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
+                                        <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance?.testObjectUrlB }" placeholder="www.site-b.com" /></label>
+                                    </div>
+
                             </g:if>
                             <g:else>
-                                <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">
-                                    <i class="fa fa-pencil"></i></g:link>
+                                <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
+                                <p class="property-value">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
                             </g:else>
-                        </g:if>
-                        <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
-                    </div>
+                        </div>
+                        <div class="actions l-two m-two s-two cols">
+                            <g:if test="${ !pollInstance?.isActive }">
+                                <g:if test="${ toBeEdited == 'testObjects' }">
+                                    <input class="icon-submit" type="submit" form="editPollTestObjectsForm" value="&#xf0c7;" />
+                                </g:if>
+                                <g:else>
+                                    <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">
+                                        <i class="fa fa-pencil"></i></g:link>
+                                </g:else>
+                            </g:if>
+                            <g:else><a class="icon-link disabled"><i class="fa fa-pencil"></i></a></g:else>
+                        </div>
+                    </g:form>
                 </div>
             </div>
 
@@ -137,18 +139,18 @@
                         </g:each>
                         <g:if test="${ !pollInstance?.isActive }">
                             <div id="newSection" class="propertyDetails row ${ targetId == 'newSection' ? 'selected' : '' }" >
-                                <div class="l-ten m-ten s-ten cols">
-                                    <h2 class="property-header"><g:message code="poll.sections.add" default="Add a new section" /></h2>
-                                    <g:hasErrors bean="${ newPollSectionInstance }">
-                                        <section class="row">
-                                            <div class="col">
-                                                <g:eachError bean="${newPollSectionInstance}" var="error">
-                                                    <p class="hint"><g:message error="${error}"/></p>
-                                                </g:eachError>
-                                            </div>
-                                        </section>
-                                    </g:hasErrors>
-                                    <g:form url="[controller: 'pollSection', resource: newPollSectionInstance, action: 'save', pollInstanceId: pollInstance?.id]" name="createPollSectionForm">
+                                <g:form url="[controller: 'pollSection', resource: newPollSectionInstance, action: 'save', pollInstanceId: pollInstance?.id]" name="createPollSectionForm">
+                                    <div class="l-ten m-ten s-ten cols">
+                                        <h2 class="property-header"><g:message code="poll.sections.add" default="Add a new section" /></h2>
+                                        <g:hasErrors bean="${ newPollSectionInstance }">
+                                            <section class="row">
+                                                <div class="col">
+                                                    <g:eachError bean="${newPollSectionInstance}" var="error">
+                                                        <p class="hint"><g:message error="${error}"/></p>
+                                                    </g:eachError>
+                                                </div>
+                                            </section>
+                                        </g:hasErrors>
                                         <fieldset class="values">
                                             <h3><g:message code="pollSection.create.name" default="Enter a name for your pollSection"/></h3>
                                             <input type="text" name="name" value="${ newPollSectionInstance?.name }">
@@ -158,11 +160,11 @@
                                             <label><g:checkBox name="needsTestObject" value="${ newPollSectionInstance?.needsTestObject}" /><g:message code="yes" default="yes" /></label>
                                             <input type="hidden" name="poll" value="${ pollInstance?.id }">
                                         </fieldset>
-                                    </g:form>
-                                </div>
-                                <div class="actions l-two m-two s-two cols">
-                                    <input class="icon-submit" type="submit" form="createPollSectionForm" value="&#xf0c7;" />
-                                </div>
+                                    </div>
+                                    <div class="actions l-two m-two s-two cols">
+                                        <input class="icon-submit" type="submit" form="createPollSectionForm" value="&#xf0c7;" />
+                                    </div>
+                                </g:form>
                             </div>
                         </g:if>
                     </div>
