@@ -11,7 +11,7 @@ class BootStrap {
         def adminRole = SecRole.findByAuthority('ROLE_ADMIN') ?: new SecRole(authority: 'ROLE_ADMIN').save(failOnError: true)
         def adminUser = SecUser.findByUsername('nico') ?: new SecUser (
             username: 'nico',
-            password: 'joocinjo091!',
+            password: 'BAnb/ss14',
             enabled: true).save(failOnError: true)
 
         if (!adminUser.authorities.contains(adminRole)) {

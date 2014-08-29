@@ -345,6 +345,10 @@ a.disabled {
     color: green;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .thin {
     font-weight: normal;
 }

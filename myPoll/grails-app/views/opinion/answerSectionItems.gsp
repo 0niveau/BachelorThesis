@@ -14,45 +14,62 @@
 	<r:layoutResources />
 </head>
 <body class="page ${ displayTestObjectInIFrame ? 'full' : '' } darkgrey">
-    <div class="row white nomargin-bottom ${ !displayTestObjectInIFrame ? 'shadow top' : '' }">
+    <div class="row white nomargin-bottom ${ !displayTestObjectInIFrame ? 'shadow top' : '' }" id="containsTestObject">
         <section class="${ displayTestObjectInIFrame ? 'l-three m-twelve s-twelve' : '' } cols">
-            <div class="row">
+            <div class="row border-bottom-blueDotted">
                 <div class="col">
                 	<g:set var="sectionName" value="${ pollSectionInstance?.name }" />
-                    <h1 class="blueText"><g:message code="opinion.answerSectionItems.welcome" args="[sectionName]" default="Welcome to ${ sectionName }"/></h1>
+                    <h1 class="blueText"><g:message code="opinion.answerSectionItems.welcome" args="[sectionName]" default="Welcome to section: '${ sectionName }'"/></h1>
                     <p>${ pollSectionInstance?.description }</p>
+                </div>
+
+                <div class="col">
+                    <g:if test="${ needsTestObject }">
+                        <p class="hint">
+                            <g:if test="${!displayTestObjectInIFrame}">
+                                <g:message code="hint.opinion.smallDisplay"
+                                           default="It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions."/>
+                            </g:if>
+                            <g:else>
+                                <g:message code="hint.opinion.openInNewTab"
+                                           default="If the page on the right is not displayed correctly or if you encounter any other problems, you may open the site in a new tab using the link below."/>
+                            </g:else>
+                        </p>
+                        <p><a href="${opinionInstance.testObjectUrl}" class="text-link" target="_blank"><g:message code="opinion.openInNewTab.link" default="to the website"/> <i class="fa fa-external-link padding-left"></i></a></p>
+                    </g:if>
                 </div>
             </div>
 
             <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
-                <div class="row highlight">
+                <div class="row">
                     <div class="slider col">
+                        <g:set var="numberOfItems" value="${pollSectionInstance?.items?.size()}" />
                         <g:each in="${ pollSectionInstance?.items }" status="s" var="itemInstance">
                             <div class="sliderElement">
-                                <p class="blueText bold">${ itemInstance?.question }</p>
-                                <ul>
-                                    <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
-                                        <li>
-                                            <label>
-                                                <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
-                                                    ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
-                                                ${ choiceInstance?.value }
-                                            </label>
-                                        </li>
-                                    </g:each>
-                                </ul>
+                                <div class="row ">
+                                    <div class="col text-right bold">
+                                        <g:message code="opinion.items.progress" args="[s+1, numberOfItems]" default="Question ${ s + 1} of ${ numberOfItems}" />
+                                    </div>
+                                </div>
+                                <div class="row nomargin-bottom highlight">
+                                    <div class="col">
+                                        <p class="bold">${ itemInstance?.question }</p>
+                                        <ul>
+                                            <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
+                                                            ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
+                                                        ${ choiceInstance?.value }
+                                                    </label>
+                                                </li>
+                                            </g:each>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </g:each>
                     </div>
-                    <g:if test="${ needsTestObject && !displayTestObjectInIFrame }">
-                        <div class="col">
-                            <p>
-                                <g:message code="hint.opinion.smallDisplay"
-                                default="It seems like you are using a mobile device or a small browser-window. Please open the url below in a second tab to be able to answer the questions."/>
-                            </p>
-                            <p><a href="${opinionInstance.testObjectUrl}" class="text-link">${opinionInstance.testObjectUrl}" <i class="fa fa-external-link padding-left"></i></a></p>
-                        </div>
-                    </g:if>
                 </div>
                 <div class="row">
                     <div class="sliderNavigation l-four m-four s-four cols centered-text">
@@ -70,11 +87,28 @@
             </g:form>
         </section>
 
+        <r:layoutResources />
+
         <g:if test="${ displayTestObjectInIFrame }">
-            <iframe src="${ opinionInstance?.testObjectUrl }" class="l-nine m-twelve s-twelve cols l-border-left-solidGrey"></iframe>
+            <script>
+                //doesn't block the load event
+                function createIframe(){
+                    var i = document.createElement("iframe");
+                    i.src = "${ opinionInstance?.testObjectUrl }";
+                    i.className = "l-nine m-twelve s-twelve cols l-border-left-solidGrey"
+                    document.getElementById("containsTestObject").appendChild(i);
+                };
+
+                // Check for browser support of event handling capability
+                if (window.addEventListener)
+                    window.addEventListener("load", createIframe, false);
+                else if (window.attachEvent)
+                    window.attachEvent("onload", createIframe);
+                else window.onload = createIframe;
+
+            </script>
+            <%-- <iframe src="${ opinionInstance?.testObjectUrl }" class=""></iframe> --%>
         </g:if>
     </div>
-
-	<r:layoutResources />
 </body>
 </html>

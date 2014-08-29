@@ -5,9 +5,8 @@ class Opinion {
 	String testObjectUrl
     	
 	static belongsTo = [poll: Poll]
-    static hasMany = [selections: Selection]
 
-	Map selections = [:]
+	Map<String, String> selections
 	
 	boolean submittable
 	boolean submitted
@@ -15,4 +14,5 @@ class Opinion {
     static constraints = {
         submitted nullable:true
     }
+
 }

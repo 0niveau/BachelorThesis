@@ -79,11 +79,10 @@ class ItemController {
             notFound()
             return
         }
-		
-		pollInstance.opinions.clear()
-		pollInstance.save flush:true
+
 		pollSectionInstance.items.remove(itemInstance)
 		pollSectionInstance.save flush:true
+        pollInstance.resetOpinions()
 
         request.withFormat {
             form multipartForm {

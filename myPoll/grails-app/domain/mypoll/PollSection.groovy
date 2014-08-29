@@ -6,8 +6,8 @@ class PollSection {
 	String description
 	Boolean needsTestObject
 
+    static belongsTo = [poll: Poll]
 	static hasMany = [items: Item]
-	static belongsTo = [poll: Poll]
 
     List items
 	

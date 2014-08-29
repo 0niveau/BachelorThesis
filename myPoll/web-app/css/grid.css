@@ -10,6 +10,8 @@
 
 .col, .cols							{ width: 100%; margin: 0; padding: 0 1em; box-sizing: border-box; -moz-box-sizing: border-box; display: inline; float: left; }
 
+.col.offset-2-left, .offset-2-left  { margin-left: 16.66667%; }
+
 .col.boxInside, .cols.boxInside     { padding: 0 1.5em }
 
 .col.padding-l, .cols.padding-l     { padding-left: 1.5em }

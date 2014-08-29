@@ -120,7 +120,7 @@ class PollController {
 
         // Deleting old Opinions
         if (pollInstance.isActive) {
-            pollInstance.opinions.clear()
+            pollInstance.resetOpinions()
         }
 
         pollInstance.save flush:true
@@ -153,15 +153,15 @@ class PollController {
 
         for (pollItem in pollItems) {
 
-            List<Selection> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) as Selection }
-            List<Selection> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) as Selection }
+            List<String> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) }
+            List<String> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) }
 
             ItemAggregation itemAggregation = new ItemAggregation()
             itemAggregation.item = pollItem
             itemAggregation.question = pollItem.question
             itemAggregation.possibleAnswers = pollItem.choices.collect {choice -> choice.value }
-            itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
-            itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer.value == answer }.size()] }
+            itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer == answer }.size()] }
+            itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer == answer }.size()] }
 
             itemAggregations.add(itemAggregation)
         }

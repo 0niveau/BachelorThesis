@@ -29,4 +29,9 @@ class Poll {
         def pollItems = this.sections.collect { it.items }.flatten()
         return pollItems
     }
+
+    def resetOpinions() {
+        this.opinions.clear()
+        this.save flush:true
+    }
 }

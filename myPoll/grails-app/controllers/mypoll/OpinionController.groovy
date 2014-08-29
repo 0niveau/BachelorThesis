@@ -20,6 +20,10 @@ class OpinionController {
         respond Opinion.list(params), model:[opinionInstanceCount: Opinion.count()]
     }
 
+    def welcome(Opinion opinionInstance) {
+        model: [opinionInstance: opinionInstance]
+    }
+
     /*
 	 * renders the initial page a subject will see.
 	 */
@@ -45,7 +49,7 @@ class OpinionController {
 			submitted: false)
         opinionInstance.save flush:true
 
-        redirect action: 'indexSubject', id: opinionInstance.id
+        redirect action: 'welcome', id: opinionInstance.id
     }
 
     @Transactional
@@ -60,7 +64,7 @@ class OpinionController {
 		if (pollSectionInstance == null) {
 			opinionInstance.submittable = true
 			opinionInstance.save flush:true
-			redirect action: 'indexSubject', id: opinionInstance.id
+			redirect action: 'submitOpinion', id: opinionInstance.id
 			return
 		}
 
@@ -84,7 +88,7 @@ class OpinionController {
         }
 		
 		cmd.selections.each { subjectSelection ->
-			opinionInstance.selections.put(subjectSelection.getKey(), new Selection( opinion: opinionInstance, value: subjectSelection.getValue()) )				
+			opinionInstance.selections.put(subjectSelection.getKey(), subjectSelection.getValue() )
 		}
 
         opinionInstance.save flush:true
