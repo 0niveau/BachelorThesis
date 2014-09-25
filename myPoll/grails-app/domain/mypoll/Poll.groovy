@@ -5,8 +5,7 @@ class Poll {
 	String name
 	String description
 	Boolean isActive
-	String testObjectUrlA
-	String testObjectUrlB
+	String testObjectUrl
 
 	static hasMany = [sections: PollSection, opinions: Opinion]
 	
@@ -17,8 +16,7 @@ class Poll {
     	name blank: false, maxSize: 50
         description maxSize: 255
 		isActive nullable: true
-		testObjectUrlA blank: false, maxSize: 255
-		testObjectUrlB blank: false, maxSize: 255
+		testObjectUrl blank: false, maxSize: 255
     }
 	
 	static mapping = {

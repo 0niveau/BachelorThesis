@@ -41,7 +41,7 @@ class OpinionController {
     def addOpinion(Poll pollInstance) {
         if (!pollInstance.isActive) return
 
-        String testObjectUrl = ( pollInstance.opinions.size() % 2 == 0 ? pollInstance.testObjectUrlA : pollInstance.testObjectUrlB )
+        String testObjectUrl = pollInstance.testObjectUrl
         Opinion opinionInstance = new Opinion(
 			testObjectUrl: testObjectUrl, 
 			poll: pollInstance, 

@@ -79,18 +79,17 @@
                 <div class="property row l-regular border-bottom-blueDotted">
                     <g:form url="[resource: pollInstance, action: 'update']" method="PUT" name="editPollTestObjectsForm">
                         <div class="l-ten m-ten s-ten cols">
-                            <g:if test="${ toBeEdited == 'testObjects' }">
+                            <g:if test="${ toBeEdited == 'testObject' }">
                                 <h2 class="property-header"><g:message code="poll.edit.testObjectUrls" default="Edit the test objects"/></h2>
 
                                     <div>
-                                        <label>TestObjectA<input type="url" name="testObjectUrlA" value="${ pollInstance?.testObjectUrlA }" placeholder="www.site-a.com" /></label> <br>
-                                        <label>TestObjectB<input type="url" name="testObjectUrlB" value="${ pollInstance?.testObjectUrlB }" placeholder="www.site-b.com" /></label>
+                                        <label>TestObject<input type="url" name="testObjectUrl" value="${ pollInstance?.testObjectUrl }" placeholder="www.site.com" /></label>
                                     </div>
 
                             </g:if>
                             <g:else>
                                 <h2 class="property-header"><g:message code="poll.testObjectUrls.label" default="Test objects"/></h2>
-                                <p class="property-value">${ pollInstance?.testObjectUrlA } vs ${ pollInstance?.testObjectUrlB }</p>
+                                <p class="property-value">${ pollInstance?.testObjectUrl }</p>
                             </g:else>
                         </div>
                         <div class="actions l-two m-two s-two cols">
@@ -99,7 +98,7 @@
                                     <input class="icon-submit" type="submit" form="editPollTestObjectsForm" value="&#xf0c7;" />
                                 </g:if>
                                 <g:else>
-                                    <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObjects']">
+                                    <g:link class="icon-link" controller="poll" action="edit" id="${ pollInstance.id }" params="[toBeEdited: 'testObject']">
                                         <i class="fa fa-pencil"></i></g:link>
                                 </g:else>
                             </g:if>

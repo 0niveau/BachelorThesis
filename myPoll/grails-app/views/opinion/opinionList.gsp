@@ -22,13 +22,8 @@
     
     <section class="row shadow">
     	<div class="col actions left-text">
-    		<g:link class="icon-link" controller ="poll" action="exportOpinions" id="${ pollInstance.id }" params="['testObjectUrl': pollInstance.testObjectUrlA]">
-    			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlA }</span>
-    		</g:link>
-    	</div>
-    	<div class="col actions left-text">
-    		<g:link class="icon-link" controller="poll" action="exportOpinions" id="${ pollInstance.id }" params="['testObjectUrl': pollInstance.testObjectUrlB]">
-    			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrlB }</span>
+    		<g:link class="icon-link" controller ="poll" action="exportOpinions" id="${ pollInstance.id }" params="['testObjectUrl': pollInstance.testObjectUrl]">
+    			<i class="fa fa-download"></i><span class="padding-left">${ pollInstance.testObjectUrl }</span>
     		</g:link>
     	</div>
     </section>
@@ -44,15 +39,12 @@
 						<tbody>
     						<tr>
     							<th></th>
-    							<td class="thin">A</td>
-    							<td class="thin">B</td>
-    							    							
+    							<td class="thin">Ergebnis</td>
     						</tr>
     						<g:each in="${ itemAggregation?.possibleAnswers }" var="answer">    							
     						<tr>
     							<th>${ answer }</th>
-    							<td>${ itemAggregation?.selectionsPerAnswerA?.get(answer) }</td>
-    							<td>${ itemAggregation?.selectionsPerAnswerB?.get(answer) }</td>
+    							<td>${ itemAggregation?.selectionsPerAnswer?.get(answer) }</td>
     						</tr>
     						</g:each>
     					</tbody>

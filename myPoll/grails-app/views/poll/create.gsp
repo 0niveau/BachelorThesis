@@ -69,8 +69,7 @@
                                 </li>
                             </ul>
                             <h2 class="property-header"><g:message code="poll.create.testObjects" default="Testobjects" /></h2>
-                            <p><g:message code="poll.testObjectUrlA" default="page A"/> <input id="testObjectUrlA" type="url" name="testObjectUrlA" value="${ pollInstance.testObjectUrlA }" placeholder="http://www.site-a.com"/></p>
-                            <p><g:message code="poll.testObjectUrlB" default="page B"/> <input id="testObjectUrlB" type="url" name="testObjectUrlB" value="${ pollInstance.testObjectUrlB }" placeholder="http://www.site-b.com"/></p>
+                            <p><g:message code="poll.testObjectUrl" default="page"/> <input id="testObjectUrl" type="url" name="testObjectUrl" value="${ pollInstance.testObjectUrl }" placeholder="http://www.site.com"/></p>
                         </div>
                         <div class="actions l-two m-two s-two cols">
                             <input class="icon-submit" type="submit" form="pollCreateForm" value="&#xf0c7;" />

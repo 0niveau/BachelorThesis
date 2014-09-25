@@ -87,7 +87,7 @@
 							<g:link class="text-link" controller="poll" action="show" id="${ pollInstance?.id }">
 								<h2 class="nomargin-top">${ pollInstance?.name }</h2>
 							</g:link>
-							<p class="nomargin"><span class="italic">${ pollInstance?.testObjectUrlA }</span> vs <span class="italic">${ pollInstance?.testObjectUrlB }</span></p>
+							<p class="nomargin"><span class="italic">${ pollInstance?.testObjectUrl }</span></p>
 							<p class="nomargin hint">${ pollInstance?.opinions?.findAll{ it.submitted == true }?.size() } opinions submitted</p>
 						</div>						
 						<div class="actions l-one m-two s-two cols">							

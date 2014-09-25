@@ -146,22 +146,19 @@ class PollController {
 
     private static List<ItemAggregation> aggregatePollResults(Poll pollInstance) {
         List<Item> pollItems = pollInstance.getPollItems()
-        List<Opinion> opinionsA = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlA && opinion.submitted } as List<Opinion>
-        List<Opinion> opinionsB = pollInstance.opinions.findAll { opinion -> opinion.testObjectUrl == pollInstance.testObjectUrlB && opinion.submitted } as List<Opinion>
+        List<Opinion> opinions = pollInstance.opinions.findAll { opinion -> opinion.submitted } as List<Opinion>
 
         List<ItemAggregation> itemAggregations = []
 
         for (pollItem in pollItems) {
 
-            List<String> itemAnswersA = opinionsA.collect { opinion -> opinion.selections.get(pollItem.id as String) }
-            List<String> itemAnswersB = opinionsB.collect { opinion -> opinion.selections.get(pollItem.id as String) }
+            List<String> itemAnswers = opinions.collect { opinion -> opinion.selections.get(pollItem.id as String) }
 
             ItemAggregation itemAggregation = new ItemAggregation()
             itemAggregation.item = pollItem
             itemAggregation.question = pollItem.question
             itemAggregation.possibleAnswers = pollItem.choices.collect {choice -> choice.value }
-            itemAggregation.selectionsPerAnswerA = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersA.findAll { itemAnswer -> itemAnswer == answer }.size()] }
-            itemAggregation.selectionsPerAnswerB = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswersB.findAll { itemAnswer -> itemAnswer == answer }.size()] }
+            itemAggregation.selectionsPerAnswer = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswers.findAll { itemAnswer -> itemAnswer == answer }.size()] }
 
             itemAggregations.add(itemAggregation)
         }
@@ -178,8 +175,8 @@ class PollController {
         String testObjectUrl = params.testObjectUrl
         String filename = testObjectUrl.replace("http://","")
 
-        // only the opinions with the desired testObjectUrl will be exported
-        List opinions = Opinion.findAll { testObjectUrl == testObjectUrl }
+        // only the submitted opinions will be exported
+        List opinions = Opinion.findAll { opinion -> opinion.submitted }
 
         List<String> fields = []
         Map labels = [:]
