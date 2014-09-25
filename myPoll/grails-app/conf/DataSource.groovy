@@ -17,12 +17,12 @@ hibernate {
 environments {
     development {
         dataSource {
-            username = "root"
-            password = "root66"
+            username = "mypoll"
+            password = "mypoll123"
             pooled = true
-            dbCreate = "create" // one of 'create', 'create-drop', 'update', 'validate', ''
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             driverClassName = "com.mysql.jdbc.Driver"
-            url = "jdbc:mysql://localhost:3306/ebdb?user=root&password=root66"
+            url = "jdbc:mysql://localhost:3306/ebdb?user=mypoll&password=mypoll123"
             dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
         }
     }

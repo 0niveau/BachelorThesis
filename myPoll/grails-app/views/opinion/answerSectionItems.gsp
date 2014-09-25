@@ -15,7 +15,7 @@
 </head>
 <body class="page ${ displayTestObjectInIFrame ? 'full' : '' } darkgrey">
     <div class="row white nomargin-bottom ${ !displayTestObjectInIFrame ? 'shadow top' : '' }" id="containsTestObject">
-        <section class="${ displayTestObjectInIFrame ? 'l-three m-twelve s-twelve' : '' } cols">
+        <section class="${ displayTestObjectInIFrame ? 'l-three m-twelve s-twelve' : '' } cols" id="myPollContent">
             <div class="row border-bottom-blueDotted">
                 <div class="col">
                 	<g:set var="sectionName" value="${ pollSectionInstance?.name }" />
@@ -35,12 +35,20 @@
                                            default="If the page on the right is not displayed correctly or if you encounter any other problems, you may open the site in a new tab using the link below."/>
                             </g:else>
                         </p>
-                        <p><a href="${opinionInstance.testObjectUrl}" class="text-link" target="_blank"><g:message code="opinion.openInNewTab.link" default="to the website"/> <i class="fa fa-external-link padding-left"></i></a></p>
+                        <p><a href="${opinionInstance.testObjectUrl}" class="text-link" target="_blank" onclick="viewHandler()"><g:message code="opinion.openInNewTab.link" default="to the website"/> <i class="fa fa-external-link padding-left"></i></a></p>
                     </g:if>
                 </div>
             </div>
 
-            <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }">
+            <g:if test="${!answersComplete}">
+                <div class="row dim">
+                    <div class="col">
+                        <p class="centered-text bold greyText"><g:message code="opinion.items.missingAnswers" default="Ooops! Seems like some answers are missing. Please make sure you have answered all the questions. Thank you!"/></p>
+                    </div>
+                </div>
+            </g:if>
+
+            <g:form name="saveSelectionsForm" controller="opinion" action="saveSubjectSelections" id="${ opinionInstance?.id }" params="[sectionId: pollSectionInstance?.id]">
                 <div class="row">
                     <div class="slider col">
                         <g:set var="numberOfItems" value="${pollSectionInstance?.items?.size()}" />
@@ -58,8 +66,8 @@
                                             <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
                                                 <li>
                                                     <label>
-                                                        <input type="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
-                                                            ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
+                                                        <input type="radio" class="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
+                                                            ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance?.value ? "checked='checked" : '' }/>
                                                         ${ choiceInstance?.value }
                                                     </label>
                                                 </li>
@@ -81,7 +89,7 @@
                     <div class="l-four m-four s-four cols centered-text">
 
                             <input class="displayWidthInput" name="displayWidth" type="hidden" value="">
-                            <input class="icon-submit" type="submit" value="&#xf0c7;" />
+                            <input class="icon-submit" type="submit" value="&#xf00c;" id="finish"/>
                     </div>
                 </div>
             </g:form>
@@ -91,10 +99,23 @@
 
         <g:if test="${ displayTestObjectInIFrame }">
             <script>
+                function viewHandler() {
+                    var body = document.querySelector('body');
+                    var wrap = document.querySelector('#containsTestObject');
+                    var testObject = document.querySelector('#testObjectIFrame');
+                    var myPollContent = document.querySelector('#myPollContent');
+
+                    body.classList.remove('full');
+                    wrap.classList.add('top', 'shadow');
+                    testObject.classList.add('hidden');
+                    myPollContent.classList.remove('l-three');
+                }
+
                 //doesn't block the load event
                 function createIframe(){
                     var i = document.createElement("iframe");
                     i.src = "${ opinionInstance?.testObjectUrl }";
+                    i.id = "testObjectIFrame"
                     i.className = "l-nine m-twelve s-twelve cols l-border-left-solidGrey"
                     document.getElementById("containsTestObject").appendChild(i);
                 };

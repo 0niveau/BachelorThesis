@@ -69,10 +69,12 @@ class OpinionController {
 		}
 
         boolean needsTestObject = pollSectionInstance.needsTestObject
+        boolean answersComplete = params.answersComplete == "true"
 		boolean displayWideEnoughForIFrame = displayWideEnoughForIFrame(params.displayWidth as int)
         boolean displayTestObjectInIFrame = needsTestObject && displayWideEnoughForIFrame
 
-        model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance, needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame]
+        model: [pollInstance: pollInstance, pollSectionInstance: pollSectionInstance, opinionInstance: opinionInstance,
+                needsTestObject: needsTestObject, displayTestObjectInIFrame: displayTestObjectInIFrame, answersComplete: answersComplete]
     }
 
     @Transactional
@@ -91,9 +93,12 @@ class OpinionController {
 			opinionInstance.selections.put(subjectSelection.getKey(), subjectSelection.getValue() )
 		}
 
+        PollSection pollSection = PollSection.get(params.sectionId as long)
+        boolean answersComplete = allSectionItemsAnswered(opinionInstance.selections as Map<String, Choice>, pollSection);
+
         opinionInstance.save flush:true
 
-        redirect action: 'answerSectionItems', id: opinionInstance.id, params: [displayWidth: params.displayWidth]
+        redirect action: 'answerSectionItems', id: opinionInstance.id, params: [displayWidth: params.displayWidth, answersComplete: answersComplete]
     }
 
     @Transactional

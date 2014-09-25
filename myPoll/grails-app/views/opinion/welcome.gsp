@@ -14,7 +14,7 @@
             <p><g:message code="welcome.purpose" /></p>
             <p><g:message code="welcome.testObjects" /></p>
             <p><g:message code="welcome.haveFun" /></p>
-            <p><g:message code="welcome.greetings" /></p>
+            <p><g:message code="signature" /></p>
             <p><g:link controller="opinion" action="indexSubject" id="${opinionInstance.id}">
                 <i class="fa fa-arrow-right"></i>
                 <span class=""><g:message code="welcome.start" default="start here"/></span>

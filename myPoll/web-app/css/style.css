@@ -279,7 +279,7 @@ a.icon-link:not(.disabled):hover {
     color: #43b6bb;
 }
 
-a.disabled {
+a.disabled, .icon-submit.disabled, input.icon-submit.disabled:hover {
     color: #c7c7c7;
     cursor: default;
 }
