@@ -4,20 +4,6 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-
-class ScaleCreateCommand {
-	String name
-	List choices = []
-	
-	Scale createScale () {
-		Scale scaleInstance = new Scale(
-			name: name,
-			choices: []
-		)
-		return scaleInstance
-	}
-}
-
 class ScaleUpdateCommand {
     String name
     List choices = []
@@ -47,24 +33,15 @@ class ScaleController {
 	}
 	
 	@Transactional
-	def save(ScaleCreateCommand cmd) {
-		if (cmd == null) {
+	def save(Scale scaleInstance) {
+		if (scaleInstance == null) {
 			notFound()
 			return
 		}
 		
-		if (cmd.hasErrors()) {
-			respond cmd.errors, view: 'create'
+		if (scaleInstance.hasErrors()) {
+			respond scaleInstance.errors, view: 'create'
 			return
-		}
-		
-		Scale scaleInstance = cmd.createScale()		
-
-		cmd.choices.each { value ->
-			Choice choiceInstance = new Choice(value: value)
-			if (choiceInstance.validate()) {
-                scaleInstance.choices.add(choiceInstance)
-			}
 		}
 
         if (scaleInstance.validate()) {
@@ -102,14 +79,7 @@ class ScaleController {
             return
         }
 
-        List<Choice> newChoices = []
-
-        cmd.choices.each { value ->
-            Choice choiceInstance = new Choice(value: value)
-            if (choiceInstance.validate()) {
-                newChoices.add(choiceInstance)
-            }
-        }
+        List<String> newChoices = cmd.choices
 
         scaleInstance.name = cmd.name
         scaleInstance.choices = newChoices

@@ -4,6 +4,7 @@ window.onload = function() {
     var slider
         ,  sliderElements = []
         ,  radios = document.querySelectorAll('.radio')
+        ,  textAreas = document.querySelectorAll('.textArea')
         ,  elementCount = 0
         ,  back
         ,  forth
@@ -28,6 +29,9 @@ window.onload = function() {
         });
         [].forEach.call(radios, function(radio) {
             radio.addEventListener('click', handleAnswer, false);
+        });
+        [].forEach.call(textAreas, function(textArea) {
+            textArea.addEventListener('input', handleAnswer, false);
         });
         displayedElement = sliderElements[0];
         displayedElement.classList.add('displayed');

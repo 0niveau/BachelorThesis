@@ -6,13 +6,18 @@ class Opinion {
     	
 	static belongsTo = [poll: Poll]
 
-	Map<String, String> selections
+    Map selections
+	static hasMany = [selections: String]
 	
 	boolean submittable
 	boolean submitted
 	
     static constraints = {
         submitted nullable:true
+    }
+
+    static mapping = {
+        selections type: 'text'
     }
 
 }

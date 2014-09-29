@@ -17,7 +17,7 @@
             <g:if test="${ scaleInstance?.choices?.size() >= 2 }">
                 <g:each in="${ scaleInstance?.choices }" status="i" var="choice">
                     <li>
-                        <input name="choices[${ i }]" type="text" value="${choice.value}" ${ i<=1 ? "required='required'" : ''}/>
+                        <input name="choices[${ i }]" type="text" value="${choice}" ${ i<=1 ? "required='required'" : ''}/>
                     </li>
                 </g:each>
             </g:if>

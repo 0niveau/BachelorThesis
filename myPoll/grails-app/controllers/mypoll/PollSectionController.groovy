@@ -119,10 +119,12 @@ class PollSectionController {
 		
 		// for each question, create an item and add it to the pollSection
 		for (question in questions) {
-			def itemInstance = new Item(question: question.text, idOfOrigin: question.id, pollSection: pollSectionInstance)
-			for (choice in question.getScale().getChoices()) {
-				itemInstance.addToChoices(choice as Choice)
-			}
+			def itemInstance = new Item(question: question.text, idOfOrigin: question.id, type: question.type, pollSection: pollSectionInstance)
+			if (itemInstance.type == QuestionType.CLOSED) {
+                for (choice in question.getScale().getChoices()) {
+                    itemInstance.addToChoices(choice)
+                }
+            }
 			itemInstance.save flush: true
 		}
         redirect controller: 'poll', action: 'show', id: pollInstance.id, params: [targetId: pollSectionInstance.id, mode: 'showAllItems']

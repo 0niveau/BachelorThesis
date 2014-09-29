@@ -5,6 +5,52 @@ import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
+class QuestionCreateCommand {
+    String text
+    String scale
+
+    def createQuestion() {
+
+        def questionInstance
+        if (scale == "none") {
+            questionInstance = new Question( text: text, scale: null, type: QuestionType.OPEN )
+        } else {
+            def scaleInstance = Scale.get(scale as Long)
+            questionInstance = new Question( text: text, scale: scaleInstance, type: QuestionType.CLOSED )
+        }
+
+        return questionInstance
+    }
+}
+
+class QuestionUpdateCommand {
+    String id
+    String property
+    String text
+    String scale
+
+    def updateQuestion() {
+        Question questionInstance = Question.get(id as Long)
+
+        if (property == "text") {
+            questionInstance.text = text
+        }
+
+        if (property == "scale") {
+
+            if (scale == "none") {
+                questionInstance.scale = null
+                questionInstance.type = QuestionType.OPEN
+            } else {
+                def scaleInstance = Scale.get(scale as Long)
+                questionInstance.scale = scaleInstance
+                questionInstance.type = QuestionType.CLOSED
+            }
+        }
+        return questionInstance
+    }
+}
+
 @Secured(['IS_AUTHENTICATED_REMEMBERED'])
 @Transactional(readOnly = true)
 class QuestionController {
@@ -29,22 +75,24 @@ class QuestionController {
     }
 
     @Transactional
-    def save(Question questionInstance) {
-        if (questionInstance == null) {
+    def save(QuestionCreateCommand cmd) {
+        if (cmd == null) {
             notFound()
             return
         }
 
-        if (questionInstance.hasErrors()) {
+        Question questionInstance = cmd.createQuestion()
+
+        if (!questionInstance.validate()) {
             respond questionInstance.errors, view:'create'
             return
         }
 
-        questionInstance.save flush:true
-		
-		def scaleInstance = questionInstance.scale
-		scaleInstance.questions.add(questionInstance)
-		scaleInstance.save flush:true
+        if (questionInstance.type == QuestionType.OPEN) {
+            questionInstance.save flush:true
+        } else if (questionInstance.type == QuestionType.CLOSED) {
+            questionInstance.scale.addToQuestions(questionInstance).save flush:true
+        }
 		
 		if(params.pollSectionId) {
 			redirect controller: 'pollSection', action: 'addableItems', id: params.pollSectionId as long
@@ -67,18 +115,24 @@ class QuestionController {
     }
 
     @Transactional
-    def update(Question questionInstance) {
-        if (questionInstance == null) {
+    def update(QuestionUpdateCommand cmd) {
+        if (cmd == null) {
             notFound()
             return
         }
 
-        if (questionInstance.hasErrors()) {
-            respond questionInstance.errors, view:'edit'
+        Question questionInstance = cmd.updateQuestion()
+
+        if (!questionInstance.validate()) {
+            respond questionInstance.errors, view:'show'
             return
         }
 
-        questionInstance.save flush:true
+        if (questionInstance.type == QuestionType.OPEN) {
+            questionInstance.save flush:true
+        } else if (questionInstance.type == QuestionType.CLOSED) {
+            questionInstance.scale.addToQuestions(questionInstance).save flush:true
+        }
 
         request.withFormat {
             form multipartForm {

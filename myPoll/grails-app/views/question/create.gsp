@@ -64,6 +64,12 @@
                                                 </label>
                                             </li>
                                         </g:each>
+                                        <li class="selectable" data-selectionRef="none">
+                                            <label class="radioInputLabel">
+                                                <input type="radio" name="scale" value="none" />
+                                                <g:message code="question.open" default="Open Question" />
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                                 <g:each in="${ mypoll.Scale.list() }" status="i" var="scale">
@@ -71,7 +77,7 @@
                                         <h3><g:message code="scale.choices.label" default="Choices" /></h3>
                                         <ol>
                                             <g:each in="${ scale.choices }" var="choice" >
-                                                <li>${choice.value}</li>
+                                                <li>${choice}</li>
                                             </g:each>
                                         </ol>
                                     </div>

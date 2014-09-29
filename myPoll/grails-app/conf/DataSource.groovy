@@ -20,7 +20,7 @@ environments {
             username = "mypoll"
             password = "mypoll123"
             pooled = true
-            dbCreate = "create" // one of 'create', 'create-drop', 'update', 'validate', ''
+            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             driverClassName = "com.mysql.jdbc.Driver"
             url = "jdbc:mysql://localhost:3306/ebdb?user=mypoll&password=mypoll123"
             dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
@@ -37,7 +37,7 @@ environments {
 			username = "nico"
 			password = "joocinjo091!"
 			pooled = true
-            dbCreate = "update"
+            dbCreate = "create"
 			driverClassName = "com.mysql.jdbc.Driver"
             url = "jdbc:mysql://aa1mgsv0q4xe157.c4dck7l14glq.eu-west-1.rds.amazonaws.com:3306/ebdb?user=nico&password=joocinjo091!"
 			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"

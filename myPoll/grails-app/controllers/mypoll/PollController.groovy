@@ -140,12 +140,13 @@ class PollController {
     def opinionList(Poll pollInstance) {
 
         def aggregatedResults = aggregatePollResults(pollInstance)
+        def openAnwersPerQuestion = getOpenAnswersPerQuestion(pollInstance)
 
-        render view: '/opinion/opinionList', model: [pollInstance: pollInstance, aggregatedResults: aggregatedResults]
+        render view: '/opinion/opinionList', model: [pollInstance: pollInstance, aggregatedResults: aggregatedResults, openAnswersPerQuestion: openAnwersPerQuestion]
     }
 
     private static List<ItemAggregation> aggregatePollResults(Poll pollInstance) {
-        List<Item> pollItems = pollInstance.getPollItems()
+        List<Item> pollItems = pollInstance.getPollItems().findAll { item -> item.type == QuestionType.CLOSED }
         List<Opinion> opinions = pollInstance.opinions.findAll { opinion -> opinion.submitted } as List<Opinion>
 
         List<ItemAggregation> itemAggregations = []
@@ -157,7 +158,7 @@ class PollController {
             ItemAggregation itemAggregation = new ItemAggregation()
             itemAggregation.item = pollItem
             itemAggregation.question = pollItem.question
-            itemAggregation.possibleAnswers = pollItem.choices.collect {choice -> choice.value }
+            itemAggregation.possibleAnswers = pollItem.choices.collect {choice -> choice }
             itemAggregation.selectionsPerAnswer = itemAggregation.possibleAnswers.collectEntries { answer -> [(answer): itemAnswers.findAll { itemAnswer -> itemAnswer == answer }.size()] }
 
             itemAggregations.add(itemAggregation)
@@ -166,11 +167,25 @@ class PollController {
         return itemAggregations
     }
 
+    private static Map<String, List<String>> getOpenAnswersPerQuestion(Poll pollInstance) {
+        List<Item> openItems = pollInstance.getPollItems().findAll { item -> item.type == QuestionType.OPEN }
+        List<Opinion> opinions = pollInstance.opinions.findAll { opinion -> opinion.submitted } as List<Opinion>
+
+        Map<String, List<String>> openAnswersPerQuestion = [:]
+
+        for (item in openItems) {
+            List<String> answers = opinions.collect { opinion -> opinion.selections.get(item.id as String) }
+            openAnswersPerQuestion.put(item.id as String, answers)
+        }
+
+        return openAnswersPerQuestion
+    }
+
     /*
      * takes all submitted opinions that have the chosen testObjectUrl and writes the selected values to a csv file
      */
     def exportOpinions(Poll pollInstance) {
-        List items = pollInstance.getPollItems()
+        List items = pollInstance.getPollItems().findAll {item -> item.type == QuestionType.CLOSED}
 
         String testObjectUrl = params.testObjectUrl
         String filename = testObjectUrl.replace("http://","")
@@ -183,10 +198,10 @@ class PollController {
 
         for (itemInstance in items) {
             // Extracting the values from the opinions' selections
-            fields.add("selections.${ itemInstance.id as String }.value")
+            fields.add("selections.${ itemInstance.id as String }")
 
             // labeling each column with the corresponding question-text
-            labels.put('selections.' + itemInstance.id.toString() + '.value', itemInstance.question)
+            labels.put('selections.' + itemInstance.id.toString(), itemInstance.question)
         }
 
         Map parameters = [separator: ',', encoding: "ISO-8859-1", quoteCharacter: "\u0000"]

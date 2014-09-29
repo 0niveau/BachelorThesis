@@ -59,7 +59,7 @@ class OpinionController {
 
         Poll pollInstance = opinionInstance.poll
         PollSection pollSectionInstance = pollInstance.sections.find{ pollSectionInstance -> 
-				allSectionItemsAnswered(opinionInstance.selections as Map<String, Choice>, pollSectionInstance as PollSection) == false } as PollSection
+				allSectionItemsAnswered(opinionInstance.selections as Map<String, String>, pollSectionInstance as PollSection) == false } as PollSection
 		
 		if (pollSectionInstance == null) {
 			opinionInstance.submittable = true
@@ -94,7 +94,7 @@ class OpinionController {
 		}
 
         PollSection pollSection = PollSection.get(params.sectionId as long)
-        boolean answersComplete = allSectionItemsAnswered(opinionInstance.selections as Map<String, Choice>, pollSection);
+        boolean answersComplete = allSectionItemsAnswered(opinionInstance.selections as Map<String, String>, pollSection);
 
         opinionInstance.save flush:true
 
@@ -154,7 +154,7 @@ class OpinionController {
 		return opinionInstance.selections.keySet().containsAll(itemIds)
     }
 	
-	private static boolean allSectionItemsAnswered(Map<String, Choice> selections, PollSection pollSectionInstance) {
+	private static boolean allSectionItemsAnswered(Map<String, String> selections, PollSection pollSectionInstance) {
 		def itemIds = pollSectionInstance.items.collect { it.id as String }
 		return selections.keySet().containsAll(itemIds)
 

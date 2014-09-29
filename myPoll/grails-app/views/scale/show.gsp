@@ -49,7 +49,7 @@
                         <ol class="choicesList" data-listedElements="choices">
                             <g:each in="${scaleInstance?.choices}" var="choice" status="s">
                                 <li class="property-value choice">
-                                    ${ choice.value }
+                                    ${ choice }
                                 </li>
                             </g:each>
                         </ol>

@@ -1,3 +1,4 @@
+<%@ page import="mypoll.QuestionType" %>
 <table class="selectScaleTable">
     <thead>
     <tr>
@@ -13,10 +14,14 @@
             <td>${ scale.name }</td>
             <td>
                 <g:each in="${ scale.choices }" var="choice" >
-                <span>'${choice.value}'</span>
+                <span>'${choice}'</span>
                 </g:each>
             </td>
         </tr>
         </g:each>
+        <tr>
+            <td><input type="radio" name="scale" value="none" ${ questionType == QuestionType.OPEN ? "checked='checked'" : '' }/></td>
+            <td colspan="2"><g:message code="question.open" default="Open Question" /></td>
+        </tr>
     </tbody>
 </table>

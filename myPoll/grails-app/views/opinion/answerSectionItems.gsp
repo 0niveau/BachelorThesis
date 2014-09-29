@@ -62,17 +62,26 @@
                                 <div class="row nomargin-bottom highlight">
                                     <div class="col">
                                         <p class="bold">${ itemInstance?.question }</p>
+                                        <g:if test="${ itemInstance?.type == mypoll.QuestionType.CLOSED}">
                                         <ul>
                                             <g:each in="${ itemInstance?.choices }" status="z" var="choiceInstance">
                                                 <li>
                                                     <label>
-                                                        <input type="radio" class="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance?.value }"
-                                                            ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance?.value ? "checked='checked" : '' }/>
-                                                        ${ choiceInstance?.value }
+                                                        <input type="radio" class="radio" form="saveSelectionsForm" name="selections[${itemInstance?.id}]" value="${ choiceInstance }"
+                                                            ${ opinionInstance?.selections?.get(itemInstance?.id as String) == choiceInstance ? "checked='checked" : '' }/>
+                                                        ${ choiceInstance }
                                                     </label>
                                                 </li>
                                             </g:each>
                                         </ul>
+                                        </g:if>
+                                        <g:else>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <textarea form="saveSelectionsForm" placeholder="${ message(code: 'opinion.openAnswer')}" required="required" rows="5" class="textArea" name="selections[${itemInstance?.id}]">${ opinionInstance?.selections.get(itemInstance?.id as String) }</textarea>
+                                                </div>
+                                            </div>
+                                        </g:else>
                                     </div>
                                 </div>
                             </div>
